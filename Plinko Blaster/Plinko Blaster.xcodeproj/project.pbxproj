@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B1A6A732263CDA800A5A395 /* PlayerTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A6A722263CDA800A5A395 /* PlayerTableView.swift */; };
 		1B500AFD225184EF0044B020 /* boing2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B500AFC225184EF0044B020 /* boing2.mp3 */; };
-		1B567C082263AEB500CCADD1 /* PlayerScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B567C072263AEB500CCADD1 /* PlayerScene.swift */; };
+		1B567C082263AEB500CCADD1 /* OverviewScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B567C072263AEB500CCADD1 /* OverviewScene.swift */; };
 		1B56E6F3223FB6F000EDEF9C /* background-music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B56E6F2223FB6F000EDEF9C /* background-music.mp3 */; };
 		1B56E6F52242EB5300EDEF9C /* background-music2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B56E6F42242EB5300EDEF9C /* background-music2.mp3 */; };
 		1B56E6F72245923D00EDEF9C /* klick.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1B56E6F62245923D00EDEF9C /* klick.wav */; };
@@ -29,16 +28,12 @@
 		1BBAE2942259454600DDB2ED /* lcd.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1BBAE2932259430B00DDB2ED /* lcd.otf */; };
 		1BBAE2962259477B00DDB2ED /* lcd2.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1BBAE2952259470100DDB2ED /* lcd2.otf */; };
 		1BBFF7AD22498D3000EEB83C /* boing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1BBFF7AC22498D3000EEB83C /* boing.mp3 */; };
-		1BC946432276043A00A96C3B /* HighscoreScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC946422276043A00A96C3B /* HighscoreScene.swift */; };
-		1BC94645227604B300A96C3B /* HighscoreTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC94644227604B300A96C3B /* HighscoreTableView.swift */; };
-		1BD0CB12229561D4005FA364 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD0CB11229561D4005FA364 /* Player.swift */; };
 		1BE3055222528F3F00ECAC21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BE3055122528F3F00ECAC21 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1B1A6A722263CDA800A5A395 /* PlayerTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTableView.swift; sourceTree = "<group>"; };
 		1B500AFC225184EF0044B020 /* boing2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boing2.mp3; sourceTree = "<group>"; };
-		1B567C072263AEB500CCADD1 /* PlayerScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerScene.swift; sourceTree = "<group>"; };
+		1B567C072263AEB500CCADD1 /* OverviewScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewScene.swift; sourceTree = "<group>"; };
 		1B56E6F2223FB6F000EDEF9C /* background-music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "background-music.mp3"; sourceTree = "<group>"; };
 		1B56E6F42242EB5300EDEF9C /* background-music2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "background-music2.mp3"; sourceTree = "<group>"; };
 		1B56E6F62245923D00EDEF9C /* klick.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = klick.wav; sourceTree = "<group>"; };
@@ -60,9 +55,6 @@
 		1BBAE2932259430B00DDB2ED /* lcd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lcd.otf; sourceTree = "<group>"; };
 		1BBAE2952259470100DDB2ED /* lcd2.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lcd2.otf; sourceTree = "<group>"; };
 		1BBFF7AC22498D3000EEB83C /* boing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boing.mp3; sourceTree = "<group>"; };
-		1BC946422276043A00A96C3B /* HighscoreScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighscoreScene.swift; sourceTree = "<group>"; };
-		1BC94644227604B300A96C3B /* HighscoreTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighscoreTableView.swift; sourceTree = "<group>"; };
-		1BD0CB11229561D4005FA364 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		1BE3055122528F3F00ECAC21 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,11 +96,7 @@
 				1B94A58F2269F6A9007F5DC1 /* WelcomeScene.swift */,
 				1B606EFE223C1AD200BD21C9 /* MainMenu.swift */,
 				1B606F02223C286100BD21C9 /* Level1.swift */,
-				1BD0CB11229561D4005FA364 /* Player.swift */,
-				1B567C072263AEB500CCADD1 /* PlayerScene.swift */,
-				1B1A6A722263CDA800A5A395 /* PlayerTableView.swift */,
-				1BC946422276043A00A96C3B /* HighscoreScene.swift */,
-				1BC94644227604B300A96C3B /* HighscoreTableView.swift */,
+				1B567C072263AEB500CCADD1 /* OverviewScene.swift */,
 				1B62FBCD223EE261004CC711 /* Settings.swift */,
 				1B606EEC223C101100BD21C9 /* Main.storyboard */,
 				1B606EF1223C101300BD21C9 /* LaunchScreen.storyboard */,
@@ -212,14 +200,10 @@
 				1B606EFF223C1AD200BD21C9 /* MainMenu.swift in Sources */,
 				1B62FBCE223EE261004CC711 /* Settings.swift in Sources */,
 				1B606EEB223C101100BD21C9 /* ViewController.swift in Sources */,
-				1BD0CB12229561D4005FA364 /* Player.swift in Sources */,
 				1B606EFB223C117300BD21C9 /* GameViewController.swift in Sources */,
-				1B567C082263AEB500CCADD1 /* PlayerScene.swift in Sources */,
-				1B1A6A732263CDA800A5A395 /* PlayerTableView.swift in Sources */,
-				1BC94645227604B300A96C3B /* HighscoreTableView.swift in Sources */,
+				1B567C082263AEB500CCADD1 /* OverviewScene.swift in Sources */,
 				1B94A5902269F6A9007F5DC1 /* WelcomeScene.swift in Sources */,
 				1B606EE9223C101100BD21C9 /* AppDelegate.swift in Sources */,
-				1BC946432276043A00A96C3B /* HighscoreScene.swift in Sources */,
 				1B606EFD223C15AE00BD21C9 /* Extensions.swift in Sources */,
 				1B606F01223C24BD00BD21C9 /* SceneManager.swift in Sources */,
 			);

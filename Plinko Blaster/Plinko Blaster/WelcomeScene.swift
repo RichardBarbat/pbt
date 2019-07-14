@@ -502,18 +502,11 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         
     }
     
-    func saveFirstPlayer() {
+    func savePlayer() {
         
-        let firstPlayer = Player(name: newNameTextField.text!, highscoreList: [0], creationDate: Date(), totalBallsDropped: 0, totalPointsCollected: 0, totalStarsCollected: 0)
+        UserDefaults.standard.set(String(describing: newNameTextField.text!), forKey: "playerName")
         
-        let firstPlayerList = [firstPlayer]
-        
-        if let playerListDataToSave = try? NSKeyedArchiver.archivedData(withRootObject: firstPlayerList, requiringSecureCoding: false) {
-            UserDefaults.standard.set(playerListDataToSave, forKey: "PLAYER-LIST")
-        }
-        
-        print("SAVED FIRST PLAYER = \(String(describing: newNameTextField.text!))")
-        UserDefaults.standard.set(String(describing: firstPlayer.name), forKey: "selectedPlayerName")
+        print("SAVED PLAYER = \(String(describing: newNameTextField.text!))")
         
         UserDefaults.standard.set(true, forKey: "launchedBefore")
     }
@@ -566,7 +559,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
                     
                 } else if self.childNode(withName: "yesButtonNode") != nil && self.childNode(withName: "yesButtonNode")!.contains(touch.location(in: self)) {
                     print("SAVE PLAYER")
-                    saveFirstPlayer()
+                    savePlayer()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                         self.removeAllChildren()
                         self.removeAllActions()
