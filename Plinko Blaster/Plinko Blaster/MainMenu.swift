@@ -18,9 +18,9 @@ class MainMenu: SKScene {
     
     let generator = UIImpactFeedbackGenerator(style: .medium)
     let starFieldNode = SKShapeNode()
-    let menuItems = ["START", "PLAYER", "HIGHSCORE", "OPTIONS", "MUSIC: ON "]
+    let menuItems = ["START", "OVERVIEW", "OPTIONS", "MUSIC: ON "]
     
-    let selectedPlayerName = UserDefaults.standard.string(forKey: "selectedPlayerName")
+    let playerName = UserDefaults.standard.string(forKey: "playerName")!
     
     
     // MARK: - Beginn der Funktionen
@@ -319,7 +319,7 @@ class MainMenu: SKScene {
     
     func addWelcomeLabel() {
         
-        let welcome = SKLabelNode(text: "WELCOME \(selectedPlayerName ?? "???")")
+        let welcome = SKLabelNode(text: "WELCOME \(playerName)")
         welcome.fontColor = .green
         welcome.fontName = "LCD14"
         welcome.fontSize = 20
@@ -342,7 +342,7 @@ class MainMenu: SKScene {
             item.fontSize = 45
             item.fontColor = UIColor(hexFromString: "0099ff")
             
-            if item.text == "START" || item.text == "PLAYER" || item.text == "HIGHSCORE" || item.text == "OPTIONS" {
+            if item.text == "START" || item.text == "OVERVIEW" || item.text == "OPTIONS" {
                 item.addGlow(radius: 15)
             }
             
@@ -430,36 +430,19 @@ class MainMenu: SKScene {
                     
                     
                     
-                } else if self.childNode(withName: "PLAYER-Button") != nil && self.childNode(withName: "PLAYER-Button")!.contains(touch.location(in: self)) {
+                } else if self.childNode(withName: "OVERVIEW-Button") != nil && self.childNode(withName: "OVERVIEW-Button")!.contains(touch.location(in: self)) {
                     
                     print("-> ab zur Spieler-Übersicht ->")
                     
                     DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                         self.generator.impactOccurred()
                         let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        self.childNode(withName: "PLAYER-Button")!.run(pling)
+                        self.childNode(withName: "OVERVIEW-Button")!.run(pling)
                     })
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                         self.removeAllChildren()
                         self.removeAllActions()
-                        SceneManager.shared.transition(self, toScene: .PlayerScene, transition: SKTransition.fade(withDuration: 0.5))
-                    })
-                    
-                    
-                    
-                } else if self.childNode(withName: "HIGHSCORE-Button") != nil && self.childNode(withName: "HIGHSCORE-Button")!.contains(touch.location(in: self)) {
-                    
-                    print("-> ab zur Highscore-Übersicht ->")
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                        self.generator.impactOccurred()
-                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        self.childNode(withName: "HIGHSCORE-Button")!.run(pling)
-                    })
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-                        self.removeAllChildren()
-                        self.removeAllActions()
-                        SceneManager.shared.transition(self, toScene: .HighscoreScene, transition: SKTransition.fade(withDuration: 0.5))
+                        SceneManager.shared.transition(self, toScene: .OverviewScene, transition: SKTransition.fade(withDuration: 0.5))
                     })
                     
                     

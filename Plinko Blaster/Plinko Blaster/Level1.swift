@@ -71,7 +71,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     let rotateLeftAction = SKAction.rotate(toAngle: .pi / 15, duration: 1)
     let rotateRightAction = SKAction.rotate(toAngle: .pi / -15, duration: 1)
     let wait = SKAction.wait(forDuration: 1)
-    let playerName = UserDefaults.standard.string(forKey: "selectedPlayerName")
+    let playerName = UserDefaults.standard.string(forKey: "playerName")
     var totalBallsDropped = 0
     var totalPointsCollected = 0
     
@@ -98,23 +98,11 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         scalePlusPointsActionSequence = SKAction.sequence([addPoints, scaleUpAction, scaleDownAction])
         
-        print("SELECTED PLAYER = \(String(describing: playerName!))")
+        print("PLAYER = \(String(describing: playerName!))")
         
-        
-        if let loadedPlayerListData = UserDefaults.standard.object(forKey: "PLAYER-LIST") as? Data {
-            if let decodedPlayerList = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(loadedPlayerListData) as? [Player] {
-                for player in decodedPlayerList {
-                    if player.name == playerName {
-                        lastHighscore = player.highscoreList.last!
-                    }
-                }
-            }
-        }
-        
+        lastHighscore = UserDefaults.standard.integer(forKey: "highscore")
         
         print("LAST HIGHSCORE = \(String(describing: lastHighscore))")
-        
-        UserDefaults.standard.set(false, forKey: "inGamePlayerChange")
         
         if gameOver == false {
             
@@ -140,9 +128,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        
         addStarFieldNode()
-        
         
         addBackButtonNode()
         
@@ -181,7 +167,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     }
     
     func addPlayerName(animated: Bool = false) {
-        
+
         let hiLabelNode = SKLabelNode(text: "PLAYER: \(playerName ?? "???")")
         hiLabelNode.name = "playerNameLabelNode"
         hiLabelNode.fontSize = 30
@@ -194,40 +180,36 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         hiLabelNode.addGlow(radius: 2)
         hiLabelNode.isHidden = true
         addChild(hiLabelNode)
-        
-        
-        
+
         if animated == true {
-            
+
             hiLabelNode.isHidden = false
-            
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                
+
                 let nameScaleDownAction = SKAction.scale(to: 0.4, duration: 0.5)
                 let nameMoveUpAction = SKAction.move(to: CGPoint(x: (ScreenSize.width * 0.5), y: ScreenSize.height * 0.935), duration: 0.5)
-                
+
                 hiLabelNode.run(nameScaleDownAction)
                 hiLabelNode.run(nameMoveUpAction)
-                
+
             })
         } else {
-            
+
             let nameScaleDownAction = SKAction.scale(to: 0.4, duration: 0)
             let nameMoveUpAction = SKAction.move(to: CGPoint(x: (ScreenSize.width * 0.5), y: ScreenSize.height * 0.935), duration: 0)
-            
+
             hiLabelNode.run(nameScaleDownAction)
             hiLabelNode.run(nameMoveUpAction)
-            
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-                
+
                 hiLabelNode.isHidden = false
-                
+
             })
-            
+
         }
-        
-        
-        
+
     }
     
     func prepareMiniMenu() {
@@ -1067,16 +1049,6 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                     
                 } else if controlBallBool && touch.location(in: self).y <= ScreenSize.height * 0.8 {
                     ball.position.x = touch.location(in: self).x
-                } else if (self.childNode(withName: "playerNameLabelNode")?.contains(touch.location(in: self)))! {
-                    
-                    if menuOpen == true {
-                        closeMenu()
-                    }
-                    
-                    self.removeAllChildren()
-                    self.removeAllActions()
-                    SceneManager.shared.transition(self, toScene: .PlayerScene, transition: SKTransition.fade(withDuration: 0.5))
-                    UserDefaults.standard.set(true, forKey: "inGamePlayerChange")
                 }
             }
         }
@@ -1270,7 +1242,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             
         })
         
-        saveStatsForPlayer()
+//        saveStatsForPlayer()
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -1421,50 +1393,45 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func saveStatsForPlayer() {
-        
-        if let loadedPlayerListData = UserDefaults.standard.object(forKey: "PLAYER-LIST") as? Data {
-            if let decodedPlayerList = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(loadedPlayerListData) as? [Player] {
-                for player in decodedPlayerList {
-                    if player.name == playerName {
-                        print("player.totalPointsCollected = \(player.totalPointsCollected)")
-                        print("player.totalBallsDropped = \(player.totalBallsDropped)")
-                        player.totalPointsCollected = player.totalPointsCollected + pointsCount
-                        player.totalBallsDropped = player.totalBallsDropped + 5
-                        print("player.totalPointsCollected = \(player.totalPointsCollected)")
-                        print("player.totalBallsDropped = \(player.totalBallsDropped)")
-                        print("highscoreList.count = \(player.highscoreList.count)")
-                        
-                    }
-                }
-                
-                if let playerListDataToSave = try? NSKeyedArchiver.archivedData(withRootObject: decodedPlayerList, requiringSecureCoding: false) {
-                    UserDefaults.standard.set(playerListDataToSave, forKey: "PLAYER-LIST")
-                    print("STATS SAVED!")
-                }
-            }
-        }
-        
-    }
+//    func saveStatsForPlayer() {
+//
+//        if let loadedPlayerData = UserDefaults.standard.object(forKey: "player") as? Data {
+//            if let player = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(loadedPlayerData) as? Player {
+//
+//                print("player.totalPointsCollected = \(player.totalPointsCollected)")
+//                print("player.totalBallsDropped = \(player.totalBallsDropped)")
+//                player.totalPointsCollected = player.totalPointsCollected + pointsCount
+//                player.totalBallsDropped = player.totalBallsDropped + 5
+//                print("player.totalPointsCollected = \(player.totalPointsCollected)")
+//                print("player.totalBallsDropped = \(player.totalBallsDropped)")
+//                print("highscoreList.count = \(player.highscore)")
+//
+//                if let playerDataToSave = try? NSKeyedArchiver.archivedData(withRootObject: player, requiringSecureCoding: false) {
+//                    UserDefaults.standard.set(playerDataToSave, forKey: "player")
+//                    print("STATS SAVED!")
+//                }
+//            }
+//        }
+//
+//    }
     
     func saveHighScore() {
         
         let newHighscore = lastHighscore
         
-        if let loadedPlayerListData = UserDefaults.standard.object(forKey: "PLAYER-LIST") as? Data {
-            if let decodedPlayerList = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(loadedPlayerListData) as? [Player] {
-                for player in decodedPlayerList {
-                    if player.name == playerName {
-                        player.highscoreList.append(newHighscore)
-                        print("highscoreList.count = \(player.highscoreList.count)")
-                    }
-                }
-                
-                if let playerListDataToSave = try? NSKeyedArchiver.archivedData(withRootObject: decodedPlayerList, requiringSecureCoding: false) {
-                    UserDefaults.standard.set(playerListDataToSave, forKey: "PLAYER-LIST")
-                }
-            }
-        }
+        UserDefaults.standard.set(newHighscore, forKey: "highscore")
+        
+//        if let loadedPlayerData = UserDefaults.standard.object(forKey: "player") as? Data {
+//            if let player = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(loadedPlayerData) as? Player {
+//
+//                player.highscore = newHighscore
+//                print("highscore = \(player.highscore)")
+//
+//                if let playerDataToSave = try? NSKeyedArchiver.archivedData(withRootObject: player, requiringSecureCoding: false) {
+//                    UserDefaults.standard.set(playerDataToSave, forKey: "player")
+//                }
+//            }
+//        }
         
     }
     
