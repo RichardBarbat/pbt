@@ -10,7 +10,7 @@ import SpriteKit
 
 class Settings: SKScene {
     
-    let backButtonNode = SKSpriteNode(imageNamed: "back-button")
+    let backButtonNode = SKSpriteNode(imageNamed: "back-button3")
     
     let resetButton = SKShapeNode(circleOfRadius: ScreenSize.width * 0.03)
     
@@ -20,19 +20,21 @@ class Settings: SKScene {
         
         self.backgroundColor = UIColor(hexFromString: "120d27")
         
+        addBackButtonNode()
+        addResetButton()
+    }
+    
+    func addBackButtonNode() {
         let backButtonAspectRatio = backButtonNode.size.width/backButtonNode.size.height
         if DeviceType.isiPad || DeviceType.isiPadPro {
             backButtonNode.size = CGSize(width: ScreenSize.width * 0.08, height: ScreenSize.width * 0.08 / backButtonAspectRatio)
         } else {
-//            print("is not iPad")
-            backButtonNode.size = CGSize(width: ScreenSize.width * 0.12, height: ScreenSize.width * 0.12 / backButtonAspectRatio)
+            backButtonNode.size = CGSize(width: ScreenSize.width * 0.1, height: ScreenSize.width * 0.1 / backButtonAspectRatio)
         }
         backButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        backButtonNode.position = CGPoint(x: ScreenSize.width * 0.15, y: ScreenSize.height * 0.925)
+        backButtonNode.position = CGPoint(x: ScreenSize.width * 0.1, y: ScreenSize.height * 0.95)
+        backButtonNode.alpha = 1
         addChild(backButtonNode)
-        
-        addResetButton()
-        
     }
     
     func addResetButton() {

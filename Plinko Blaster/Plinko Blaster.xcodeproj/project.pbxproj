@@ -13,8 +13,6 @@
 		1B56E6F52242EB5300EDEF9C /* background-music2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B56E6F42242EB5300EDEF9C /* background-music2.mp3 */; };
 		1B56E6F72245923D00EDEF9C /* klick.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1B56E6F62245923D00EDEF9C /* klick.wav */; };
 		1B606EE9223C101100BD21C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B606EE8223C101100BD21C9 /* AppDelegate.swift */; };
-		1B606EEB223C101100BD21C9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B606EEA223C101100BD21C9 /* ViewController.swift */; };
-		1B606EEE223C101100BD21C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B606EEC223C101100BD21C9 /* Main.storyboard */; };
 		1B606EF3223C101300BD21C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B606EF1223C101300BD21C9 /* LaunchScreen.storyboard */; };
 		1B606EFB223C117300BD21C9 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B606EFA223C117300BD21C9 /* GameViewController.swift */; };
 		1B606EFD223C15AE00BD21C9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B606EFC223C15AE00BD21C9 /* Extensions.swift */; };
@@ -39,8 +37,6 @@
 		1B56E6F62245923D00EDEF9C /* klick.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = klick.wav; sourceTree = "<group>"; };
 		1B606EE5223C101100BD21C9 /* Plinko Blaster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Plinko Blaster.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B606EE8223C101100BD21C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1B606EEA223C101100BD21C9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		1B606EED223C101100BD21C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1B606EF2223C101300BD21C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1B606EF4223C101300BD21C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B606EFA223C117300BD21C9 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -90,7 +86,6 @@
 			children = (
 				1B606EE8223C101100BD21C9 /* AppDelegate.swift */,
 				1B606EFC223C15AE00BD21C9 /* Extensions.swift */,
-				1B606EEA223C101100BD21C9 /* ViewController.swift */,
 				1B606EFA223C117300BD21C9 /* GameViewController.swift */,
 				1B606F00223C24BD00BD21C9 /* SceneManager.swift */,
 				1B94A58F2269F6A9007F5DC1 /* WelcomeScene.swift */,
@@ -98,7 +93,6 @@
 				1B606F02223C286100BD21C9 /* Level1.swift */,
 				1B567C072263AEB500CCADD1 /* OverviewScene.swift */,
 				1B62FBCD223EE261004CC711 /* Settings.swift */,
-				1B606EEC223C101100BD21C9 /* Main.storyboard */,
 				1B606EF1223C101300BD21C9 /* LaunchScreen.storyboard */,
 				1B606EF4223C101300BD21C9 /* Info.plist */,
 				1B56E6F2223FB6F000EDEF9C /* background-music.mp3 */,
@@ -182,7 +176,6 @@
 				1BA27E8B22A1A58C0033A41E /* star.png in Resources */,
 				1B56E6F3223FB6F000EDEF9C /* background-music.mp3 in Resources */,
 				1BE3055222528F3F00ECAC21 /* Assets.xcassets in Resources */,
-				1B606EEE223C101100BD21C9 /* Main.storyboard in Resources */,
 				1BBAE2942259454600DDB2ED /* lcd.otf in Resources */,
 				1BA27E8A22A1A58C0033A41E /* star_glow.png in Resources */,
 				1BBAE2962259477B00DDB2ED /* lcd2.otf in Resources */,
@@ -199,7 +192,6 @@
 				1B606F03223C286100BD21C9 /* Level1.swift in Sources */,
 				1B606EFF223C1AD200BD21C9 /* MainMenu.swift in Sources */,
 				1B62FBCE223EE261004CC711 /* Settings.swift in Sources */,
-				1B606EEB223C101100BD21C9 /* ViewController.swift in Sources */,
 				1B606EFB223C117300BD21C9 /* GameViewController.swift in Sources */,
 				1B567C082263AEB500CCADD1 /* OverviewScene.swift in Sources */,
 				1B94A5902269F6A9007F5DC1 /* WelcomeScene.swift in Sources */,
@@ -212,14 +204,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		1B606EEC223C101100BD21C9 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1B606EED223C101100BD21C9 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		1B606EF1223C101300BD21C9 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

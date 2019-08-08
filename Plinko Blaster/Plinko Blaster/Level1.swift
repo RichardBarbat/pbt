@@ -74,6 +74,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     let playerName = UserDefaults.standard.string(forKey: "playerName")
     var totalBallsDropped = 0
     var totalPointsCollected = 0
+    let starNodeTexture = SKTexture(imageNamed: "star.png")
     
     
     // MARK: - Beginn der Funktionen
@@ -81,7 +82,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
         print("- Level 1 -")
-        
+                
         self.backgroundColor = UIColor(hexFromString: "120d27")
         
         highscoreLabelIsInFront = false
@@ -683,7 +684,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         highscoreLabelNode.fontColor = UIColor(hexFromString: "edff25")
         highscoreLabelNode.text = "HIGHSCORE:\(String(describing: lastHighscore))"
-        highscoreLabelNode.fontSize = 18
+        highscoreLabelNode.fontSize = 16
         highscoreLabelNode.fontName = "LCD14"
         highscoreLabelNode.alpha = 1
         highscoreLabelNode.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.85)
@@ -742,16 +743,11 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     
     func addStar() {
         
-        
-        starNode = SKSpriteNode(imageNamed: "star.png")
+        starNode = SKSpriteNode(texture: starNodeTexture)
         
         starNode.size = CGSize(width: 30, height: 30)
         
-        starNode.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "star.png"), size: starNode.size)
-        starNode.physicsBody?.isDynamic = false
-        starNode.physicsBody?.categoryBitMask = ColliderType.NonBall
-        starNode.physicsBody?.collisionBitMask = ColliderType.Ball | ColliderType.NonBall
-        starNode.physicsBody?.contactTestBitMask = ColliderType.NonBall
+        
         
         starNode.name = "star"
         
@@ -776,8 +772,41 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         starNode.run(SKAction.repeatForever(SKAction.sequence([rotateActionSequence])))
         
-        starNode.addChild(starNodeGlow)
+//        for ball in ballsAdded {
+//            if starNode.intersects(ball) {
+//                print("INTERSECTION!!!")
+//                while starNode.intersects(ball) {
+//                    starNode.position = CGPoint(x: CGFloat.random(in: 60...ScreenSize.width-60), y: heights.randomElement()!)
+//                }
+//            }
+//        }
+        
+        print("starNode (before addChild) = ", starNode)
+        print("starNode.physicsBody (before addChild) = ", starNode.physicsBody as Any)
+        
         addChild(starNode)
+        
+        print("starNode (after addChild) = ", starNode)
+        print("starNode.physicsBody (after addChild) = ", starNode.physicsBody as Any)
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+            self.starNode.physicsBody = nil
+            print("self.starNodeTexture = ", self.starNodeTexture)
+            print("self.starNode.size = ", self.starNode.size)
+            self.starNode.physicsBody = SKPhysicsBody(circleOfRadius: 25)
+            self.starNode.physicsBody?.isDynamic = false
+            self.starNode.physicsBody?.categoryBitMask = ColliderType.Invisible
+            self.starNode.physicsBody?.collisionBitMask = ColliderType.Invisible
+            self.starNode.physicsBody?.contactTestBitMask = ColliderType.Ball
+        })
+                
+        print("starNode (after addChild) = ", starNode)
+        print("starNode.physicsBody (after addChild) = ", starNode.physicsBody as Any)
+        
+        
+        
+        starNode.addChild(starNodeGlow)
         
     }
     
@@ -803,7 +832,8 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         })
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-            star.removeFromParent()
+            star.physicsBody = nil
+            self.childNode(withName: "star")?.removeFromParent()
         })
         
         
@@ -948,9 +978,6 @@ class Level1: SKScene, SKPhysicsContactDelegate {
 //                if vibrationOn {
 //                    generator.impactOccurred()
 //                }
-                
-                
-                
                 
                 if backButtonNode.contains(touch.location(in: self)) {
                     
@@ -1357,7 +1384,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                 }
                 
                 if (contact.bodyA.node?.name?.contains("star"))! || (contact.bodyB.node?.name?.contains("star"))! {
-                    contact.bodyA.node?.children.first!.run(scalePlusPointsActionSequence)
+                    contact.bodyA.node?.run(scalePlusPointsActionSequence)
                     pointsLabelNode.run(scaleActionSequence)
                     
                     let miniPointsLabelNode = SKLabelNode(text: "+5000")
