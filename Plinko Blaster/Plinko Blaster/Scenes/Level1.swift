@@ -23,18 +23,23 @@ struct ColliderType {
 
 // MARK: - Variablen außerhalb der Klasse
 
-var pointsCount = 0 
+var pointsCount = 0
 let pointsLabelNode = SKLabelNode()
 var highscoreLabelNode = SKLabelNode()
 var miniMenu = SKShapeNode()
 var vibrationOn = UserDefaults.standard.bool(forKey: "vibrationOn")
 var fxOn = UserDefaults.standard.bool(forKey: "fxOn")
-var scaleActionSequence = SKAction.sequence([])
+var scaleToActionSequence = SKAction.sequence([])
+var scaleByActionSequence = SKAction.sequence([])
 var pulseActionSequence = SKAction.sequence([])
 var rotateActionSequence = SKAction.sequence([])
 var scalePlusPointsActionSequence = SKAction.sequence([])
 var highscoreLabelIsInFront = false
 var lastHighscore = Int()
+var tutorialShown = UserDefaults.standard.bool(forKey: "tutorialShown")
+var multiplyerCount = 0
+var multiplyerLabelNode = SKLabelNode()
+var starNode = SKSpriteNode(imageNamed: "star.png")
 
 let generator = UIImpactFeedbackGenerator(style: .medium)
 
@@ -47,27 +52,28 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Variablen & Instanzen
     
-    var ballCounterNode = SKShapeNode()
     var menuOpen = false
     let starFieldNode = SKShapeNode()
-    let settingsButtonNode = SKSpriteNode(imageNamed: "settings-button4")
-    let backButtonNode = SKSpriteNode(imageNamed: "back-button3")
-    var starNode = SKSpriteNode(imageNamed: "star.png")
+    let settingsButtonNode = SKSpriteNode(imageNamed: "settings-button5")
+    let backButtonNode = SKSpriteNode(imageNamed: "back-button4")
     var ballCounterLabelNode = SKLabelNode()
     var boxes = [SKShapeNode()]
-    var multipliers = [Int()]
+    var multiplyers = [Int()]
     var ballsAdded = [SKShapeNode]()
     var ball = SKShapeNode()
     var ballCount = 5
     var boxesCollected = [false, false, false, false, false, false]
     var ballsDown = [false, false, false, false, false]
     var controlBallBool = false
-    let scaleUpAction = SKAction.scale(to: 2, duration: 0.1)
-    let smallScaleUpAction = SKAction.scale(to: 1.1, duration: 0.1)
-    let fadeUpAction = SKAction.fadeAlpha(to: 0.75, duration: 1)
+    let scaleUpAction = SKAction.scale(to: 1.5, duration: 0.1)
     let scaleDownAction = SKAction.scale(to: 1, duration: 0.6)
-    let smallScaleDownAction = SKAction.scale(to: 1, duration: 0.1)
+    let smallScaleUpToAction = SKAction.scale(to: 1.1, duration: 0.1)
+    let smallScaleUpByAction = SKAction.scale(by: 1.2, duration: 0.1)
+    let smallScaleDownToAction = SKAction.scale(to: 1, duration: 0.1)
+    let smallScaleDownByAction = SKAction.scale(by: 0.8, duration: 0.1)
+    let fadeUpAction = SKAction.fadeAlpha(to: 0.75, duration: 1)
     let fadeDownAction = SKAction.fadeAlpha(to: 0, duration: 1)
+    let fadeDownDoubleSpeedAction = SKAction.fadeAlpha(to: 0, duration: 0.5)
     let rotateLeftAction = SKAction.rotate(toAngle: .pi / 15, duration: 1)
     let rotateRightAction = SKAction.rotate(toAngle: .pi / -15, duration: 1)
     let wait = SKAction.wait(forDuration: 1)
@@ -89,9 +95,9 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         vibrationOn = UserDefaults.standard.bool(forKey: "vibrationOn")
         
-        ballCounterNode = SKShapeNode(circleOfRadius: ScreenSize.width * 0.035)
+        scaleToActionSequence = SKAction.sequence([smallScaleUpToAction, smallScaleDownToAction])
         
-        scaleActionSequence = SKAction.sequence([smallScaleUpAction, smallScaleDownAction])
+        scaleByActionSequence = SKAction.sequence([smallScaleUpByAction, smallScaleDownByAction])
         
         pulseActionSequence = SKAction.sequence([fadeDownAction, wait, fadeUpAction])
         
@@ -105,29 +111,15 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         print("LAST HIGHSCORE = \(String(describing: lastHighscore))")
         
-        if gameOver == false {
-            
-            addPlayerName(animated: true)
-            
-            addHighscoreLableNode(delayed: true)
-            
-            addBallCounterNode(delayed: true)
-            
-            addPointsLabelNode(delayed: true)
-            
-        } else {
-            
-            addPlayerName()
-            
-            addHighscoreLableNode()
-            
-            addBallCounterNode()
-            
-            addPointsLabelNode()
-            
-            gameOver = false
-            
-        }
+        addHighscoreLableNode()
+        
+        addBallCounterNode()
+        
+        addMultiplyerNode()
+        
+        addPointsLabelNode()
+        
+        gameOver = false
         
         addStarFieldNode()
         
@@ -151,6 +143,15 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         addStar()
         
+        if tutorialShown == false {
+            print("TUTORIAL STARTEN")
+            print("TUTORIAL LÄUFT")
+            print("TUTORIAL BEENDET")
+            UserDefaults.standard.set(true, forKey: "tutorialShown")
+        } else {
+            print("TUTORIAL WURDE SCHON MAL GEZEIGT ... ABER WENN DU WILLST ZEIG ICH ES DIR NOCHMAL ... KLICK EINFACH OBEN LINKS ... BLA BLA")
+        }
+        
         if menuOpen == true {
             closeMenu()
         }
@@ -165,52 +166,6 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         physicsWorld.contactDelegate = self
         
-    }
-    
-    func addPlayerName(animated: Bool = false) {
-
-        let hiLabelNode = SKLabelNode(text: "PLAYER: \(playerName ?? "???")")
-        hiLabelNode.name = "playerNameLabelNode"
-        hiLabelNode.fontSize = 30
-        hiLabelNode.alpha = 1
-        hiLabelNode.fontName = "LCD14"
-        hiLabelNode.horizontalAlignmentMode = .center
-        hiLabelNode.preferredMaxLayoutWidth = ScreenSize.width * 0.7
-        hiLabelNode.fontColor = .green
-        hiLabelNode.position = CGPoint(x: (ScreenSize.width * 0.5), y: ScreenSize.height * 0.88)
-        hiLabelNode.addGlow(radius: 2)
-        hiLabelNode.isHidden = true
-        addChild(hiLabelNode)
-
-        if animated == true {
-
-            hiLabelNode.isHidden = false
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-
-                let nameScaleDownAction = SKAction.scale(to: 0.4, duration: 0.5)
-                let nameMoveUpAction = SKAction.move(to: CGPoint(x: (ScreenSize.width * 0.5), y: ScreenSize.height * 0.935), duration: 0.5)
-
-                hiLabelNode.run(nameScaleDownAction)
-                hiLabelNode.run(nameMoveUpAction)
-
-            })
-        } else {
-
-            let nameScaleDownAction = SKAction.scale(to: 0.4, duration: 0)
-            let nameMoveUpAction = SKAction.move(to: CGPoint(x: (ScreenSize.width * 0.5), y: ScreenSize.height * 0.935), duration: 0)
-
-            hiLabelNode.run(nameScaleDownAction)
-            hiLabelNode.run(nameMoveUpAction)
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-
-                hiLabelNode.isHidden = false
-
-            })
-
-        }
-
     }
     
     func prepareMiniMenu() {
@@ -230,6 +185,8 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         miniMenuBackground.lineWidth = 1
         miniMenuBackground.alpha = 1
         
+        
+        
         let buttonBackgroundMusic = SKSpriteNode()
         if backgroundMusicPlayerStatus == true {
             buttonBackgroundMusic.texture = SKTexture(imageNamed: "music-button-on5")
@@ -237,9 +194,24 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             buttonBackgroundMusic.texture = SKTexture(imageNamed: "music-button-off5")
         }
         buttonBackgroundMusic.name = "musicButton"
-        buttonBackgroundMusic.size = CGSize(width: miniMenuBackground.frame.size.height, height: miniMenuBackground.frame.size.height)
-        buttonBackgroundMusic.position = CGPoint(x: ((ScreenSize.width * 0.9) / 3) * 0.75, y: ScreenSize.height * 0.87)
+        buttonBackgroundMusic.size = CGSize(width: miniMenuBackground.frame.size.height * 0.8, height: miniMenuBackground.frame.size.height * 0.8)
+        buttonBackgroundMusic.position = CGPoint(x: ((ScreenSize.width * 0.9) / 3) * 0.75, y: ScreenSize.height * 0.88)
         buttonBackgroundMusic.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        
+        let buttonBackgroundMusicLabelNode = SKLabelNode()
+        buttonBackgroundMusicLabelNode.name = "musicButtonLabel"
+        buttonBackgroundMusicLabelNode.fontName = "LCD14"
+        buttonBackgroundMusicLabelNode.fontSize = 10
+        if backgroundMusicPlayerStatus == true {
+            buttonBackgroundMusicLabelNode.text = "MUSIC: ON"
+            buttonBackgroundMusicLabelNode.fontColor = UIColor.green
+            
+        } else {
+            buttonBackgroundMusicLabelNode.text = "MUSIC: OFF"
+            buttonBackgroundMusicLabelNode.fontColor = UIColor.red
+        }
+        buttonBackgroundMusicLabelNode.position = CGPoint(x: buttonBackgroundMusic.position.x, y: buttonBackgroundMusic.position.y - 35)
+        
         
         var buttonFX = SKSpriteNode()
         if fxOn == true {
@@ -249,9 +221,25 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         }
         
         buttonFX.name = "fxButton"
-        buttonFX.size = CGSize(width: miniMenuBackground.frame.size.height, height: miniMenuBackground.frame.size.height)
-        buttonFX.position = CGPoint(x: ScreenSize.width * 0.5, y: ScreenSize.height * 0.87)
+        buttonFX.size = CGSize(width: miniMenuBackground.frame.size.height * 0.8, height: miniMenuBackground.frame.size.height * 0.8)
+        buttonFX.position = CGPoint(x: ScreenSize.width * 0.5, y: ScreenSize.height * 0.88)
         buttonFX.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        
+        let buttonFXLabelNode = SKLabelNode()
+        buttonFXLabelNode.name = "fxButtonLabel"
+        buttonFXLabelNode.fontName = "LCD14"
+        buttonFXLabelNode.fontSize = 10
+        if fxOn == true {
+            buttonFXLabelNode.text = "SOUND-FX: ON"
+            buttonFXLabelNode.fontColor = UIColor.green
+            
+        } else {
+            buttonFXLabelNode.text = "SOUND-FX: OFF"
+            buttonFXLabelNode.fontColor = UIColor.red
+        }
+        buttonFXLabelNode.position = CGPoint(x: buttonFX.position.x, y: buttonFX.position.y - 35)
+        
+        
         
         var buttonVibration = SKSpriteNode()
         if vibrationOn == true {
@@ -260,15 +248,32 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             buttonVibration = SKSpriteNode(imageNamed: "vibration-button-off")
         }
         buttonVibration.name = "vibrationButton"
-        buttonVibration.size = CGSize(width: miniMenuBackground.frame.size.height, height: miniMenuBackground.frame.size.height)
-        buttonVibration.position = CGPoint(x: ((ScreenSize.width * 0.9) / 3) * 2.6, y: ScreenSize.height * 0.87)
+        buttonVibration.size = CGSize(width: miniMenuBackground.frame.size.height * 0.8, height: miniMenuBackground.frame.size.height * 0.8)
+        buttonVibration.position = CGPoint(x: ((ScreenSize.width * 0.9) / 3) * 2.6, y: ScreenSize.height * 0.88)
         buttonVibration.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        
+        let buttonVibrationLabelNode = SKLabelNode()
+        buttonVibrationLabelNode.name = "vibrationButtonLabel"
+        buttonVibrationLabelNode.fontName = "LCD14"
+        buttonVibrationLabelNode.fontSize = 10
+        if vibrationOn == true {
+            buttonVibrationLabelNode.text = "VIBRATION: ON"
+            buttonVibrationLabelNode.fontColor = UIColor.green
+            
+        } else {
+            buttonVibrationLabelNode.text = "VIBRATION: OFF"
+            buttonVibrationLabelNode.fontColor = UIColor.red
+        }
+        buttonVibrationLabelNode.position = CGPoint(x: buttonVibration.position.x, y: buttonVibration.position.y - 35)
         
         miniMenu.addChild(miniMenuGlow)
         miniMenu.addChild(miniMenuBackground)
         miniMenu.addChild(buttonBackgroundMusic)
+        miniMenu.addChild(buttonBackgroundMusicLabelNode)
         miniMenu.addChild(buttonFX)
+        miniMenu.addChild(buttonFXLabelNode)
         miniMenu.addChild(buttonVibration)
+        miniMenu.addChild(buttonVibrationLabelNode)
         miniMenu.isHidden = true
         miniMenu.isUserInteractionEnabled = false
         addChild(miniMenu)
@@ -283,7 +288,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             let star = SKShapeNode(circleOfRadius: CGFloat.random(in: 0.05...0.15))
             star.fillColor = .white
             star.glowWidth = CGFloat.random(in: 0.01...0.8)
-            star.alpha = CGFloat.random(in: 0.05...0.2)
+            star.alpha = CGFloat.random(in: 0.1...0.25)
             
             star.position = CGPoint(x: CGFloat.random(in: 0...ScreenSize.width), y: CGFloat.random(in: 0...ScreenSize.height))
             fieldNode.addChild(star)
@@ -295,37 +300,19 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         fieldNodeSpriteNode.zPosition = -1000
         addChild(fieldNodeSpriteNode)
         
-        
-        
-    }
-    
-    func addShootingStar() {
-        
-        
-//        let moveAction = SKAction.moveBy(x: 0, y: 10, duration: 0.5)
-        
-        let shootingStar = SKShapeNode(circleOfRadius: CGFloat.random(in: 0.25...0.35))
-        shootingStar.fillColor = .white
-        shootingStar.glowWidth = CGFloat.random(in: 0.4...0.8)
-        shootingStar.alpha = CGFloat.random(in: 0.5...0.6)
-        
-        //        shootingStar.position = CGPoint(x: CGFloat.random(in: 0...ScreenSize.width), y: CGFloat.random(in: 0...ScreenSize.height))
-        shootingStar.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.7)
-        
-        addChild(shootingStar)
     }
     
     func addPointsLabelNode(delayed: Bool = false) {
         
         pointsCount = 0
-        pointsLabelNode.text = String("POINTS:0")
+        pointsLabelNode.text = "POINTS: \(pointsCount)"
         pointsLabelNode.fontSize = 28
         pointsLabelNode.alpha = 1
         pointsLabelNode.fontName = "LCD14"
         pointsLabelNode.horizontalAlignmentMode = .center
         pointsLabelNode.preferredMaxLayoutWidth = ScreenSize.width * 0.7
         pointsLabelNode.fontColor = UIColor(hexFromString: "0099ff")
-        pointsLabelNode.position = CGPoint(x: (ScreenSize.width * 0.5) + (pointsLabelNode.frame.size.width * 0), y: ScreenSize.height * 0.89)
+        pointsLabelNode.position = CGPoint(x: (ScreenSize.width * 0.5) + (pointsLabelNode.frame.size.width * 0), y: ScreenSize.height * 0.87)
         
         if delayed == true {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
@@ -334,9 +321,6 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         } else {
             self.addChild(pointsLabelNode)
         }
-        
-        
-        
         
     }
     
@@ -351,7 +335,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         }
         backButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         backButtonNode.position = CGPoint(x: ScreenSize.width * 0.1, y: ScreenSize.height * 0.95)
-        backButtonNode.alpha = 1
+        backButtonNode.alpha = 0.7
         addChild(backButtonNode)
     }
     
@@ -362,47 +346,46 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             settingsButtonNode.size = CGSize(width: ScreenSize.width * 0.08, height: ScreenSize.width * 0.08 / settingsButtonAspectRatio)
         } else {
             //            print("is not iPad")
-            settingsButtonNode.size = CGSize(width: ScreenSize.width * 0.19, height: ScreenSize.width * 0.19 / settingsButtonAspectRatio)
+            settingsButtonNode.size = CGSize(width: ScreenSize.width * 0.10, height: ScreenSize.width * 0.10 / settingsButtonAspectRatio)
         }
         settingsButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         settingsButtonNode.position = CGPoint(x: ScreenSize.width * 0.9, y: ScreenSize.height * 0.95)
-        settingsButtonNode.alpha = 0.8
+        settingsButtonNode.alpha = 0.7
         addChild(settingsButtonNode)
     }
     
     func addBallCounterNode(delayed: Bool = false) {
-        
-        ballCounterNode.position = CGPoint(x: ScreenSize.width * 0.08, y: ScreenSize.height * 0.84)
-        ballCounterNode.physicsBody?.isDynamic = false
-        ballCounterNode.setScale(0.5)
-        ballCounterNode.name = "ballCounterNode"
-        
-        ballCounterNode.lineWidth = 3
-        ballCounterNode.strokeColor = UIColor(hexFromString: "edff25")
-        ballCounterNode.glowWidth = 0
-        
-        let ballCounterNodeGlow = SKShapeNode(circleOfRadius: ballCounterNode.frame.size.width * 0.8)
-        ballCounterNodeGlow.strokeColor = UIColor(hexFromString: "edff25").withAlphaComponent(0.6)
-        ballCounterNodeGlow.lineWidth = 0.1
-        ballCounterNodeGlow.glowWidth = 10
-        
-        ballCounterLabelNode = SKLabelNode(text: "X\(ballCount)")
-        ballCounterLabelNode.fontName = "LCD14"
-        ballCounterLabelNode.position = CGPoint(x: ballCounterLabelNode.position.x + ballCounterNodeGlow.frame.size.width, y: (ballCounterLabelNode.position.y) - (ballCounterLabelNode.frame.size.height / 2))
-        ballCounterLabelNode.fontColor = UIColor(hexFromString: "edff25")
-        
-        ballCounterNode.addChild(ballCounterLabelNode)
-        ballCounterNode.addChild(ballCounterNodeGlow)
-        
-        if delayed == true {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                self.addChild(self.ballCounterNode)
-            })
-        } else {
-            self.addChild(self.ballCounterNode)
+                
+        ballCounterLabelNode = SKLabelNode(text: "BALLS: X\(ballCount)")
+        if ballCount == 0 {
+            ballCounterLabelNode.fontColor = .red
         }
+        ballCounterLabelNode.fontName = "LCD14"
+        ballCounterLabelNode.setScale(0.35)
+        ballCounterLabelNode.position = CGPoint(x: ScreenSize.width * 0.02, y: ScreenSize.height * 0.83)
+        ballCounterLabelNode.horizontalAlignmentMode = .left
+        
+        ballCounterLabelNode.fontColor = Color.yellow
+        
+        addChild(ballCounterLabelNode)
         
         
+        
+    }
+    
+    func addMultiplyerNode() {
+        multiplyerLabelNode = SKLabelNode()
+        multiplyerCount = 0
+        multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
+        multiplyerLabelNode.fontName = "LCD14"
+        multiplyerLabelNode.setScale(0.35)
+        multiplyerLabelNode.horizontalAlignmentMode = .right
+        
+        multiplyerLabelNode.position = CGPoint(x: ScreenSize.width * 0.979, y: ScreenSize.height * 0.83)
+        multiplyerLabelNode.fontColor = Color.yellow
+        multiplyerLabelNode.alpha = 1
+        print("multiplyerLabelNode = \(multiplyerLabelNode)")
+        addChild(multiplyerLabelNode)
     }
     
     func addStartGlowLine() {
@@ -412,7 +395,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         startGlowLinePath.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.78))
         let startGlowLineNode = SKShapeNode()
         startGlowLineNode.path = startGlowLinePath
-        startGlowLineNode.strokeColor = UIColor(hexFromString: "d800ff")
+        startGlowLineNode.strokeColor = UIColor(hexFromString: "0099ff")
         startGlowLineNode.lineWidth = 0.1
         startGlowLineNode.glowWidth = 40
         startGlowLineNode.alpha = 0.35
@@ -423,7 +406,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         startGlowLinePath2.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.78))
         let startGlowLineNode2 = SKShapeNode()
         startGlowLineNode2.path = startGlowLinePath2
-        startGlowLineNode2.strokeColor = UIColor(hexFromString: "d800ff")
+        startGlowLineNode2.strokeColor = UIColor(hexFromString: "0099ff")
         startGlowLineNode2.lineWidth = 3.5
         startGlowLineNode2.glowWidth = 0
         startGlowLineNode2.alpha = 1
@@ -443,7 +426,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             for number in 1...7 {
                 
                 let obstacleNode = SKShapeNode(circleOfRadius: ScreenSize.width * 0.015)
-                obstacleNode.strokeColor = UIColor(hexFromString: "0099ff")
+                obstacleNode.strokeColor = UIColor(hexFromString: "d800ff").withAlphaComponent(0.82)
                 obstacleNode.lineWidth = 3
                 obstacleNode.position = CGPoint(x: ScreenSize.width / 8 * CGFloat(number), y: ScreenSize.height * (0.65 - CGFloat(CGFloat(doubleRow) / 7)))
                 
@@ -455,12 +438,11 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                 obstacleNode.physicsBody?.collisionBitMask = ColliderType.Ball | ColliderType.NonBall
                 obstacleNode.physicsBody?.contactTestBitMask = ColliderType.NonBall
                 obstacleNode.name = "obstacle\(doubleRow)-\(number)"
-//                print("obstacle\(doubleRow)-\(number)")
                 
                 let glowNode = SKShapeNode(circleOfRadius: obstacleNode.frame.size.width / 2)
                 glowNode.glowWidth = 7
                 glowNode.alpha = 0.7
-                glowNode.strokeColor = UIColor(hexFromString: "d800ff")
+                glowNode.strokeColor = UIColor(hexFromString: "0099ff")
                 let glowSpriteNode = SKSpriteNode(texture: SKView().texture(from: glowNode))
                 glowSpriteNode.name = "obstacleGlow"
                 glowSpriteNode.zPosition = obstacleNode.zPosition - 1
@@ -476,7 +458,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                 for number in 2...7 {
                     
                     let obstacleNode = SKShapeNode(circleOfRadius: ScreenSize.width * 0.015)
-                    obstacleNode.strokeColor = UIColor(hexFromString: "0099ff")
+                    obstacleNode.strokeColor = UIColor(hexFromString: "d800ff").withAlphaComponent(0.82)
                     obstacleNode.lineWidth = 3
                     obstacleNode.position = CGPoint(x: (ScreenSize.width / 8) * (CGFloat(number) - 0.5), y: ScreenSize.height * (0.58 - CGFloat(CGFloat(doubleRow) / 7)))
                     
@@ -488,12 +470,11 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                     obstacleNode.physicsBody?.collisionBitMask = ColliderType.Ball | ColliderType.NonBall
                     obstacleNode.physicsBody?.contactTestBitMask = ColliderType.NonBall
                     obstacleNode.name = "obstacle\(doubleRow)-\(number + 8)"
-//                    print("obstacle\(doubleRow)-\(number + 8)")
                     
                     let glowNode = SKShapeNode(circleOfRadius: obstacleNode.frame.size.width / 2)
                     glowNode.glowWidth = 7
                     glowNode.alpha = 0.7
-                    glowNode.strokeColor = UIColor(hexFromString: "d800ff")
+                    glowNode.strokeColor = UIColor(hexFromString: "0099ff")
                     let glowSpriteNode = SKSpriteNode(texture: SKView().texture(from: glowNode))
                     glowSpriteNode.name = "obstacleGlow"
                     glowSpriteNode.zPosition = obstacleNode.zPosition - 1
@@ -516,7 +497,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             let box = SKShapeNode(rectOf: CGSize(width: holeWidth, height: ScreenSize.height * 0.1))
             box.position = CGPoint(x: holeWidth * (CGFloat(boxNumber) - 0.5), y: ScreenSize.height * 0.05)
             box.fillColor = UIColor(hexFromString: "0099ff").withAlphaComponent(0.3)
-            box.strokeColor = UIColor(hexFromString: "d800ff").withAlphaComponent(0.5)
+            box.strokeColor = UIColor(hexFromString: "0099ff").withAlphaComponent(0.3)
             box.glowWidth = 5
             box.lineWidth = 0.1
             box.zPosition = ball.zPosition + 10
@@ -530,18 +511,13 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             
             boxes.append(box)
             
+            multiplyers = [1,2,3,2,1]
             
-//            let randomMultiplier = Int.random(in: 1...5)
-//            print("randomMultiplier = \(randomMultiplier)")
-//            multipliers.append(randomMultiplier)
-            
-            multipliers = [2,3,5,3,2]
-            
-            let multiplierLabelNode = SKLabelNode(text: "X\(multipliers[boxNumber-1])")
+            let multiplierLabelNode = SKLabelNode(text: "X\(multiplyers[boxNumber-1])")
             
             multiplierLabelNode.fontName = "LCD14"
-            multiplierLabelNode.fontSize = 26
-            multiplierLabelNode.fontColor = UIColor(hexFromString: "d800ff")
+            multiplierLabelNode.fontSize = 24
+            multiplierLabelNode.fontColor = Color.yellow
             
             box.addChild(multiplierLabelNode)
 
@@ -555,7 +531,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             linePath.addLine(to: CGPoint(x: holeWidth * CGFloat(line), y: ScreenSize.height * 0.1))
             let lineNode = SKShapeNode(path: linePath)
             lineNode.name = "line\(line)"
-            lineNode.strokeColor = UIColor(hexFromString: "d800ff")
+            lineNode.strokeColor = UIColor(hexFromString: "0099ff")
             lineNode.lineCap = .round
             lineNode.lineWidth = 6
             lineNode.glowWidth = 0
@@ -567,7 +543,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             lineNode.physicsBody?.contactTestBitMask = ColliderType.NonBall
             
             let lineGlow = lineNode.copy() as! SKShapeNode
-            lineGlow.strokeColor = UIColor(hexFromString: "d800ff")
+            lineGlow.strokeColor = UIColor(hexFromString: "0099ff")
             lineGlow.lineWidth = 1
             lineGlow.glowWidth = 16
             lineGlow.alpha = 0.4
@@ -682,12 +658,12 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     
     func addHighscoreLableNode(delayed: Bool = false) {
         
-        highscoreLabelNode.fontColor = UIColor(hexFromString: "edff25")
-        highscoreLabelNode.text = "HIGHSCORE:\(String(describing: lastHighscore))"
-        highscoreLabelNode.fontSize = 16
+        highscoreLabelNode.fontColor = Color.yellow
+        highscoreLabelNode.text = "HIGHSCORE: \(lastHighscore)"
+        highscoreLabelNode.fontSize = 13
         highscoreLabelNode.fontName = "LCD14"
         highscoreLabelNode.alpha = 1
-        highscoreLabelNode.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.85)
+        highscoreLabelNode.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.935)
         
         if delayed == true {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.75, execute: {
@@ -702,29 +678,38 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     
     func prepareBall() {
         
-        ball = SKShapeNode(circleOfRadius: ScreenSize.width * 0.035)
-        ball.lineWidth = 2
-        ball.strokeColor = UIColor(hexFromString: "edff25")
-        ball.glowWidth = 0
-        ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.frame.size.width / 2.1 )
-        ball.physicsBody?.isDynamic = false
-        ball.physicsBody?.friction = 0
-        ball.physicsBody?.restitution = 0.45
-        ball.physicsBody?.categoryBitMask = ColliderType.Ball
-        ball.physicsBody?.collisionBitMask = ColliderType.Ball | ColliderType.NonBall | ColliderType.Scene
-        ball.physicsBody?.contactTestBitMask = ColliderType.Ball
-        ball.zPosition = 300
+        
+//        let lable = UILabel(frame: CGRect(x: ball.position.x, y: ball.position.y, width: ball.frame.width, height: ball.frame.height))
+//        lable.tag = 12345
+//        let lableView = SKView()
+//        lableView.addSubview(lable)
+//        ball.addChild(lableView)
+        
+        ball = Ball().create()
+        
         ball.position = CGPoint(x: ScreenSize.width / 2 + 0.1, y: ScreenSize.height * 0.78)
         ballsAdded.append(ball)
         ball.name = "ball\(ballsAdded.count)"
+        ball.strokeColor = UIColor.yellow
+        ball.lineWidth = ScreenSize.width * 0.008
         
         let ballGlow = SKShapeNode(circleOfRadius: ball.frame.size.width / 2.5)
-        ballGlow.strokeColor = UIColor(hexFromString: "edff25").withAlphaComponent(0.5)
+        ballGlow.strokeColor = Color.yellow.withAlphaComponent(0.6)
         ballGlow.lineWidth = 0.1
-        ballGlow.glowWidth = 10
+        ballGlow.glowWidth = 12
+//        ballGlow.zPosition = 290
+        ballGlow.name = "glow\(ballsAdded.count)"
+        
         
         ball.addChild(ballGlow)
-        
+        for child in ball.children {
+            print("Child found: \(String(describing: child.name))")
+            if let name = child.name {
+                if name.lowercased().contains("glow") {
+                    child.zPosition = -10
+                }
+            }
+        }
         ball.setScale(0)
         
         addChild(ball)
@@ -747,9 +732,9 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         starNode.size = CGSize(width: 30, height: 30)
         
+        let starTypes = ["pointsStar", "multiStar"]
         
-        
-        starNode.name = "star"
+        starNode.name = starTypes.randomElement()
         
         let heights = [ScreenSize.height/2 - 195,
                        ScreenSize.height/2 - 136,
@@ -791,14 +776,14 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-            self.starNode.physicsBody = nil
+            starNode.physicsBody = nil
             print("self.starNodeTexture = ", self.starNodeTexture)
-            print("self.starNode.size = ", self.starNode.size)
-            self.starNode.physicsBody = SKPhysicsBody(circleOfRadius: 25)
-            self.starNode.physicsBody?.isDynamic = false
-            self.starNode.physicsBody?.categoryBitMask = ColliderType.Invisible
-            self.starNode.physicsBody?.collisionBitMask = ColliderType.Invisible
-            self.starNode.physicsBody?.contactTestBitMask = ColliderType.Ball
+            print("self.starNode.size = ", starNode.size)
+            starNode.physicsBody = SKPhysicsBody(circleOfRadius: 25)
+            starNode.physicsBody?.isDynamic = false
+            starNode.physicsBody?.categoryBitMask = ColliderType.Invisible
+            starNode.physicsBody?.collisionBitMask = ColliderType.Invisible
+            starNode.physicsBody?.contactTestBitMask = ColliderType.Ball
         })
                 
         print("starNode (after addChild) = ", starNode)
@@ -840,8 +825,14 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     }
     
     let addPoints = SKAction.run {
-        pointsCount = pointsCount + 5
-        pointsLabelNode.text = "POINTS:\(pointsCount)"
+        
+//        if var points = ballsAdded.last.childNode(withName: "lable") as! SKLabelNode {
+//            
+//        }
+        
+        pointsCount = pointsCount + 1
+        pointsLabelNode.text = "POINTS: \(pointsCount)"
+        pointsLabelNode.run(scaleToActionSequence)
         
         if fxOn == true {
             
@@ -851,35 +842,52 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             pointsLabelNode.run(plingAudioGroup)
         }
         
-        if pointsCount > lastHighscore {
+        if pointsCount >= lastHighscore {
             
             lastHighscore = pointsCount
-            highscoreLabelNode.text = "HIGHSCORE:\(lastHighscore)"
-            highscoreLabelNode.run(scaleActionSequence)
+            
+            highscoreLabelNode.text = "HIGHSCORE: \(lastHighscore)"
+            highscoreLabelNode.run(scaleToActionSequence)
             
             if !highscoreLabelIsInFront {
                 
-                highscoreLabelNode.run(SKAction.moveBy(x: 0, y: ScreenSize.height * 0.03, duration: 0.5))
+                highscoreLabelNode.run(SKAction.moveBy(x: 0, y: ScreenSize.height * -0.05, duration: 0.5))
                 highscoreLabelIsInFront = true
+                highscoreLabelNode.fontSize = 26
+                highscoreLabelNode.fontName = "LCD14"
+                highscoreLabelNode.alpha = 1
+                
+                pointsLabelNode.alpha = 0
             }
             
-            highscoreLabelNode.fontSize = 26
-            highscoreLabelNode.fontName = "LCD14"
-            highscoreLabelNode.alpha = 1
             
-            pointsLabelNode.alpha = 0
             
         } else {
             
-            highscoreLabelNode.fontSize = 18
+            highscoreLabelNode.fontSize = 13
             highscoreLabelNode.fontName = "LCD14"
             pointsLabelNode.alpha = 1
         }
     }
     
     let addStarPoints = SKAction.run {
-        pointsCount = pointsCount + 5000
-        pointsLabelNode.text = "POINTS:\(pointsCount)"
+        
+        let starTypes = ["pointsStar", "multiStar"]
+        
+        let ownType = starTypes.randomElement()
+        
+        if starNode.name == starTypes.first {
+            
+            pointsCount = pointsCount + 1000
+            pointsLabelNode.text = "POINTS: \(pointsCount)"
+            
+        } else if starNode.name == starTypes.last {
+            
+            multiplyerCount = multiplyerCount + 3
+            multiplyerLabelNode.text = "MULTI: \(multiplyerCount)"
+        }
+        
+        
         
         if fxOn == true {
             
@@ -889,15 +897,15 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             pointsLabelNode.run(plingAudioGroup)
         }
         
-        if pointsCount > lastHighscore {
+        if pointsCount >= lastHighscore {
             
             lastHighscore = pointsCount
-            highscoreLabelNode.text = "HIGHSCORE:\(lastHighscore)"
-            highscoreLabelNode.run(scaleActionSequence)
+            highscoreLabelNode.text = "HIGHSCORE: \(lastHighscore)"
+            highscoreLabelNode.run(scaleToActionSequence)
             
             if !highscoreLabelIsInFront {
                 
-                highscoreLabelNode.run(SKAction.moveBy(x: 0, y: ScreenSize.height * 0.03, duration: 0.5))
+                highscoreLabelNode.run(SKAction.moveBy(x: 0, y: ScreenSize.height * -0.05, duration: 0.5))
                 highscoreLabelIsInFront = true
             }
             
@@ -909,7 +917,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             
         } else {
             
-            highscoreLabelNode.fontSize = 18
+            highscoreLabelNode.fontSize = 13
             highscoreLabelNode.fontName = "LCD14"
             pointsLabelNode.alpha = 1
         }
@@ -927,7 +935,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             arrowPath.addLine(to: CGPoint(x: CGFloat(5) + (CGFloat(row) * gap), y: ScreenSize.height * 0.77))
             
             let arrow = SKShapeNode(path: arrowPath)
-            arrow.strokeColor = UIColor(hexFromString: "d800ff")
+            arrow.strokeColor = UIColor.yellow
             arrow.lineWidth = 2
             arrow.alpha = 0.5
             
@@ -1010,6 +1018,10 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                                     backgroundMusicPlayer?.stop()
                                     if let musicButton = miniMenu.childNode(withName: "musicButton") as? SKSpriteNode {
                                         musicButton.texture = SKTexture(imageNamed: "music-button-off5")
+                                        if let musicButtonLabel = miniMenu.childNode(withName: "musicButtonLabel") as? SKLabelNode {
+                                            musicButtonLabel.text = "MUSIC: OFF"
+                                            musicButtonLabel.fontColor = UIColor.red
+                                        }
                                     }
                                     backgroundMusicPlayerStatus = false
                                     UserDefaults.standard.set(false, forKey: "backgroundMusicPlayerStatus")
@@ -1018,6 +1030,10 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                                     backgroundMusicPlayer?.play()
                                     if let musicButton = miniMenu.childNode(withName: "musicButton") as? SKSpriteNode {
                                         musicButton.texture = SKTexture(imageNamed: "music-button-on5")
+                                        if let musicButtonLabel = miniMenu.childNode(withName: "musicButtonLabel") as? SKLabelNode {
+                                            musicButtonLabel.text = "MUSIC: ON"
+                                            musicButtonLabel.fontColor = UIColor.green
+                                        }
                                     }
                                     backgroundMusicPlayerStatus = true
                                     UserDefaults.standard.set(true, forKey: "backgroundMusicPlayerStatus")
@@ -1028,12 +1044,20 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                                 if fxOn == true {
                                     if let fxButton = miniMenu.childNode(withName: "fxButton") as? SKSpriteNode {
                                         fxButton.texture = SKTexture(imageNamed: "fx-button-off")
+                                        if let fxButtonLabel = miniMenu.childNode(withName: "fxButtonLabel") as? SKLabelNode {
+                                            fxButtonLabel.text = "SOUND-FX: OFF"
+                                            fxButtonLabel.fontColor = UIColor.red
+                                        }
                                     }
                                     fxOn = false
                                     UserDefaults.standard.set(false, forKey: "fxOn")
                                 } else {
                                     if let fxButton = miniMenu.childNode(withName: "fxButton") as? SKSpriteNode {
                                         fxButton.texture = SKTexture(imageNamed: "fx-button-on")
+                                        if let fxButtonLabel = miniMenu.childNode(withName: "fxButtonLabel") as? SKLabelNode {
+                                            fxButtonLabel.text = "SOUND-FX: ON"
+                                            fxButtonLabel.fontColor = UIColor.green
+                                        }
                                     }
                                     fxOn = true
                                     UserDefaults.standard.set(true, forKey: "fxOn")
@@ -1044,6 +1068,10 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                                 if vibrationOn == true {
                                     if let vibrationButton = miniMenu.childNode(withName: "vibrationButton") as? SKSpriteNode {
                                         vibrationButton.texture = SKTexture(imageNamed: "vibration-button-off")
+                                        if let vibrationButtonLabel = miniMenu.childNode(withName: "vibrationButtonLabel") as? SKLabelNode {
+                                            vibrationButtonLabel.text = "VIBRATION: OFF"
+                                            vibrationButtonLabel.fontColor = UIColor.red
+                                        }
                                     }
                                     vibrationOn = false
                                     UserDefaults.standard.set(false, forKey: "vibrationOn")
@@ -1051,6 +1079,10 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                                 } else {
                                     if let fxButton = miniMenu.childNode(withName: "vibrationButton") as? SKSpriteNode {
                                         fxButton.texture = SKTexture(imageNamed: "vibration-button-on")
+                                        if let vibrationButtonLabel = miniMenu.childNode(withName: "vibrationButtonLabel") as? SKLabelNode {
+                                            vibrationButtonLabel.text = "VIBRATION: ON"
+                                            vibrationButtonLabel.fontColor = UIColor.green
+                                        }
                                     }
                                     vibrationOn = true
                                     UserDefaults.standard.set(true, forKey: "vibrationOn")
@@ -1100,7 +1132,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     
     func openMenu() {
         
-        let nodesToBlendOut = [pointsLabelNode, highscoreLabelNode, ballCounterNode]
+        let nodesToBlendOut = [pointsLabelNode, highscoreLabelNode, ballCounterLabelNode, multiplyerLabelNode]
         for node in nodesToBlendOut {
             node.isHidden = true
         }
@@ -1110,6 +1142,8 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             
             node.isHidden = false
         }
+        
+        settingsButtonNode.texture = SKTexture(imageNamed: "settings-button-close")
         
         menuOpen = true
     }
@@ -1121,12 +1155,14 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             node.isHidden = true
         }
         
-        let nodesToBlendIn = [pointsLabelNode, highscoreLabelNode, ballCounterNode]
+        let nodesToBlendIn = [pointsLabelNode, highscoreLabelNode, ballCounterLabelNode, multiplyerLabelNode]
         for node in nodesToBlendIn {
             
             node.isHidden = false
             
         }
+        
+        settingsButtonNode.texture = SKTexture(imageNamed: "settings-button5")
         
         menuOpen = false
     }
@@ -1143,9 +1179,15 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             
             if controlBallBool && ballCount > 0 {
                 controlBallBool = false
-                ball.physicsBody?.isDynamic = true
+                ballsAdded.last!.physicsBody!.isDynamic = true
+//                for child in ballsAdded.last!.children {
+//                    child.physicsBody!.isDynamic = true
+//                }
                 ballCount = ballCount - 1
-                ballCounterLabelNode.text = "X\(ballCount)"
+                ballCounterLabelNode.text = "BALLS: X\(ballCount)"
+                if ballCount == 0 {
+                    ballCounterLabelNode.fontColor = .red
+                }
                 if ballCount >= 1 {
                     self.controlBallBool = false
                     self.prepareBall()
@@ -1192,7 +1234,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         let highscoreLabelNode = SKLabelNode(text: "NEW HIGHSCORE")
         highscoreLabelNode.fontSize = 30
         highscoreLabelNode.fontName = "LCD14"
-        highscoreLabelNode.fontColor = UIColor(hexFromString: "edff25")
+        highscoreLabelNode.fontColor = Color.yellow
         highscoreLabelNode.position = CGPoint(x: ScreenSize.width * 0.5, y: ScreenSize.height * 0.45)
         highscoreLabelNode.alpha = 0
         highscoreLabelNode.zPosition = 10100
@@ -1200,12 +1242,12 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         let highscorePointsLabelNode = SKLabelNode(text: "\(lastHighscore)")
         highscorePointsLabelNode.fontSize = 60
         highscorePointsLabelNode.fontName = "LCD14"
-        highscorePointsLabelNode.fontColor = UIColor(hexFromString: "edff25")
+        highscorePointsLabelNode.fontColor = Color.yellow
         highscorePointsLabelNode.position = CGPoint(x: ScreenSize.width * 0.5, y: ScreenSize.height * 0.35)
         highscorePointsLabelNode.alpha = 0
         highscorePointsLabelNode.zPosition = 10100
         
-        let pointsLabelNode = SKLabelNode(text: "POINTS:")
+        let pointsLabelNode = SKLabelNode(text: "POINTS: ")
         pointsLabelNode.horizontalAlignmentMode = .center
         pointsLabelNode.fontSize = 40
         pointsLabelNode.fontName = "LCD14"
@@ -1222,6 +1264,15 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         pointsPointsLabelNode.position = CGPoint(x: ScreenSize.width * 0.5, y: ScreenSize.height * 0.365)
         pointsPointsLabelNode.alpha = 0
         pointsPointsLabelNode.zPosition = 10100
+        
+        let multiplyerLabelNode = SKLabelNode(text: "X\(multiplyerCount)")
+        multiplyerLabelNode.horizontalAlignmentMode = .center
+        multiplyerLabelNode.fontSize = 30
+        multiplyerLabelNode.fontName = "LCD14"
+        multiplyerLabelNode.fontColor = Color.yellow
+        multiplyerLabelNode.position = CGPoint(x: ScreenSize.width * 0.5, y: ScreenSize.height * 0.29)
+        multiplyerLabelNode.alpha = 0
+        multiplyerLabelNode.zPosition = 10100
         
         let restartLabelNode = SKLabelNode(text: "TAP ANYWHERE TO RESTART")
         restartLabelNode.preferredMaxLayoutWidth = ScreenSize.width * 0.9
@@ -1240,6 +1291,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         self.addChild(restartLabelNode)
         self.addChild(highscoreLabelNode)
         self.addChild(highscorePointsLabelNode)
+        self.addChild(multiplyerLabelNode)
         
         backgroundLayer.run(SKAction.fadeAlpha(to: 0.9, duration: 0.35))
         
@@ -1247,30 +1299,129 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             gameLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
             overLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
         })
+
+        let scaleUpAction = SKAction.scale(to: 0.9, duration: 0.4)
+        let scaleDownAction = SKAction.scale(to: 1.05, duration: 0.4)
+        let scaleSequenze = SKAction.sequence([scaleUpAction, scaleDownAction])
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
             if highscoreLabelIsInFront {
                 highscoreLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
                 highscorePointsLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
-                let scaleUpAction = SKAction.scale(to: 0.9, duration: 0.4)
-                let scaleDownAction = SKAction.scale(to: 1.05, duration: 0.4)
-                let scaleSequenze = SKAction.sequence([scaleUpAction, scaleDownAction])
                 highscorePointsLabelNode.run(SKAction.repeatForever(scaleSequenze))
+                multiplyerLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
+                multiplyerLabelNode.run(SKAction.repeatForever(scaleSequenze))
                 
             } else {
                 pointsLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
                 pointsPointsLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
+                multiplyerLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
+                multiplyerLabelNode.run(SKAction.repeatForever(scaleSequenze))
             }
         })
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.75, execute: {
             
-            restartLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
+                
+            let duration: Double = 2.0 //seconds
+            let endValue = pointsCount * multiplyerCount
+            
+//            self.saveStats()
+            
+            if highscoreLabelIsInFront == true {
+                
+                DispatchQueue.global().async {
+                    
+                    for i in pointsCount ... endValue {
+                        
+                        pointsCount = i
+                        
+                        let sleepTime = UInt32(duration/Double(endValue) * 1000000.0)
+                        usleep(sleepTime)
+                        DispatchQueue.main.async {
+                            highscorePointsLabelNode.text = "\(i)"
+                            
+                        }
+                        if i == endValue {
+                            
+                            self.saveStats()
+                        }
+                    }
+                    
+                    pointsPointsLabelNode.run(SKAction.repeatForever(scaleSequenze))
+                    multiplyerLabelNode.run(SKAction.fadeAlpha(to: 0, duration: 0.2))
+                    
+                }
+                
+            } else {
+                
+                DispatchQueue.global().async {
+                    
+                    for i in pointsCount ... endValue {
+                        
+                        pointsCount = i
+                        
+                        var sleepTime = Double(0)
+                        
+                        if endValue != 0 {
+                            sleepTime = Double(duration/Double(endValue) * 1000000.0)
+                            usleep(UInt32(sleepTime))
+                        } else if sleepTime.isNaN || sleepTime.isInfinite || sleepTime.isSignalingNaN {
+                            usleep(0)
+                        }
+                        
+                        
+                        DispatchQueue.main.async {
+                            
+                            if (i >= lastHighscore) {
+                                
+                                if !highscoreLabelIsInFront {
+                                    highscoreLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
+                                    highscorePointsLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
+                                    highscorePointsLabelNode.run(SKAction.repeatForever(scaleSequenze))
+                                    pointsLabelNode.run(SKAction.fadeAlpha(to: 0, duration: 0.2))
+                                    pointsPointsLabelNode.run(SKAction.fadeAlpha(to: 0, duration: 0.2))
+                                    multiplyerLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
+                                    multiplyerLabelNode.run(SKAction.repeatForever(scaleSequenze))
+                                    highscoreLabelIsInFront = true
+                                }
+                                
+                                highscorePointsLabelNode.text = "\(i)"
+                                
+                            }
+                            
+                            if i == endValue {
+                                
+                                self.saveStats()
+                            }
+                            
+                        }
+                        
+                        pointsPointsLabelNode.text = "\(i)"
+                        
+                    }
+                    
+                    multiplyerLabelNode.run(SKAction.fadeAlpha(to: 0, duration: 0.2))
+                    
+                }
+                
+                
+            }
+            
             
         })
         
-//        saveStatsForPlayer()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.5, execute: {
+            
+            restartLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
+//            self.saveStats()
+        })
+        
+        
     }
+    
+    
+    
     
     func didBegin(_ contact: SKPhysicsContact) {
         //        print("KONTAKT")
@@ -1281,73 +1432,88 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                 //                print("KONTAKT2")
                 if (contact.bodyA.node?.name?.contains("ball"))! || (contact.bodyB.node?.name?.contains("ball"))! {
                     //                    print("KONTAKT3")
-                    if contact.collisionImpulse >= 2.5 {
+                    
+                    if contact.collisionImpulse >= 1.5 {
                         if vibrationOn {
                             generator.impactOccurred()
                         }
                         
-                    } else {
-                        for box in 0...boxes.count - 1 {
-                            if boxes[box].contains(contact.bodyB.node!.position) {
+                    }
+                    
+                    for box in 0...boxes.count - 1 {
+                        if boxes[box].contains(contact.bodyB.node!.position) {
+                            if boxesCollected.contains(false) {
+                                let multiplier = multiplyers[box - 1]
+                                
                                 if boxesCollected[box] == false {
-                                    let multiplier = multipliers[box - 1]
-                                    pointsCount = pointsCount * multiplier
-                                    pointsLabelNode.text = "POINTS:\(pointsCount)"
+                                    multiplyerCount = multiplyerCount + multiplier
+                                    multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
                                     
-                                    if pointsCount > lastHighscore {
-                                        lastHighscore = pointsCount
-                                        highscoreLabelNode.text = "HIGHSCORE:\(lastHighscore)"
-                                        
-                                        if !highscoreLabelIsInFront {
-                                            highscoreLabelNode.run(SKAction.moveBy(x: 0, y: ScreenSize.height * 0.03, duration: 0.5))
-                                            highscoreLabelNode.fontSize = 26
-                                            highscoreLabelNode.fontName = "LCD14"
-                                            highscoreLabelNode.alpha = 1
-                                            highscoreLabelIsInFront = true
-                                            pointsLabelNode.alpha = 0
-                                            
-                                        }
-                                        
-                                    } else {
-                                        highscoreLabelNode.fontSize = 18
-                                        highscoreLabelNode.fontName = "LCD14"
-                                        pointsLabelNode.alpha = 1
+                                    multiplyerLabelNode.run(scaleByActionSequence)
+                                    
+                                    if boxes[box].children.count >= 1 {
+                                        boxes[box].children.last?.run(fadeDownDoubleSpeedAction)
                                     }
-                                    
-                                    
-                                    boxesCollected[box] = true
-                                    let resizeAction = SKAction.resize(toWidth: 0.01, height: 0.01, duration: 0.25)
-                                    let alphaAction = SKAction.fadeAlpha(to: 0, duration: 0.25)
-                                    let removeSequence = SKAction.sequence([resizeAction, alphaAction])
-                                    boxes[box].run(SKAction.fadeAlpha(to: 0.6, duration: 0.25))
-                                    boxes[box].children.first!.run(removeSequence)
                                 }
                                 
-                                if ballCount == 0 {
-                                    for ball in 0...ballsAdded.count - 1 {
-                                        if ballsAdded[ball].position.y <= ScreenSize.height * 0.09 {
-                                            ballsDown[ball] = true
-                                            if !ballsDown.contains(false) {
+                                
+                                if pointsCount >= lastHighscore {
+                                    
+                                    lastHighscore = pointsCount
+                                    highscoreLabelNode.text = "HIGHSCORE: \(lastHighscore)"
+                                    
+                                    if !highscoreLabelIsInFront {
+                                        highscoreLabelNode.run(SKAction.moveBy(x: 0, y: ScreenSize.height * -0.05, duration: 0.5))
+                                        highscoreLabelNode.fontSize = 26
+                                        highscoreLabelNode.fontName = "LCD14"
+                                        highscoreLabelNode.alpha = 1
+                                        highscoreLabelIsInFront = true
+                                        pointsLabelNode.alpha = 0
+                                        
+                                    }
+                                    
+                                } else {
+                                    highscoreLabelNode.fontSize = 13
+                                    highscoreLabelNode.fontName = "LCD14"
+                                    pointsLabelNode.alpha = 1
+
+//                                        pointsLabelNode.text = "POINTS: \(pointsCount)"
+                                }
+                                
+                                
+                                boxesCollected[box] = true
+//                                    let resizeAction = SKAction.resize(toWidth: 0.01, height: 0.01, duration: 0.25)
+//                                    let alphaAction = SKAction.fadeAlpha(to: 0, duration: 0.25)
+//                                    let removeSequence = SKAction.sequence([resizeAction, alphaAction])
+//                                    boxes[box].run(SKAction.fadeAlpha(to: 0.6, duration: 0.25))
+//                                    boxes[box].children.first!.run(removeSequence)
+                                
+                                
+                                
+                            }
+                            
+                            if ballCount == 0 {
+                                for ball in 0...ballsAdded.count - 1 {
+                                    if ballsAdded[ball].position.y <= ScreenSize.height * 0.09 {
+                                        
+                                        ballsDown[ball] = true
+                                        if !ballsDown.contains(false) {
+                                            
+                                            if gameOver == false {
                                                 
-                                                if gameOver == false {
-                                                    
-                                                    if menuOpen == true {
-                                                        closeMenu()
-                                                        self.settingsButtonNode.isUserInteractionEnabled = true
-                                                    }
-                                                    
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                                                        
-                                                        self.showEndScreen()
-                                                        
-                                                    })
-                                                    
-                                                    if highscoreLabelIsInFront == true {
-                                                        
-                                                        self.saveHighScore()
-                                                    }
-                                                    gameOver = true
+                                                if menuOpen == true {
+                                                    closeMenu()
+                                                    self.settingsButtonNode.isUserInteractionEnabled = true
                                                 }
+                                                
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                                                    
+                                                    self.showEndScreen()
+                                                })
+
+//                                                self.saveStats()
+                                                gameOver = true
+                                                
                                             }
                                         }
                                     }
@@ -1359,9 +1525,9 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                 
                 if (contact.bodyA.node?.name?.contains("obstacle"))! || (contact.bodyB.node?.name?.contains("obstacle"))! {
                     contact.bodyA.node?.children.first!.run(scalePlusPointsActionSequence)
-                    pointsLabelNode.run(scaleActionSequence)
+                    pointsLabelNode.run(scaleToActionSequence)
                     
-                    let miniPointsLabelNode = SKLabelNode(text: "+5")
+                    let miniPointsLabelNode = SKLabelNode(text: "+1")
                     miniPointsLabelNode.fontSize = 13
                     miniPointsLabelNode.alpha = 1
                     miniPointsLabelNode.fontName = "LCD14"
@@ -1383,16 +1549,23 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                     })
                 }
                 
-                if (contact.bodyA.node?.name?.contains("star"))! || (contact.bodyB.node?.name?.contains("star"))! {
+                if (contact.bodyA.node?.name?.contains("Star"))! || (contact.bodyB.node?.name?.contains("Star"))! {
                     contact.bodyA.node?.run(scalePlusPointsActionSequence)
-                    pointsLabelNode.run(scaleActionSequence)
+                    pointsLabelNode.run(scaleToActionSequence)
                     
-                    let miniPointsLabelNode = SKLabelNode(text: "+5000")
+                    let miniPointsLabelNode = SKLabelNode(text: "")
+                    if (starNode.name?.contains("points"))! {
+                        miniPointsLabelNode.text = "+1000 POINTS"
+                    } else if (starNode.name?.contains("multi"))! {
+                        miniPointsLabelNode.text = "X3 MULTI"
+                    }
+                    
+                    
                     miniPointsLabelNode.fontSize = 30
                     miniPointsLabelNode.alpha = 1
                     miniPointsLabelNode.fontName = "LCD14"
                     miniPointsLabelNode.horizontalAlignmentMode = .center
-                    miniPointsLabelNode.fontColor = UIColor(hexFromString: "edff25")
+                    miniPointsLabelNode.fontColor = Color.yellow
                     
                     let scaleAction = SKAction.scale(to: 1.2, duration: 0.5)
                     let moveAction = SKAction.moveBy(x: 0, y: 100, duration: 0.5)
@@ -1420,45 +1593,25 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-//    func saveStatsForPlayer() {
-//
-//        if let loadedPlayerData = UserDefaults.standard.object(forKey: "player") as? Data {
-//            if let player = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(loadedPlayerData) as? Player {
-//
-//                print("player.totalPointsCollected = \(player.totalPointsCollected)")
-//                print("player.totalBallsDropped = \(player.totalBallsDropped)")
-//                player.totalPointsCollected = player.totalPointsCollected + pointsCount
-//                player.totalBallsDropped = player.totalBallsDropped + 5
-//                print("player.totalPointsCollected = \(player.totalPointsCollected)")
-//                print("player.totalBallsDropped = \(player.totalBallsDropped)")
-//                print("highscoreList.count = \(player.highscore)")
-//
-//                if let playerDataToSave = try? NSKeyedArchiver.archivedData(withRootObject: player, requiringSecureCoding: false) {
-//                    UserDefaults.standard.set(playerDataToSave, forKey: "player")
-//                    print("STATS SAVED!")
-//                }
-//            }
-//        }
-//
-//    }
+    func saveStats() {
+        
+        UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "totalPointsCollected") + pointsCount, forKey: "totalPointsCollected")
+        UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "totalBallsDropped") + 5, forKey: "totalBallsDropped")
+        if pointsCount > lastHighscore {
+            lastHighscore = pointsCount
+        }
+        UserDefaults.standard.set(lastHighscore, forKey: "highscore")
+        print("-STATS SAVED!")
+        print("---totalPointsCollected = \(UserDefaults.standard.integer(forKey: "totalPointsCollected"))")
+        print("---totalBallsDropped = \(UserDefaults.standard.integer(forKey: "totalBallsDropped"))")
+        print("---highscore = \(UserDefaults.standard.integer(forKey: "highscore"))")
+    }
     
     func saveHighScore() {
         
         let newHighscore = lastHighscore
         
         UserDefaults.standard.set(newHighscore, forKey: "highscore")
-        
-//        if let loadedPlayerData = UserDefaults.standard.object(forKey: "player") as? Data {
-//            if let player = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(loadedPlayerData) as? Player {
-//
-//                player.highscore = newHighscore
-//                print("highscore = \(player.highscore)")
-//
-//                if let playerDataToSave = try? NSKeyedArchiver.archivedData(withRootObject: player, requiringSecureCoding: false) {
-//                    UserDefaults.standard.set(playerDataToSave, forKey: "player")
-//                }
-//            }
-//        }
         
     }
     

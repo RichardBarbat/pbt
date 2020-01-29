@@ -11,7 +11,7 @@ import UIKit
 
 class OverviewScene: SKScene, UITextFieldDelegate {
     
-    let backButtonNode = SKSpriteNode(imageNamed: "back-button3")
+    let backButtonNode = SKSpriteNode(imageNamed: "back-button4")
 
     override func didMove(to view: SKView) {
         
@@ -67,18 +67,48 @@ class OverviewScene: SKScene, UITextFieldDelegate {
         }
         backButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         backButtonNode.position = CGPoint(x: ScreenSize.width * 0.1, y: ScreenSize.height * 0.95)
-        backButtonNode.alpha = 1
+        backButtonNode.alpha = 0.7
         addChild(backButtonNode)
     }
     
     func addTitleNode() {
         
         let titleNode = SKLabelNode(text: "PLAYER-OVERVIEW")
-        titleNode.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.9)
+        titleNode.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.85)
         titleNode.alpha = 1
         titleNode.fontName = "LCD14"
         titleNode.fontColor = .green
-        titleNode.fontSize = 30
+        titleNode.fontSize = 28
         addChild(titleNode)
+        
+        let highscoreLableNode = SKLabelNode(text: "- HIGHSCORE:\n"+"  \(UserDefaults.standard.integer(forKey: "highscore"))")
+        highscoreLableNode.position = CGPoint(x: 30, y: ScreenSize.height * 0.7)
+        highscoreLableNode.alpha = 1
+        highscoreLableNode.fontName = "LCD14"
+        highscoreLableNode.fontColor = .green
+        highscoreLableNode.fontSize = 18
+        highscoreLableNode.numberOfLines = 2
+        highscoreLableNode.horizontalAlignmentMode = .left
+        addChild(highscoreLableNode)
+        
+        let totalPointsLableNode = SKLabelNode(text: "- TOTAL POINTS COLLECTED:\n"+"  \(UserDefaults.standard.integer(forKey: "totalPointsCollected"))")
+        totalPointsLableNode.position = CGPoint(x: 30, y: ScreenSize.height * 0.6)
+        totalPointsLableNode.alpha = 1
+        totalPointsLableNode.fontName = "LCD14"
+        totalPointsLableNode.fontColor = .green
+        totalPointsLableNode.fontSize = 18
+        totalPointsLableNode.numberOfLines = 2
+        totalPointsLableNode.horizontalAlignmentMode = .left
+        addChild(totalPointsLableNode)
+        
+        let totalBallsLableNode = SKLabelNode(text: "- TOTAL BALLS DROPPED:\n"+"  \(UserDefaults.standard.integer(forKey: "totalBallsDropped"))")
+        totalBallsLableNode.position = CGPoint(x: 30, y: ScreenSize.height * 0.5)
+        totalBallsLableNode.alpha = 1
+        totalBallsLableNode.fontName = "LCD14"
+        totalBallsLableNode.fontColor = .green
+        totalBallsLableNode.fontSize = 18
+        totalBallsLableNode.numberOfLines = 2
+        totalBallsLableNode.horizontalAlignmentMode = .left
+        addChild(totalBallsLableNode)
     }
 }

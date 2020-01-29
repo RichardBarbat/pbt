@@ -22,6 +22,10 @@ struct ScreenSize {
     static let maxHeight = max(ScreenSize.width, ScreenSize.height)
 }
 
+struct Color {
+    static let yellow = UIColor(hexFromString: "edff25")
+}
+
 struct DeviceType {
     static let isiPhone4OrLess = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.maxHeight < 568.0
     static let isiPhone5 = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.maxHeight == 568.0
@@ -53,6 +57,7 @@ extension UIColor {
             alpha: alpha
         )
     }
+    
 }
 
 extension SKNode {

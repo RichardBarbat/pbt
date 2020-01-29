@@ -60,6 +60,7 @@ class GameViewController: UIViewController {
             UserDefaults.standard.set(true, forKey: "fxOn")
             UserDefaults.standard.set(true, forKey: "vibrationOn")
             UserDefaults.standard.set(true, forKey: "backgroundMusicPlayerStatus")
+            UserDefaults.standard.set(false, forKey: "tutorialShown")
             
             if UserDefaults.standard.stringArray(forKey: "PLAYER") == nil {
                 UserDefaults.standard.set(["PLAYER 1"], forKey: "PLAYER")

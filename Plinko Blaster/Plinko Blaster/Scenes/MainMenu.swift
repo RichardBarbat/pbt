@@ -320,7 +320,7 @@ class MainMenu: SKScene {
     func addWelcomeLabel() {
         
         let welcome = SKLabelNode(text: "WELCOME \(playerName)")
-        welcome.fontColor = .green
+        welcome.fontColor = UIColor(hexFromString: "0099ff")
         welcome.fontName = "LCD14"
         welcome.fontSize = 20
         welcome.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.65)
@@ -340,7 +340,7 @@ class MainMenu: SKScene {
             item.fontName = "LCD14"
             item.name = "\(self.menuItems[i])-Button"
             item.fontSize = 45
-            item.fontColor = UIColor(hexFromString: "0099ff")
+            item.fontColor = .green
             
             if item.text == "START" || item.text == "OVERVIEW" || item.text == "OPTIONS" {
                 item.addGlow(radius: 15)

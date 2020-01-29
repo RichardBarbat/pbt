@@ -10,7 +10,7 @@ import SpriteKit
 
 class Settings: SKScene {
     
-    let backButtonNode = SKSpriteNode(imageNamed: "back-button3")
+    let backButtonNode = SKSpriteNode(imageNamed: "back-button4")
     
     let resetButton = SKShapeNode(circleOfRadius: ScreenSize.width * 0.03)
     
@@ -33,7 +33,7 @@ class Settings: SKScene {
         }
         backButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         backButtonNode.position = CGPoint(x: ScreenSize.width * 0.1, y: ScreenSize.height * 0.95)
-        backButtonNode.alpha = 1
+        backButtonNode.alpha = 0.7
         addChild(backButtonNode)
     }
     
@@ -70,8 +70,8 @@ class Settings: SKScene {
                     print("- HIGHSCORE AUF 0 -")
                     let generator = UIImpactFeedbackGenerator(style: .heavy)
                     generator.impactOccurred()
-                    UserDefaults.standard.set(0, forKey: "HIGHSCORE")
                     lastHighscore = 0
+                    UserDefaults.standard.set(lastHighscore, forKey: "highscore")
                 }
             }
         }
