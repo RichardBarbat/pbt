@@ -65,13 +65,13 @@ class MainMenu: SKScene {
             star.glowWidth = CGFloat.random(in: 0.02...0.8)
             star.alpha = CGFloat.random(in: 0.1...0.4)
             
-            star.position = CGPoint(x: CGFloat.random(in: 0...ScreenSize.width), y: CGFloat.random(in: ScreenSize.height * 0.38...ScreenSize.height))
+            star.position = CGPoint(x: CGFloat.random(in: 0...Screen.width), y: CGFloat.random(in: Screen.height * 0.38...Screen.height))
             fieldNode.addChild(star)
         }
         
         let fieldNodeSpriteNode = SKSpriteNode(texture: SKView().texture(from: fieldNode))
         fieldNodeSpriteNode.anchorPoint = .init(x: 0, y: 1)
-        fieldNodeSpriteNode.position = CGPoint(x: 0, y: ScreenSize.height)
+        fieldNodeSpriteNode.position = CGPoint(x: 0, y: Screen.height)
         fieldNodeSpriteNode.zPosition = -1000
         addChild(fieldNodeSpriteNode)
     }
@@ -80,9 +80,9 @@ class MainMenu: SKScene {
         
         let laserFrameNode = SKSpriteNode(imageNamed: "gitter")
         let laserFrameAspectRatio = laserFrameNode.size.width/laserFrameNode.size.height
-        laserFrameNode.size = CGSize(width: ScreenSize.width * 2.5 / laserFrameAspectRatio, height: ScreenSize.height * 0.38)
+        laserFrameNode.size = CGSize(width: Screen.width * 2.5 / laserFrameAspectRatio, height: Screen.height * 0.38)
         laserFrameNode.anchorPoint = CGPoint(x: 0.5, y: 0)
-        laserFrameNode.position = CGPoint(x: ScreenSize.width * 0.5, y: 0)
+        laserFrameNode.position = CGPoint(x: Screen.width * 0.5, y: 0)
         laserFrameNode.zPosition = -900
         laserFrameNode.alpha = 1
         laserFrameNode.color = .blue
@@ -94,8 +94,8 @@ class MainMenu: SKScene {
     func addBgGlowLine() {
         
         let bgGlowLinePath = CGMutablePath()
-        bgGlowLinePath.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.38))
-        bgGlowLinePath.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.38))
+        bgGlowLinePath.move(to: CGPoint(x: -50, y: Screen.height * 0.38))
+        bgGlowLinePath.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.38))
         let bgGlowLineNode = SKShapeNode()
         bgGlowLineNode.path = bgGlowLinePath
         bgGlowLineNode.strokeColor = UIColor(hexFromString: "3f00a0")
@@ -104,14 +104,14 @@ class MainMenu: SKScene {
         bgGlowLineNode.alpha = 0.6
         
         let bgGlowLineTextureSpriteNode = SKSpriteNode(texture: SKView().texture(from: bgGlowLineNode))
-        bgGlowLineTextureSpriteNode.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.38)
+        bgGlowLineTextureSpriteNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.38)
         bgGlowLineTextureSpriteNode.zPosition = -800
         
         
         
         let bgGlowLinePath2 = CGMutablePath()
-        bgGlowLinePath2.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.38))
-        bgGlowLinePath2.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.38))
+        bgGlowLinePath2.move(to: CGPoint(x: -50, y: Screen.height * 0.38))
+        bgGlowLinePath2.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.38))
         let bgGlowLineNode2 = SKShapeNode()
         bgGlowLineNode2.path = bgGlowLinePath2
         bgGlowLineNode2.strokeColor = UIColor(hexFromString: "3f00a0")
@@ -122,7 +122,7 @@ class MainMenu: SKScene {
         bgGlowLineNode2.addChild(bgGlowLineTextureSpriteNode)
         
         let bgGlowLineTextureSpriteNode2 = SKSpriteNode(texture: SKView().texture(from: bgGlowLineNode2))
-        bgGlowLineTextureSpriteNode2.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.38)
+        bgGlowLineTextureSpriteNode2.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.38)
         bgGlowLineTextureSpriteNode2.zPosition = -800
         
         addChild(bgGlowLineTextureSpriteNode2)
@@ -130,28 +130,28 @@ class MainMenu: SKScene {
     
     func addBgLaserLines() {
         let linePath1 = CGMutablePath()
-        linePath1.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.72))
-        linePath1.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.95))
+        linePath1.move(to: CGPoint(x: -50, y: Screen.height * 0.72))
+        linePath1.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.95))
         
         let linePath2 = CGMutablePath()
-        linePath2.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.89))
-        linePath2.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.655))
+        linePath2.move(to: CGPoint(x: -50, y: Screen.height * 0.89))
+        linePath2.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.655))
         
         let linePath3 = CGMutablePath()
-        linePath3.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.63))
-        linePath3.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.47))
+        linePath3.move(to: CGPoint(x: -50, y: Screen.height * 0.63))
+        linePath3.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.47))
         
         let linePath4 = CGMutablePath()
-        linePath4.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.55))
-        linePath4.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * -0.07))
+        linePath4.move(to: CGPoint(x: -50, y: Screen.height * 0.55))
+        linePath4.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * -0.07))
         
         let linePath5 = CGMutablePath()
-        linePath5.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.33))
-        linePath5.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.55))
+        linePath5.move(to: CGPoint(x: -50, y: Screen.height * 0.33))
+        linePath5.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.55))
         
         let linePath6 = CGMutablePath()
-        linePath6.move(to: CGPoint(x: -50, y: ScreenSize.height * -0.15))
-        linePath6.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.38))
+        linePath6.move(to: CGPoint(x: -50, y: Screen.height * -0.15))
+        linePath6.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.38))
         
         let lineNode1 = SKShapeNode()
         lineNode1.path = linePath1
@@ -258,42 +258,42 @@ class MainMenu: SKScene {
         let line1SpriteNode = SKSpriteNode(texture: SKView().texture(from: lineNode1))
         line1SpriteNode.zPosition = -701
         line1SpriteNode.anchorPoint = .init(x: 0, y: 0)
-        line1SpriteNode.position = CGPoint(x: -50, y: ScreenSize.height * 0.72)
+        line1SpriteNode.position = CGPoint(x: -50, y: Screen.height * 0.72)
         addChild(line1SpriteNode)
         line1SpriteNode.run(endlessAction1)
         
         let line2SpriteNode = SKSpriteNode(texture: SKView().texture(from: lineNode2))
         line2SpriteNode.zPosition = -702
         line2SpriteNode.anchorPoint = .init(x: 0, y: 0)
-        line2SpriteNode.position = CGPoint(x: -50, y: ScreenSize.height * 0.655)
+        line2SpriteNode.position = CGPoint(x: -50, y: Screen.height * 0.655)
         addChild(line2SpriteNode)
         line2SpriteNode.run(endlessAction2)
         
         let line3SpriteNode = SKSpriteNode(texture: SKView().texture(from: lineNode3))
         line3SpriteNode.zPosition = -703
         line3SpriteNode.anchorPoint = .init(x: 0, y: 0)
-        line3SpriteNode.position = CGPoint(x: -50, y: ScreenSize.height * 0.47)
+        line3SpriteNode.position = CGPoint(x: -50, y: Screen.height * 0.47)
         addChild(line3SpriteNode)
         line3SpriteNode.run(endlessAction3)
         
         let line4SpriteNode = SKSpriteNode(texture: SKView().texture(from: lineNode4))
         line4SpriteNode.zPosition = -704
         line4SpriteNode.anchorPoint = .init(x: 0, y: 0)
-        line4SpriteNode.position = CGPoint(x: -50, y: ScreenSize.height * -0.07)
+        line4SpriteNode.position = CGPoint(x: -50, y: Screen.height * -0.07)
         addChild(line4SpriteNode)
         line4SpriteNode.run(endlessAction4)
         
         let line5SpriteNode = SKSpriteNode(texture: SKView().texture(from: lineNode5))
         line5SpriteNode.zPosition = -705
         line5SpriteNode.anchorPoint = .init(x: 0, y: 0)
-        line5SpriteNode.position = CGPoint(x: -50, y: ScreenSize.height * 0.33)
+        line5SpriteNode.position = CGPoint(x: -50, y: Screen.height * 0.33)
         addChild(line5SpriteNode)
         line5SpriteNode.run(endlessAction5)
         
         let line6SpriteNode = SKSpriteNode(texture: SKView().texture(from: lineNode6))
         line6SpriteNode.zPosition = -706
         line6SpriteNode.anchorPoint = .init(x: 0, y: 0)
-        line6SpriteNode.position = CGPoint(x: -50, y: ScreenSize.height * -0.15)
+        line6SpriteNode.position = CGPoint(x: -50, y: Screen.height * -0.15)
         addChild(line6SpriteNode)
         line6SpriteNode.run(endlessAction6)
         
@@ -303,14 +303,14 @@ class MainMenu: SKScene {
         let logoNode = SKSpriteNode(imageNamed: "plinko-blaster-logo3")
         let logoAspectRatio = logoNode.size.width/logoNode.size.height
         if DeviceType.isiPad || DeviceType.isiPadPro {
-            logoNode.size = CGSize(width: ScreenSize.width * 0.6, height: ScreenSize.width * 0.6 / logoAspectRatio)
+            logoNode.size = CGSize(width: Screen.width * 0.6, height: Screen.width * 0.6 / logoAspectRatio)
         } else {
             //            print("is not iPad")
-            logoNode.size = CGSize(width: ScreenSize.width * 1.0, height: ScreenSize.width * 1.0 / logoAspectRatio)
+            logoNode.size = CGSize(width: Screen.width * 1.0, height: Screen.width * 1.0 / logoAspectRatio)
         }
         
         logoNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        logoNode.position = CGPoint(x: ScreenSize.width * 0.5, y: ScreenSize.height * 0.83)
+        logoNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.83)
         logoNode.name = "logo"
         //        logoNode.run(endlessAction3) für Logo eine eigene Action erstellen
         
@@ -320,10 +320,10 @@ class MainMenu: SKScene {
     func addWelcomeLabel() {
         
         let welcome = SKLabelNode(text: "WELCOME \(playerName)")
-        welcome.fontColor = UIColor(hexFromString: "0099ff")
+        welcome.fontColor = UIColor.yellow
         welcome.fontName = "LCD14"
-        welcome.fontSize = 20
-        welcome.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.65)
+        welcome.fontSize = 28
+        welcome.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.65)
         welcome.alpha = 1
         welcome.removeAllChildren()
         welcome.addGlow(radius: 7)
@@ -339,50 +339,54 @@ class MainMenu: SKScene {
             let item = SKLabelNode(text: "\(self.menuItems[i])")
             item.fontName = "LCD14"
             item.name = "\(self.menuItems[i])-Button"
-            item.fontSize = 45
             item.fontColor = .green
             
-            if item.text == "START" || item.text == "OVERVIEW" || item.text == "OPTIONS" {
-                item.addGlow(radius: 15)
-            }
-            
-            item.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.55 - (CGFloat(i) * (item.frame.size.height + 25)))
-            
-            item.alpha = 0
-            
-            if item.text == "MUSIC: ON " {
+            if item.text == "START" {
+                item.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.45 - (CGFloat(i) * (item.frame.size.height + 50)))
+                item.fontSize = 60
+                item.addGlow(radius: 10)
+                item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
+            } else if item.text == "OVERVIEW" {
+                item.position = CGPoint(x: Screen.width / 2, y: 100)
+                item.fontSize = 25
+                item.addGlow(radius: 7)
+                item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
+                
+            } else if item.text == "OPTIONS" {
+                item.position = CGPoint(x: Screen.width / 2, y: 150)
+                item.fontSize = 25
+                item.addGlow(radius: 7)
+                item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
+                
+            } else if item.text == "MUSIC: ON " {
                 if backgroundMusicPlayerStatus == false {
                     item.text = "MUSIC: OFF "
                     item.fontSize = 25
                     item.fontColor = UIColor.red
-                    item.position = CGPoint(x: ScreenSize.width / 2, y: 50)
+                    item.position = CGPoint(x: Screen.width / 2, y: 50)
                     item.alpha = 1
                     item.removeAllChildren()
                     item.addGlow(radius: 7)
                     item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
                     self.addChild(item)
                     return
+                    
                 } else {
                     item.text = "MUSIC: ON "
                     item.fontSize = 25
                     item.fontColor = UIColor.green
-                    item.position = CGPoint(x: ScreenSize.width / 2, y: 50)
+                    item.position = CGPoint(x: Screen.width / 2, y: 50)
                     item.alpha = 1
                     item.removeAllChildren()
                     item.addGlow(radius: 7)
                     item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
                     self.addChild(item)
                     return
+                    
                 }
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + (0.3 * Double(i)), execute: {
-                
-                self.addChild(item)
-                item.run(SKAction.fadeIn(withDuration: 0.3))
-                
-            })
-            
+            self.addChild(item)
             
         }
     }
@@ -392,18 +396,24 @@ class MainMenu: SKScene {
             if touch == touches.first {
                 if self.childNode(withName: "logo")!.contains(touch.location(in: self)) {
                     
-                    print("PLING!!!")
-                    let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                    self.childNode(withName: "logo")!.run(pling)
+                    if fxOn {
+                        print("PLING!!!")
+                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
+                        self.childNode(withName: "logo")!.run(pling)
+                    }
                     
                 } else if self.childNode(withName: "START-Button")!.contains(touch.location(in: self)) {
                     
                     print("-> ab zum Spiel ->")
                     
                     DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                        self.generator.impactOccurred()
-                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        self.childNode(withName: "START-Button")!.run(pling)
+                        if vibrationOn == true {
+                            self.generator.impactOccurred()
+                        }
+                        if fxOn == true {
+                            let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
+                            self.childNode(withName: "START-Button")!.run(pling)
+                        }
                     })
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                         self.removeAllChildren()
@@ -418,14 +428,18 @@ class MainMenu: SKScene {
                     print("-> ab zu den Settings ->")
                     
                     DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                        self.generator.impactOccurred()
-                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        self.childNode(withName: "OPTIONS-Button")!.run(pling)
+                        if vibrationOn == true {
+                            self.generator.impactOccurred()
+                        }
+                        if fxOn == true {
+                            let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
+                            self.childNode(withName: "OPTIONS-Button")!.run(pling)
+                        }
                     })
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                         self.removeAllChildren()
                         self.removeAllActions()
-                        SceneManager.shared.transition(self, toScene: .Settings, transition: SKTransition.fade(withDuration: 0.5))
+                        SceneManager.shared.transition(self, toScene: .Options, transition: SKTransition.fade(withDuration: 0.5))
                     })
                     
                     
@@ -435,9 +449,13 @@ class MainMenu: SKScene {
                     print("-> ab zur Spieler-Übersicht ->")
                     
                     DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                        self.generator.impactOccurred()
-                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        self.childNode(withName: "OVERVIEW-Button")!.run(pling)
+                        if vibrationOn == true {
+                            self.generator.impactOccurred()
+                        }
+                        if fxOn == true {
+                            let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
+                            self.childNode(withName: "OVERVIEW-Button")!.run(pling)
+                        }
                     })
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                         self.removeAllChildren()
@@ -449,7 +467,13 @@ class MainMenu: SKScene {
                     
                 } else if self.childNode(withName: "MUSIC: ON -Button") != nil && self.childNode(withName: "MUSIC: ON -Button")!.contains(touch.location(in: self)) {
                     
-                    generator.impactOccurred()
+                    if vibrationOn == true {
+                        self.generator.impactOccurred()
+                    }
+                    if fxOn == true {
+                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
+                        self.childNode(withName: "MUSIC: ON -Button")!.run(pling)
+                    }
                     
                     if backgroundMusicPlayerStatus == true {
                         

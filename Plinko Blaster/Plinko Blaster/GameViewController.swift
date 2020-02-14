@@ -43,54 +43,23 @@ class GameViewController: UIViewController {
         
         
         
-        if launchedBefore == true {
-            
-            print("Not first launch.")
-            
-            if UserDefaults.standard.string(forKey: "launchScene") == nil || UserDefaults.standard.string(forKey: "launchScene") == "welcome" {
-                UserDefaults.standard.set("main", forKey: "launchScene")
-            }
-            
-            
-        } else {
-            
-            print("First launch, setting UserDefaults.")
-            
-            UserDefaults.standard.set("welcome", forKey: "launchScene")
-            UserDefaults.standard.set(true, forKey: "fxOn")
-            UserDefaults.standard.set(true, forKey: "vibrationOn")
-            UserDefaults.standard.set(true, forKey: "backgroundMusicPlayerStatus")
-            UserDefaults.standard.set(false, forKey: "tutorialShown")
-            
-            if UserDefaults.standard.stringArray(forKey: "PLAYER") == nil {
-                UserDefaults.standard.set(["PLAYER 1"], forKey: "PLAYER")
-            }
-            
-            UserDefaults.standard.synchronize()
-            
-        }
+        
         
         var scene = SKScene()
         
-        if UserDefaults.standard.string(forKey: "launchScene") == "welcome" {
-            scene = WelcomeScene(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
-        } else if UserDefaults.standard.string(forKey: "launchScene") == "main" {
-            scene = MainMenu(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
-        }
+        scene = StartScene(size: CGSize(width: Screen.width, height: Screen.height))
         
         scene.scaleMode = .aspectFill
         
         skView.presentScene(scene)
         
-        backgroundMusicPlayerStatus = UserDefaults.standard.bool(forKey: "backgroundMusicPlayerStatus")
-        
-        playBackgroundMusicInLoop()
+        playBackgroundMusicInLoop(playerStatus: UserDefaults.standard.bool(forKey: "backgroundMusicPlayerStatus"))
         
     }
     
 }
 
-func playBackgroundMusicInLoop() {
+func playBackgroundMusicInLoop(playerStatus: Bool) {
     guard let url = Bundle.main.url(forResource: "background-music2", withExtension: "mp3") else { return }
     
     do {

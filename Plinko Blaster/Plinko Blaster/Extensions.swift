@@ -15,11 +15,12 @@ enum UIUserInterfaceIdiom: Int {
     case pad
 }
 
-struct ScreenSize {
+struct Screen {
     static let width = UIScreen.main.bounds.size.width
     static let height = UIScreen.main.bounds.size.height
-    static let maxWidth = max(ScreenSize.width, ScreenSize.height)
-    static let maxHeight = max(ScreenSize.width, ScreenSize.height)
+    static let center = CGPoint(x: Screen.width / 2, y: Screen.height / 2)
+    static let maxWidth = max(Screen.width, Screen.height)
+    static let maxHeight = max(Screen.width, Screen.height)
 }
 
 struct Color {
@@ -27,14 +28,14 @@ struct Color {
 }
 
 struct DeviceType {
-    static let isiPhone4OrLess = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.maxHeight < 568.0
-    static let isiPhone5 = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.maxHeight == 568.0
-    static let isiPhone6 = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.maxHeight == 667.0
-    static let isiPhone6Plus = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.maxHeight == 736.0
-    static let isiPhoneX = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.maxHeight == 812.0
+    static let isiPhone4OrLess = UIDevice.current.userInterfaceIdiom == .phone && Screen.maxHeight < 568.0
+    static let isiPhone5 = UIDevice.current.userInterfaceIdiom == .phone && Screen.maxHeight == 568.0
+    static let isiPhone6 = UIDevice.current.userInterfaceIdiom == .phone && Screen.maxHeight == 667.0
+    static let isiPhone6Plus = UIDevice.current.userInterfaceIdiom == .phone && Screen.maxHeight == 736.0
+    static let isiPhoneX = UIDevice.current.userInterfaceIdiom == .phone && Screen.maxHeight == 812.0
     
-    static let isiPad = UIDevice.current.userInterfaceIdiom == .pad && ScreenSize.maxHeight == 1024.0
-    static let isiPadPro = UIDevice.current.userInterfaceIdiom == .pad && ScreenSize.maxHeight == 1366.0
+    static let isiPad = UIDevice.current.userInterfaceIdiom == .pad && Screen.maxHeight == 1024.0
+    static let isiPadPro = UIDevice.current.userInterfaceIdiom == .pad && Screen.maxHeight == 1366.0
 }
 
 extension UIColor {

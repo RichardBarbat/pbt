@@ -61,12 +61,12 @@ class OverviewScene: SKScene, UITextFieldDelegate {
         
         let backButtonAspectRatio = backButtonNode.size.width/backButtonNode.size.height
         if DeviceType.isiPad || DeviceType.isiPadPro {
-            backButtonNode.size = CGSize(width: ScreenSize.width * 0.08, height: ScreenSize.width * 0.08 / backButtonAspectRatio)
+            backButtonNode.size = CGSize(width: Screen.width * 0.08, height: Screen.width * 0.08 / backButtonAspectRatio)
         } else {
-            backButtonNode.size = CGSize(width: ScreenSize.width * 0.1, height: ScreenSize.width * 0.1 / backButtonAspectRatio)
+            backButtonNode.size = CGSize(width: Screen.width * 0.1, height: Screen.width * 0.1 / backButtonAspectRatio)
         }
         backButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        backButtonNode.position = CGPoint(x: ScreenSize.width * 0.1, y: ScreenSize.height * 0.95)
+        backButtonNode.position = CGPoint(x: Screen.width * 0.1, y: Screen.height * 0.95)
         backButtonNode.alpha = 0.7
         addChild(backButtonNode)
     }
@@ -74,7 +74,7 @@ class OverviewScene: SKScene, UITextFieldDelegate {
     func addTitleNode() {
         
         let titleNode = SKLabelNode(text: "PLAYER-OVERVIEW")
-        titleNode.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.85)
+        titleNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.85)
         titleNode.alpha = 1
         titleNode.fontName = "LCD14"
         titleNode.fontColor = .green
@@ -82,7 +82,7 @@ class OverviewScene: SKScene, UITextFieldDelegate {
         addChild(titleNode)
         
         let highscoreLableNode = SKLabelNode(text: "- HIGHSCORE:\n"+"  \(UserDefaults.standard.integer(forKey: "highscore"))")
-        highscoreLableNode.position = CGPoint(x: 30, y: ScreenSize.height * 0.7)
+        highscoreLableNode.position = CGPoint(x: 30, y: Screen.height * 0.7)
         highscoreLableNode.alpha = 1
         highscoreLableNode.fontName = "LCD14"
         highscoreLableNode.fontColor = .green
@@ -92,7 +92,7 @@ class OverviewScene: SKScene, UITextFieldDelegate {
         addChild(highscoreLableNode)
         
         let totalPointsLableNode = SKLabelNode(text: "- TOTAL POINTS COLLECTED:\n"+"  \(UserDefaults.standard.integer(forKey: "totalPointsCollected"))")
-        totalPointsLableNode.position = CGPoint(x: 30, y: ScreenSize.height * 0.6)
+        totalPointsLableNode.position = CGPoint(x: 30, y: Screen.height * 0.6)
         totalPointsLableNode.alpha = 1
         totalPointsLableNode.fontName = "LCD14"
         totalPointsLableNode.fontColor = .green
@@ -102,7 +102,7 @@ class OverviewScene: SKScene, UITextFieldDelegate {
         addChild(totalPointsLableNode)
         
         let totalBallsLableNode = SKLabelNode(text: "- TOTAL BALLS DROPPED:\n"+"  \(UserDefaults.standard.integer(forKey: "totalBallsDropped"))")
-        totalBallsLableNode.position = CGPoint(x: 30, y: ScreenSize.height * 0.5)
+        totalBallsLableNode.position = CGPoint(x: 30, y: Screen.height * 0.5)
         totalBallsLableNode.alpha = 1
         totalBallsLableNode.fontName = "LCD14"
         totalBallsLableNode.fontColor = .green

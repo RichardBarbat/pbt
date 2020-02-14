@@ -15,7 +15,7 @@ class Ball {
     
     func create() -> SKShapeNode{
         
-        let shapeNode = SKShapeNode(circleOfRadius: ScreenSize.width * 0.035)
+        let shapeNode = SKShapeNode(circleOfRadius: Screen.width * 0.035)
         
         shapeNode.physicsBody = SKPhysicsBody(circleOfRadius: shapeNode.frame.size.width / 2.1 )
         shapeNode.physicsBody?.isDynamic = false

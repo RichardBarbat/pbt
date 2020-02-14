@@ -12,7 +12,7 @@ import SpriteKit
 class SceneManager {
     
     enum SceneType {
-        case MainMenu, Settings, Level1, OverviewScene, WelcomeScene
+        case StartScene, MainMenu, Options, Level1, OverviewScene, WelcomeScene
     }
     
     private init() {}
@@ -24,7 +24,7 @@ class SceneManager {
         
         if let transition = transition {
             scene.scaleMode = .resizeFill
-            transition.pausesOutgoingScene = false
+            transition.pausesOutgoingScene = true
             fromScene.view?.presentScene(scene, transition: transition)
             fromScene.removeFromParent()
         } else {
@@ -39,21 +39,24 @@ class SceneManager {
     func getScene(_ sceneType: SceneType) -> SKScene? {
         switch sceneType {
             
-        case SceneType.WelcomeScene:
-            return WelcomeScene(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
-            
-        case SceneType.MainMenu:
-            return MainMenu(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
-            
-        case SceneType.Settings:
-            return Settings(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
-            
-        case SceneType.Level1:
-            return Level1(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
-            
-        case SceneType.OverviewScene:
-            return OverviewScene(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
-            
-        }
+            case SceneType.WelcomeScene:
+                return WelcomeScene(size: CGSize(width: Screen.width, height: Screen.height))
+                
+            case SceneType.MainMenu:
+                return MainMenu(size: CGSize(width: Screen.width, height: Screen.height))
+                
+            case SceneType.Options:
+                return OptionsScene(size: CGSize(width: Screen.width, height: Screen.height))
+                
+            case SceneType.Level1:
+                return Level1(size: CGSize(width: Screen.width, height: Screen.height))
+                
+            case SceneType.OverviewScene:
+                return OverviewScene(size: CGSize(width: Screen.width, height: Screen.height))
+                
+            case SceneType.StartScene:
+                return StartScene(size: CGSize(width: Screen.width, height: Screen.height))
+                
+            }
     }
 }

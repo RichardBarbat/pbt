@@ -54,13 +54,13 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
             star.glowWidth = CGFloat.random(in: 0.02...0.8)
             star.alpha = CGFloat.random(in: 0.1...0.4)
             
-            star.position = CGPoint(x: CGFloat.random(in: 0...ScreenSize.width), y: CGFloat.random(in: ScreenSize.height * 0.38...ScreenSize.height))
+            star.position = CGPoint(x: CGFloat.random(in: 0...Screen.width), y: CGFloat.random(in: Screen.height * 0.38...Screen.height))
             fieldNode.addChild(star)
         }
         
         let fieldNodeSpriteNode = SKSpriteNode(texture: SKView().texture(from: fieldNode))
         fieldNodeSpriteNode.anchorPoint = .init(x: 0, y: 1)
-        fieldNodeSpriteNode.position = CGPoint(x: 0, y: ScreenSize.height)
+        fieldNodeSpriteNode.position = CGPoint(x: 0, y: Screen.height)
         fieldNodeSpriteNode.zPosition = -1000
         addChild(fieldNodeSpriteNode)
     }
@@ -69,9 +69,9 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         
         let laserFrameNode = SKSpriteNode(imageNamed: "gitter")
         let laserFrameAspectRatio = laserFrameNode.size.width/laserFrameNode.size.height
-        laserFrameNode.size = CGSize(width: ScreenSize.width * 2.5 / laserFrameAspectRatio, height: ScreenSize.height * 0.38)
+        laserFrameNode.size = CGSize(width: Screen.width * 2.5 / laserFrameAspectRatio, height: Screen.height * 0.38)
         laserFrameNode.anchorPoint = CGPoint(x: 0.5, y: 0)
-        laserFrameNode.position = CGPoint(x: ScreenSize.width * 0.5, y: 0)
+        laserFrameNode.position = CGPoint(x: Screen.width * 0.5, y: 0)
         laserFrameNode.zPosition = -900
         laserFrameNode.alpha = 1
         laserFrameNode.color = .blue
@@ -83,8 +83,8 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
     func addBgGlowLine() {
         
         let bgGlowLinePath = CGMutablePath()
-        bgGlowLinePath.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.38))
-        bgGlowLinePath.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.38))
+        bgGlowLinePath.move(to: CGPoint(x: -50, y: Screen.height * 0.38))
+        bgGlowLinePath.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.38))
         let bgGlowLineNode = SKShapeNode()
         bgGlowLineNode.path = bgGlowLinePath
         bgGlowLineNode.strokeColor = UIColor(hexFromString: "3f00a0")
@@ -93,14 +93,14 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         bgGlowLineNode.alpha = 0.6
         
         let bgGlowLineTextureSpriteNode = SKSpriteNode(texture: SKView().texture(from: bgGlowLineNode))
-        bgGlowLineTextureSpriteNode.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.38)
+        bgGlowLineTextureSpriteNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.38)
         bgGlowLineTextureSpriteNode.zPosition = -800
         
         
         
         let bgGlowLinePath2 = CGMutablePath()
-        bgGlowLinePath2.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.38))
-        bgGlowLinePath2.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.38))
+        bgGlowLinePath2.move(to: CGPoint(x: -50, y: Screen.height * 0.38))
+        bgGlowLinePath2.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.38))
         let bgGlowLineNode2 = SKShapeNode()
         bgGlowLineNode2.path = bgGlowLinePath2
         bgGlowLineNode2.strokeColor = UIColor(hexFromString: "3f00a0")
@@ -111,7 +111,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         bgGlowLineNode2.addChild(bgGlowLineTextureSpriteNode)
         
         let bgGlowLineTextureSpriteNode2 = SKSpriteNode(texture: SKView().texture(from: bgGlowLineNode2))
-        bgGlowLineTextureSpriteNode2.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.38)
+        bgGlowLineTextureSpriteNode2.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.38)
         bgGlowLineTextureSpriteNode2.zPosition = -800
         
         addChild(bgGlowLineTextureSpriteNode2)
@@ -119,28 +119,28 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
     
     func addBgLaserLines() {
         let linePath1 = CGMutablePath()
-        linePath1.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.72))
-        linePath1.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.95))
+        linePath1.move(to: CGPoint(x: -50, y: Screen.height * 0.72))
+        linePath1.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.95))
         
         let linePath2 = CGMutablePath()
-        linePath2.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.89))
-        linePath2.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.655))
+        linePath2.move(to: CGPoint(x: -50, y: Screen.height * 0.89))
+        linePath2.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.655))
         
         let linePath3 = CGMutablePath()
-        linePath3.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.63))
-        linePath3.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.47))
+        linePath3.move(to: CGPoint(x: -50, y: Screen.height * 0.63))
+        linePath3.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.47))
         
         let linePath4 = CGMutablePath()
-        linePath4.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.55))
-        linePath4.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * -0.07))
+        linePath4.move(to: CGPoint(x: -50, y: Screen.height * 0.55))
+        linePath4.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * -0.07))
         
         let linePath5 = CGMutablePath()
-        linePath5.move(to: CGPoint(x: -50, y: ScreenSize.height * 0.33))
-        linePath5.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.55))
+        linePath5.move(to: CGPoint(x: -50, y: Screen.height * 0.33))
+        linePath5.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.55))
         
         let linePath6 = CGMutablePath()
-        linePath6.move(to: CGPoint(x: -50, y: ScreenSize.height * -0.15))
-        linePath6.addLine(to: CGPoint(x: ScreenSize.width + 50, y: ScreenSize.height * 0.38))
+        linePath6.move(to: CGPoint(x: -50, y: Screen.height * -0.15))
+        linePath6.addLine(to: CGPoint(x: Screen.width + 50, y: Screen.height * 0.38))
         
         let lineNode1 = SKShapeNode()
         lineNode1.path = linePath1
@@ -247,42 +247,42 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         let line1SpriteNode = SKSpriteNode(texture: SKView().texture(from: lineNode1))
         line1SpriteNode.zPosition = -701
         line1SpriteNode.anchorPoint = .init(x: 0, y: 0)
-        line1SpriteNode.position = CGPoint(x: -50, y: ScreenSize.height * 0.72)
+        line1SpriteNode.position = CGPoint(x: -50, y: Screen.height * 0.72)
         addChild(line1SpriteNode)
         line1SpriteNode.run(endlessAction1)
         
         let line2SpriteNode = SKSpriteNode(texture: SKView().texture(from: lineNode2))
         line2SpriteNode.zPosition = -702
         line2SpriteNode.anchorPoint = .init(x: 0, y: 0)
-        line2SpriteNode.position = CGPoint(x: -50, y: ScreenSize.height * 0.655)
+        line2SpriteNode.position = CGPoint(x: -50, y: Screen.height * 0.655)
         addChild(line2SpriteNode)
         line2SpriteNode.run(endlessAction2)
         
         let line3SpriteNode = SKSpriteNode(texture: SKView().texture(from: lineNode3))
         line3SpriteNode.zPosition = -703
         line3SpriteNode.anchorPoint = .init(x: 0, y: 0)
-        line3SpriteNode.position = CGPoint(x: -50, y: ScreenSize.height * 0.47)
+        line3SpriteNode.position = CGPoint(x: -50, y: Screen.height * 0.47)
         addChild(line3SpriteNode)
         line3SpriteNode.run(endlessAction3)
         
         let line4SpriteNode = SKSpriteNode(texture: SKView().texture(from: lineNode4))
         line4SpriteNode.zPosition = -704
         line4SpriteNode.anchorPoint = .init(x: 0, y: 0)
-        line4SpriteNode.position = CGPoint(x: -50, y: ScreenSize.height * -0.07)
+        line4SpriteNode.position = CGPoint(x: -50, y: Screen.height * -0.07)
         addChild(line4SpriteNode)
         line4SpriteNode.run(endlessAction4)
         
         let line5SpriteNode = SKSpriteNode(texture: SKView().texture(from: lineNode5))
         line5SpriteNode.zPosition = -705
         line5SpriteNode.anchorPoint = .init(x: 0, y: 0)
-        line5SpriteNode.position = CGPoint(x: -50, y: ScreenSize.height * 0.33)
+        line5SpriteNode.position = CGPoint(x: -50, y: Screen.height * 0.33)
         addChild(line5SpriteNode)
         line5SpriteNode.run(endlessAction5)
         
         let line6SpriteNode = SKSpriteNode(texture: SKView().texture(from: lineNode6))
         line6SpriteNode.zPosition = -706
         line6SpriteNode.anchorPoint = .init(x: 0, y: 0)
-        line6SpriteNode.position = CGPoint(x: -50, y: ScreenSize.height * -0.15)
+        line6SpriteNode.position = CGPoint(x: -50, y: Screen.height * -0.15)
         addChild(line6SpriteNode)
         line6SpriteNode.run(endlessAction6)
         
@@ -290,10 +290,10 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
     
     func addWelcomeText() {
         let welcome = SKLabelNode(text: "WELCOME TO")
-        welcome.fontColor = UIColor(hexFromString: "d800ff")
+        welcome.fontColor = UIColor.yellow
         welcome.fontName = "LCD14"
         welcome.fontSize = 40
-        welcome.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.875)
+        welcome.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.875)
         welcome.alpha = 1
         welcome.removeAllChildren()
         welcome.addGlow(radius: 7)
@@ -302,7 +302,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         
         let newPlayerLabelNode = SKLabelNode(text: "ADD NEW PLAYER")
         newPlayerLabelNode.name = "newPlayerLabelNode"
-        newPlayerLabelNode.preferredMaxLayoutWidth = ScreenSize.width * 0.9
+        newPlayerLabelNode.preferredMaxLayoutWidth = Screen.width * 0.9
         newPlayerLabelNode.fontColor = UIColor.green
         newPlayerLabelNode.fontName = "LCD14"
         newPlayerLabelNode.fontSize = 22
@@ -316,7 +316,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         addPlayerLabelOutlineNode.fillColor = .clear
         addPlayerLabelOutlineNode.strokeColor = .green
         addPlayerLabelOutlineNode.lineWidth = 3
-        addPlayerLabelOutlineNode.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.56)
+        addPlayerLabelOutlineNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.56)
         addPlayerLabelOutlineNode.addGlow(radius: 7)
         addPlayerLabelOutlineNode.children.first?.position = CGPoint(x: 0, y: 0)
         addPlayerLabelOutlineNode.addChild(newPlayerLabelNode)
@@ -325,12 +325,12 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         
         let pleaseLabelNode = SKLabelNode(text: "PLEASE ADD A NEW PLAYER SO THE GAME CAN SAVE YOUR PROGRESS.")
         pleaseLabelNode.name = "pleaseLabelNode"
-        pleaseLabelNode.preferredMaxLayoutWidth = ScreenSize.width * 0.8
+        pleaseLabelNode.preferredMaxLayoutWidth = Screen.width * 0.8
         pleaseLabelNode.fontColor = UIColor.init(hexFromString: "0099ff")
         pleaseLabelNode.numberOfLines = 6
         pleaseLabelNode.fontName = "LCD14"
         pleaseLabelNode.fontSize = 17
-        pleaseLabelNode.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.2)
+        pleaseLabelNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.2)
         pleaseLabelNode.alpha = 1
         pleaseLabelNode.removeAllChildren()
         pleaseLabelNode.addGlow(radius: 7)
@@ -343,14 +343,14 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         let logoNode = SKSpriteNode(imageNamed: "plinko-blaster-logo3")
         let logoAspectRatio = logoNode.size.width/logoNode.size.height
         if DeviceType.isiPad || DeviceType.isiPadPro {
-            logoNode.size = CGSize(width: ScreenSize.width * 0.6, height: ScreenSize.width * 0.6 / logoAspectRatio)
+            logoNode.size = CGSize(width: Screen.width * 0.6, height: Screen.width * 0.6 / logoAspectRatio)
         } else {
             //            print("is not iPad")
-            logoNode.size = CGSize(width: ScreenSize.width * 1.0, height: ScreenSize.width * 1.0 / logoAspectRatio)
+            logoNode.size = CGSize(width: Screen.width * 1.0, height: Screen.width * 1.0 / logoAspectRatio)
         }
         
         logoNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        logoNode.position = CGPoint(x: ScreenSize.width * 0.5, y: ScreenSize.height * 0.74)
+        logoNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.74)
         logoNode.name = "logo"
         //        logoNode.run(endlessAction3) für Logo eine eigene Action erstellen
         
@@ -370,7 +370,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
             musicButton.text = "MUSIC: OFF "
             musicButton.fontSize = 25
             musicButton.fontColor = UIColor.red
-            musicButton.position = CGPoint(x: ScreenSize.width / 2, y: 50)
+            musicButton.position = CGPoint(x: Screen.width / 2, y: 50)
             musicButton.alpha = 1
             musicButton.removeAllChildren()
             musicButton.addGlow(radius: 7)
@@ -381,7 +381,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
             musicButton.text = "MUSIC: ON "
             musicButton.fontSize = 25
             musicButton.fontColor = UIColor.green
-            musicButton.position = CGPoint(x: ScreenSize.width / 2, y: 50)
+            musicButton.position = CGPoint(x: Screen.width / 2, y: 50)
             musicButton.alpha = 1
             musicButton.removeAllChildren()
             musicButton.addGlow(radius: 7)
@@ -393,7 +393,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
     
     func addTextField() {
         
-        let textFieldFrame = CGRect(origin: CGPoint(x: ScreenSize.width * 0.1, y: ScreenSize.height * 0.4), size: CGSize(width: ScreenSize.width * 0.8, height: 40))
+        let textFieldFrame = CGRect(origin: CGPoint(x: Screen.width * 0.1, y: Screen.height * 0.4), size: CGSize(width: Screen.width * 0.8, height: 40))
         
         newNameTextField = UITextField(frame: textFieldFrame)
         self.view!.addSubview(newNameTextField)
@@ -453,11 +453,11 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         if childNode(withName: "readyLabelNode") == nil {
             let readyLabelNode = SKLabelNode(text: "SAVE THIS PLAYER?")
             readyLabelNode.name = "readyLabelNode"
-            readyLabelNode.preferredMaxLayoutWidth = ScreenSize.width * 0.8
+            readyLabelNode.preferredMaxLayoutWidth = Screen.width * 0.8
             readyLabelNode.fontColor = UIColor.green
             readyLabelNode.fontName = "LCD14"
             readyLabelNode.fontSize = 26
-            readyLabelNode.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.45)
+            readyLabelNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.45)
             readyLabelNode.alpha = 1
             readyLabelNode.removeAllChildren()
             readyLabelNode.addGlow(radius: 7)
@@ -469,7 +469,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
             yesButton.fontColor = UIColor.green
             yesButton.fontName = "LCD14"
             yesButton.fontSize = 40
-            yesButton.position = CGPoint(x: (ScreenSize.width / 3) - (yesButton.frame.size.width / 2), y: ScreenSize.height * 0.3)
+            yesButton.position = CGPoint(x: (Screen.width / 3) - (yesButton.frame.size.width / 2), y: Screen.height * 0.3)
             yesButton.alpha = 1
             yesButton.removeAllChildren()
             yesButton.addGlow(radius: 7)
@@ -480,7 +480,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
             placeholder.fontColor = UIColor.green
             placeholder.fontName = "LCD14"
             placeholder.fontSize = 40
-            placeholder.position = CGPoint(x: ScreenSize.width / 2, y: ScreenSize.height * 0.3)
+            placeholder.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.3)
             placeholder.alpha = 1
             placeholder.removeAllChildren()
             placeholder.addGlow(radius: 7)
@@ -492,7 +492,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
             noButton.fontColor = UIColor.green
             noButton.fontName = "LCD14"
             noButton.fontSize = 40
-            noButton.position = CGPoint(x: ((ScreenSize.width / 3) * 2) + (noButton.frame.size.width / 2), y: ScreenSize.height * 0.3)
+            noButton.position = CGPoint(x: ((Screen.width / 3) * 2) + (noButton.frame.size.width / 2), y: Screen.height * 0.3)
             noButton.alpha = 1
             noButton.removeAllChildren()
             noButton.addGlow(radius: 7)
