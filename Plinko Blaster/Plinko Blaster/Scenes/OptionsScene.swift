@@ -26,10 +26,10 @@ class OptionsScene: SKScene {
         self.backgroundColor = UIColor(hexFromString: "120d27")
         
         addBackButtonNode()
-        addTitleNode()
-        addMusicButtonNode()
-        addSFXButtonNode()
-        addVibrationButtonNode()
+        addTitleLabelNode()
+        addMusicButtonLabelNode()
+        addSFXButtonLabelNode()
+        addVibrationButtonLabelNode()
 //        addResetButton()
     }
     
@@ -66,19 +66,19 @@ class OptionsScene: SKScene {
         addChild(resetButton)
     }
     
-    func addTitleNode() {
+    func addTitleLabelNode() {
         
-        let titleNode = SKLabelNode(text: "OPTIONS")
-        titleNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.85)
-        titleNode.alpha = 1
-        titleNode.fontName = "LCD14"
-        titleNode.fontColor = .green
-        titleNode.fontSize = 28
-        addChild(titleNode)
+        let titleLabelNode = SKLabelNode(text: "OPTIONS")
+        titleLabelNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.85)
+        titleLabelNode.alpha = 1
+        titleLabelNode.fontName = "LCD14"
+        titleLabelNode.fontColor = .green
+        titleLabelNode.fontSize = 28
+        addChild(titleLabelNode)
         
     }
     
-    func addMusicButtonNode() {
+    func addMusicButtonLabelNode() {
         
         if backgroundMusicPlayerStatus == true {
             musicButtonLableNode = SKLabelNode(text: "- MUSIC: ON")
@@ -96,7 +96,7 @@ class OptionsScene: SKScene {
         addChild(musicButtonLableNode)
     }
     
-    func addSFXButtonNode() {
+    func addSFXButtonLabelNode() {
         
         if fxOn == true {
             sfxButtonLableNode = SKLabelNode(text: "- SOUND-FX: ON")
@@ -114,7 +114,7 @@ class OptionsScene: SKScene {
         addChild(sfxButtonLableNode)
     }
     
-    func addVibrationButtonNode() {
+    func addVibrationButtonLabelNode() {
         
         if vibrationOn == true {
             vibrationButtonLableNode = SKLabelNode(text: "- VIBRATION: ON")

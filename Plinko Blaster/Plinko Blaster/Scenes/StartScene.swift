@@ -17,7 +17,7 @@ class StartScene: SKScene {
     
     // MARK: - Variablen & Instanzen
     
-    
+    var coinAspectRatio = CGFloat()
     
     
     // MARK: - Beginn der Funktionen
@@ -36,6 +36,8 @@ class StartScene: SKScene {
         addLogo()
         addAutomatNode()
         addCoinNode()
+        addCoinFlipNode()
+        addCoinInsertNode()
     }
     
     func addLogo() {
@@ -64,13 +66,35 @@ class StartScene: SKScene {
     
     func addCoinNode() {
         let coinNode = SKSpriteNode(imageNamed: "coin")
-        let coinAspectRatio = coinNode.size.width/coinNode.size.height
+        coinAspectRatio = coinNode.size.width/coinNode.size.height
         coinNode.size = CGSize(width: (self.childNode(withName: "automatNode")?.frame.size.height)! * 0.25, height: (self.childNode(withName: "automatNode")?.frame.size.height)! * 0.25 / coinAspectRatio)
         coinNode.position = CGPoint(x: Screen.width * 0.7, y: Screen.height / 2)
         coinNode.name = "coin"
         
         
         addChild(coinNode)
+    }
+    
+    func addCoinFlipNode() {
+        let coinFlipNode = SKShapeNode(circleOfRadius: 60)
+        coinFlipNode.fillColor = .red
+        coinFlipNode.alpha = 0
+        coinFlipNode.position = CGPoint(x: (self.childNode(withName: "automatNode")?.position.x)! - 42, y: (self.childNode(withName: "automatNode")?.position.y)! + 20)
+        coinFlipNode.name = "coinFlip"
+        
+        
+        addChild(coinFlipNode)
+    }
+    
+    func addCoinInsertNode() {
+        let coinInsertNode = SKShapeNode(circleOfRadius: 25)
+        coinInsertNode.fillColor = .blue
+        coinInsertNode.alpha = 0
+        coinInsertNode.position = CGPoint(x: (self.childNode(withName: "automatNode")?.position.x)! - 42, y: (self.childNode(withName: "automatNode")?.position.y)! + 20)
+        coinInsertNode.name = "coinInsert"
+        
+        
+        addChild(coinInsertNode)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -86,10 +110,39 @@ class StartScene: SKScene {
         
     }
     
+    var isInsertAnimationRunning = false
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             if touch == touches.first {
                 print("👉👆👇👈")
+                if isInsertAnimationRunning { return }
+                if self.childNode(withName: "coinFlip")!.contains(touch.location(in: self)) {
+                    let coinNode = self.childNode(withName: "coin")! as! SKSpriteNode
+                    coinNode.texture = SKTexture(imageNamed: "coinSide")
+                    coinNode.size.width = 10
+                    
+                    if self.childNode(withName: "coinInsert")!.contains(touch.location(in: self)) {
+                        
+                        coinNode.isUserInteractionEnabled = false
+                        let setPositionAnimation = SKAction.move(to: CGPoint(x: (self.childNode(withName: "automatNode")?.position.x)! - 41, y: (self.childNode(withName: "automatNode")?.position.y)! + 70), duration: 0.1)
+                        let fadeOutAnimation = SKAction.fadeOut(withDuration: 0.4)
+
+                        isInsertAnimationRunning = true
+                        coinNode.run(setPositionAnimation) {
+                            coinNode.run(SKAction.wait(forDuration: 0.5)) {
+                                coinNode.run(fadeOutAnimation) {
+                                    generator.impactOccurred()
+                                }
+                            }
+                        }
+                        
+                    }
+                } else {
+                    let coinNode = self.childNode(withName: "coin")! as! SKSpriteNode
+                    coinNode.texture = SKTexture(imageNamed: "coin")
+                    coinNode.size = CGSize(width: (self.childNode(withName: "automatNode")?.frame.size.height)! * 0.25, height: (self.childNode(withName: "automatNode")?.frame.size.height)! * 0.25 / coinAspectRatio)
+                }
                 let coinPosition = CGPoint(x: touch.location(in: self).x, y: touch.location(in: self).y + 50)
                 self.childNode(withName: "coin")!.position = coinPosition
             }
@@ -99,7 +152,9 @@ class StartScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         print("✊")
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
             
             var scene = SceneManager.SceneType.WelcomeScene
             
@@ -132,7 +187,7 @@ class StartScene: SKScene {
                 
             }
             
-            SceneManager.shared.transition(self, toScene: scene, transition: SKTransition.push(with: SKTransitionDirection.down, duration: 1.5))
+            SceneManager.shared.transition(self, toScene: scene, transition: SKTransition.push(with: SKTransitionDirection.down, duration: 2))
 //            SceneManager.shared.transition(self, toScene: scene, transition: SKTransition.fade(withDuration: 0.5))
         })
     }
