@@ -18,7 +18,6 @@ class OverviewScene: SKScene, UITextFieldDelegate {
         print("OverviewScene")
         
         self.view?.tintColor = .green
-        self.backgroundColor = UIColor(hexFromString: "120d27")
         
         addBackButtonNode()
         

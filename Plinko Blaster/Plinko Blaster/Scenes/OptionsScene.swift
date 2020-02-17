@@ -23,7 +23,6 @@ class OptionsScene: SKScene {
         print("- In den OPTIONS -")
         
         self.view?.tintColor = .green
-        self.backgroundColor = UIColor(hexFromString: "120d27")
         
         addBackButtonNode()
         addTitleLabelNode()

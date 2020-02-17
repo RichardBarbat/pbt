@@ -86,26 +86,45 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Beginn der Funktionen
     
+    
+    func createVector(_ point:CGPoint) -> CIVector {
+        return CIVector(x: point.x, y: Screen.height - point.y)
+    }
+    
+    
+    
     override func didMove(to view: SKView) {
         
         //print("- Level 1 -")
         
-//        let pixelFilter = CIFilter(name: "CIPixellate")
-//        pixelFilter!.setValue(5.0, forKey: "inputScale")
+        let pixelFilter = CIFilter(name: "CIPixellate")
+        pixelFilter!.setValue(10.0, forKey: "inputScale")
                 
 //        let blurFilter = CIFilter(name: "CIComicEffect")
 //        blurFilter!.setValue(5.0, forKey: "inputRadius")
-
+        
 //        let bloomFilter = CIFilter(name: "CIBloom")
         
+//        let hatchedFilter = CIFilter(name: "CIHatchedScreen")
+        
 //        let dotScreenFilter = CIFilter(name: "CIDotScreen")
-                
-//        effectNode.filter = blurFilter!
+        
+//        effectNode.filter = bloomFilter
         
         self.addChild(effectNode)
         
+//        let cloudsEffectNode = SKEffectNode()
+//        cloudsEffectNode.filter = pixelFilter!
+//
+//        let cloud = SKSpriteNode(imageNamed: "cloud")
+//        cloud.size = CGSize(width: 300, height: 150)
+//        cloud.position = Screen.center
+//
+//        cloudsEffectNode.addChild(cloud)
+//        addChild(cloudsEffectNode)
         
-        self.backgroundColor = UIColor(hexFromString: "120d27")
+        
+//        self.backgroundColor = UIColor(hexFromString: "120d27")
         
         highscoreLabelIsInFront = false
         
@@ -244,15 +263,15 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         miniMenu = SKShapeNode(rect: CGRect(x: Screen.width * 0.05, y: Screen.height * 0.825, width: Screen.width * 0.9, height: Screen.height * 0.09), cornerRadius: 8)
         miniMenu.strokeColor = UIColor(hexFromString: "0099ff")
-        miniMenu.glowWidth = 3
+//        miniMenu.glowWidth = 3
         
         let miniMenuGlow = miniMenu.copy() as! SKShapeNode
-        miniMenuGlow.glowWidth = 30
+        miniMenuGlow.glowWidth = 10
         miniMenuGlow.lineWidth = 1
         miniMenuGlow.alpha = 0.5
         
         let miniMenuBackground = miniMenu.copy() as! SKShapeNode
-        miniMenuBackground.fillColor = UIColor(hexFromString: "120d27")
+//        miniMenuBackground.fillColor = UIColor(hexFromString: "120d27")
         miniMenuBackground.glowWidth = 0
         miniMenuBackground.lineWidth = 1
         miniMenuBackground.alpha = 1
@@ -816,6 +835,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         }
         
         starNode = SKSpriteNode(texture: starNodeTexture, size: starNode.size)
+        starNode.addGlow(radius: 10)
         
         starNode.name = starType
         
@@ -1050,6 +1070,14 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                     
                     //print("<- ab zum Hauptmenü <-")
                     
+                    if fxOn {
+                        DispatchQueue.main.async {
+                            print("PLING!!!")
+                            let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
+                            self.backButtonNode.run(pling)
+                        }
+                    }
+                    
                     if vibrationOn {
                         generator.impactOccurred()
                     }
@@ -1272,8 +1300,8 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         self.isUserInteractionEnabled = false
         
         let backgroundLayer = SKShapeNode(rectOf: CGSize(width: Screen.width, height: Screen.height))
-        backgroundLayer.fillColor = UIColor(hexFromString: "120d27")
-        backgroundLayer.strokeColor = UIColor(hexFromString: "120d27")
+        backgroundLayer.fillColor = UIColor(hexFromString: "323232")
+        backgroundLayer.strokeColor = UIColor(hexFromString: "323232")
         backgroundLayer.position = CGPoint(x: Screen.width / 2, y: Screen.height / 2)
         backgroundLayer.alpha = 0
         backgroundLayer.zPosition = 10000

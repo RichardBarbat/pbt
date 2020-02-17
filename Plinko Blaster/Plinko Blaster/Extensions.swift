@@ -68,7 +68,7 @@ extension SKNode {
         let texture = view.texture(from: self)
         effectNode.filter = CIFilter(name: "CIGaussianBlur",parameters: ["inputRadius":radius])
         effectNode.blendMode = .add
-        effectNode.position = CGPoint(x: self.position.x, y: self.position.y + (self.frame.size.height / 2))
+        effectNode.position = CGPoint(x: self.position.x, y: self.position.y )
         effectNode.shouldCenterFilter = true
         effectNode.shouldEnableEffects = true
         effectNode.shouldRasterize = true

@@ -30,9 +30,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         print("- Im Wilkommen Bildschirm -")
         
         backgroundMusicPlayerStatus = UserDefaults.standard.bool(forKey: "backgroundMusicPlayerStatus")
-        
-        self.backgroundColor = UIColor(hexFromString: "120d27")
-        
+                
         addStarFieldNode()
         addLaserFieldNode()
         addBgGlowLine()
@@ -376,6 +374,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
             musicButton.addGlow(radius: 7)
             musicButton.children.first?.position = CGPoint(x: 0, y: musicButton.frame.size.height / 2)
             self.addChild(musicButton)
+            backgroundMusicPlayer?.stop()
             return
         } else {
             musicButton.text = "MUSIC: ON "
@@ -387,6 +386,9 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
             musicButton.addGlow(radius: 7)
             musicButton.children.first?.position = CGPoint(x: 0, y: musicButton.frame.size.height / 2)
             self.addChild(musicButton)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                backgroundMusicPlayer?.play()
+            }
             return
         }
     }

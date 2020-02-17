@@ -38,7 +38,7 @@ class MainMenu: SKScene {
         
         backgroundMusicPlayerStatus = UserDefaults.standard.bool(forKey: "backgroundMusicPlayerStatus")
         
-        self.backgroundColor = UIColor(hexFromString: "120d27")
+//        self.backgroundColor = UIColor(hexFromString: "120d27")
         
         
         view.showsFPS = true
@@ -369,6 +369,7 @@ class MainMenu: SKScene {
                     item.addGlow(radius: 7)
                     item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
                     self.addChild(item)
+                    backgroundMusicPlayer?.stop()
                     return
                     
                 } else {
@@ -381,6 +382,9 @@ class MainMenu: SKScene {
                     item.addGlow(radius: 7)
                     item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
                     self.addChild(item)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        backgroundMusicPlayer?.play()
+                    }
                     return
                     
                 }
@@ -399,7 +403,7 @@ class MainMenu: SKScene {
                     if fxOn {
                         print("PLING!!!")
                         let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        self.childNode(withName: "logo")!.run(pling)
+                        self.run(pling)
                     }
                     
                 } else if self.childNode(withName: "START-Button")!.contains(touch.location(in: self)) {
