@@ -41,13 +41,15 @@ class GameViewController: UIViewController {
         skView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         skView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         
-        
-        
-        
-        
         var scene = SKScene()
         
-        scene = StartScene(size: CGSize(width: Screen.width, height: Screen.height))
+        if startScreenOn == true || launchedBefore == false {
+            scene = StartScene(size: CGSize(width: Screen.width, height: Screen.height))
+        } else {
+            scene = MainMenu(size: CGSize(width: Screen.width, height: Screen.height))
+        }
+        
+        
         
         scene.scaleMode = .aspectFill
         

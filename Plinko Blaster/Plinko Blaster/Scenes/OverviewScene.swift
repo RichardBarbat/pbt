@@ -36,7 +36,7 @@ class OverviewScene: SKScene, UITextFieldDelegate {
                     print("<- ab zum Hauptmenü <-")
                     
                     if vibrationOn {
-                        generator.impactOccurred()
+                        mediumVibration.impactOccurred()
                     }
                     
                     if self.scene?.view!.subviews.count != 0 {

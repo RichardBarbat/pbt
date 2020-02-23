@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B00036824015CBE005228FA /* neonOut.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B00036724015CBE005228FA /* neonOut.mp3 */; };
 		1B19ADC023F3603500D9EB5F /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B19ADBF23F3603500D9EB5F /* StartScene.swift */; };
 		1B500AFD225184EF0044B020 /* boing2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B500AFC225184EF0044B020 /* boing2.mp3 */; };
 		1B567C082263AEB500CCADD1 /* OverviewScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B567C072263AEB500CCADD1 /* OverviewScene.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B00036724015CBE005228FA /* neonOut.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = neonOut.mp3; path = ../../../../../Downloads/neonOut.mp3; sourceTree = "<group>"; };
 		1B19ADBF23F3603500D9EB5F /* StartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		1B500AFC225184EF0044B020 /* boing2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boing2.mp3; sourceTree = "<group>"; };
 		1B567C072263AEB500CCADD1 /* OverviewScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewScene.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				1B94B1F523F9DC500044A3E3 /* ambient.mp3 */,
 				1B94B1FB23F9FC640044A3E3 /* pickUpCoin.mp3 */,
 				1B94B1F923F9FBA80044A3E3 /* insertCoin.mp3 */,
+				1B00036724015CBE005228FA /* neonOut.mp3 */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -217,6 +220,7 @@
 			files = (
 				1B94B1FA23F9FBA80044A3E3 /* insertCoin.mp3 in Resources */,
 				1B606EF3223C101300BD21C9 /* LaunchScreen.storyboard in Resources */,
+				1B00036824015CBE005228FA /* neonOut.mp3 in Resources */,
 				1B500AFD225184EF0044B020 /* boing2.mp3 in Resources */,
 				1B56E6F72245923D00EDEF9C /* klick.wav in Resources */,
 				1B8B636F231F0FF500A33285 /* Default-568h@2x.png in Resources */,

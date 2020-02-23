@@ -29,6 +29,8 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         
         print("- Im Wilkommen Bildschirm -")
         
+        self.backgroundColor = UIColor.init(hexFromString: "140032")
+        
         backgroundMusicPlayerStatus = UserDefaults.standard.bool(forKey: "backgroundMusicPlayerStatus")
                 
         addStarFieldNode()

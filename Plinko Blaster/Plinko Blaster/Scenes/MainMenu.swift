@@ -9,6 +9,38 @@
 import SpriteKit
 
 
+// MARK: - globale Variablen
+
+var pointsCount = 0
+var lastHighscore = UserDefaults.standard.integer(forKey: "highscore")
+let pointsLabelNode = SKLabelNode()
+var highscoreLabelNode = SKLabelNode()
+var miniMenu = SKShapeNode()
+var vibrationOn = UserDefaults.standard.bool(forKey: "vibrationOn")
+var startScreenOn = UserDefaults.standard.bool(forKey: "startScreenOn")
+var fxOn = UserDefaults.standard.bool(forKey: "fxOn")
+var highscoreLabelIsInFront = false
+var multiplyerCount = 0
+var multiplyerLabelNode = SKLabelNode()
+var extraNode = SKSpriteNode()
+
+var ballPointValue = UserDefaults.standard.integer(forKey: "ballPointValue")
+let prestigeMultiplyer = UserDefaults.standard.double(forKey: "prestigeMultiplyer")
+
+var scaleToActionSequence = SKAction.sequence([])
+var scaleByActionSequence = SKAction.sequence([])
+var pulseActionSequence = SKAction.sequence([])
+var rotateActionSequence = SKAction.sequence([])
+var scalePlusPointsActionSequence = SKAction.sequence([])
+
+let lightVibration = UIImpactFeedbackGenerator(style: .light)
+let mediumVibration = UIImpactFeedbackGenerator(style: .medium)
+let heavyVibration = UIImpactFeedbackGenerator(style: .heavy)
+var gameOver = false
+
+var tutorialShown = UserDefaults.standard.bool(forKey: "tutorialShown")
+
+
 // MARK: - Beginn der Klasse
 
 class MainMenu: SKScene {
@@ -18,7 +50,7 @@ class MainMenu: SKScene {
     
     let generator = UIImpactFeedbackGenerator(style: .medium)
     let starFieldNode = SKShapeNode()
-    let menuItems = ["START", "OVERVIEW", "OPTIONS", "MUSIC: ON "]
+    let menuItems = ["PLAY", "OVERVIEW", "OPTIONS", "MUSIC: ON "]
     
     let playerName = UserDefaults.standard.string(forKey: "playerName")!
     
@@ -29,8 +61,11 @@ class MainMenu: SKScene {
         
         print("- Im Hauptmenü -")
         
+        self.backgroundColor = UIColor.init(hexFromString: "140032")
+        
         if !UserDefaults.standard.bool(forKey: "mainMenuStartedBefore") {
             UserDefaults.standard.set(true, forKey: "mainMenuStartedBefore")
+            
             UserDefaults.standard.set(true, forKey: "fxOn")
             UserDefaults.standard.set(true, forKey: "vibrationOn")
             UserDefaults.standard.set(true, forKey: "backgroundMusicPlayerStatus")
@@ -341,7 +376,7 @@ class MainMenu: SKScene {
             item.name = "\(self.menuItems[i])-Button"
             item.fontColor = .green
             
-            if item.text == "START" {
+            if item.text == "PLAY" {
                 item.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.45 - (CGFloat(i) * (item.frame.size.height + 50)))
                 item.fontSize = 60
                 item.addGlow(radius: 10)
@@ -406,7 +441,7 @@ class MainMenu: SKScene {
                         self.run(pling)
                     }
                     
-                } else if self.childNode(withName: "START-Button")!.contains(touch.location(in: self)) {
+                } else if self.childNode(withName: "PLAY-Button")!.contains(touch.location(in: self)) {
                     
                     print("-> ab zum Spiel ->")
                     
@@ -416,7 +451,7 @@ class MainMenu: SKScene {
                         }
                         if fxOn == true {
                             let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                            self.childNode(withName: "START-Button")!.run(pling)
+                            self.childNode(withName: "PLAY-Button")!.run(pling)
                         }
                     })
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
