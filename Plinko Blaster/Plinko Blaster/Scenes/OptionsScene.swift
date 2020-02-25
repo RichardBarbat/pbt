@@ -201,7 +201,7 @@ class OptionsScene: SKScene {
             prestigeButtonLabelNode.fontColor = .red
             
             prestigeButtonDescriptionLabelNode = SKLabelNode(text: "\(ballsToCollectForNextPrestige) MORE BALLS FOR NEXT PRESTIGE.")
-            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 0, y: -5)
+            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 25, y: -5)
             prestigeButtonDescriptionLabelNode.fontName = "LCD14"
             prestigeButtonDescriptionLabelNode.fontColor = .red
             prestigeButtonDescriptionLabelNode.fontSize = 11
@@ -215,7 +215,7 @@ class OptionsScene: SKScene {
             prestigeButtonLabelNode.fontColor = .green
             
             prestigeButtonDescriptionLabelNode = SKLabelNode(text: "YOU CAN PRESTIGE NOW.\nBALLS WILL COLLECT \(ballPointValue + prestigeValue)X MORE POINTS.")
-            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 20, y: -5)
+            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 25, y: -5)
             prestigeButtonDescriptionLabelNode.fontName = "LCD14"
             prestigeButtonDescriptionLabelNode.fontColor = .green
             prestigeButtonDescriptionLabelNode.numberOfLines = 3
@@ -397,14 +397,10 @@ class OptionsScene: SKScene {
                                         
                     UserDefaults.standard.set(ballPointValue + prestigeValue, forKey: "ballPointValue")
                     
-                    UserDefaults.standard.set(0, forKey: "highscore")
-
                     UserDefaults.standard.set(0, forKey: "ballsDroppedSincePrestige")
                     
                     ballPointValue = ballPointValue + prestigeValue
-                    lastHighscore = 0
                     ballsDroppedSincePrestige = 0
-                    highscoreLabelNode.text = "HIGHSCORE: 0"
                     
                     prestigeButtonLabelNode.removeFromParent()
                     prestigeButtonDescriptionLabelNode.removeFromParent()
