@@ -16,7 +16,7 @@ import AVFoundation
 struct ColliderType {
     static let Ball: UInt32             = 0x1 << 0 // 1
     static let Obstacle: UInt32         = 0x1 << 1 // 2
-    static let Line: UInt32         = 0x1 << 2 // 4
+    static let Line: UInt32             = 0x1 << 2 // 4
     static let Box: UInt32              = 0x1 << 3 // 8
     static let BottomLine: UInt32       = 0x1 << 4 // 16
     static let Extra: UInt32            = 0x1 << 5 // 32
@@ -53,8 +53,8 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     let smallScaleDownToAction = SKAction.scale(to: 1, duration: 0.1)
     let smallScaleDownByAction = SKAction.scale(by: 0.8, duration: 0.1)
     let fadeUpAction = SKAction.fadeAlpha(to: 0.75, duration: 1)
-    let fadeDownAction = SKAction.fadeAlpha(to: 0, duration: 1)
-    let fadeDownDoubleSpeedAction = SKAction.fadeAlpha(to: 0, duration: 0.5)
+    let fadeOutAction1s = SKAction.fadeAlpha(to: 0, duration: 1)
+    let fadeoutAction05s = SKAction.fadeAlpha(to: 0, duration: 0.5)
     let rotateLeftAction = SKAction.rotate(toAngle: .pi / 15, duration: 1)
     let rotateRightAction = SKAction.rotate(toAngle: .pi / -15, duration: 1)
     let wait = SKAction.wait(forDuration: 1)
@@ -125,7 +125,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         scaleByActionSequence = SKAction.sequence([smallScaleUpByAction, smallScaleDownByAction])
         
-        pulseActionSequence = SKAction.sequence([fadeDownAction, wait, fadeUpAction])
+        pulseActionSequence = SKAction.sequence([fadeOutAction1s, wait, fadeUpAction])
         
         rotateActionSequence = SKAction.sequence([rotateLeftAction, rotateRightAction])
         
@@ -565,34 +565,40 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     
     func addBoxes(count: Int) {
         
-        let holeWidth = Screen.width / CGFloat(count)
+        let boxWidth = Screen.width / CGFloat(count)
         
-        for boxNumber in 1...count {
+        for boxNumber in 0...count - 1 {
             
-            let box = SKShapeNode(rectOf: CGSize(width: holeWidth, height: Screen.height * 0.1))
-            box.position = CGPoint(x: holeWidth * (CGFloat(boxNumber) - 0.5), y: Screen.height * 0.05)
+            let box = SKShapeNode(rectOf: CGSize(width: boxWidth, height: Screen.height * 0.1))
+            box.position = CGPoint(x: boxWidth * (CGFloat(boxNumber + 1) - 0.5), y: Screen.height * 0.05)
             box.fillColor = UIColor(hexFromString: "0099ff").withAlphaComponent(0.3)
             box.strokeColor = UIColor(hexFromString: "0099ff").withAlphaComponent(0.3)
             box.glowWidth = 5
             box.lineWidth = 0.1
             box.zPosition = ball.zPosition + 10
             box.name = "box\(boxNumber)"
+            box.physicsBody = SKPhysicsBody(edgeLoopFrom: box.path!)
             box.physicsBody?.isDynamic = false
-            box.physicsBody?.categoryBitMask = ColliderType.Box             // Who am i ?
-            //box.physicsBody?.collisionBitMask = ColliderType.Ball         // Who do i want to collide with?
-            box.physicsBody?.contactTestBitMask = ColliderType.Ball         // Test and tell "didBeginContact()" that "ColliderType.Box" has contact with "ColliderType.Ball"
-            
+            box.physicsBody!.categoryBitMask = ColliderType.Box             // Who am i ?
+            //box.physicsBody!.collisionBitMask = ColliderType.Ball         // Who do i want to collide with?
+            box.physicsBody!.contactTestBitMask = ColliderType.Ball         // Test and tell "didBeginContact()" that "ColliderType.Box" has contact with "ColliderType.Ball"
+                        
             effectNode.addChild(box)
+            
+            if boxNumber == 0 {
+                boxes.removeAll()
+            }
             
             boxes.append(box)
             
             multiplyers = [1,2,3,2,1]
             
-            let multiplierLabelNode = SKLabelNode(text: "X\(multiplyers[boxNumber-1])")
+            let multiplierLabelNode = SKLabelNode(text: "X\(multiplyers[boxNumber])")
             
             multiplierLabelNode.fontName = "LCD14"
             multiplierLabelNode.fontSize = 24
             multiplierLabelNode.fontColor = Color.yellow
+            multiplierLabelNode.name = "multiplierLabelNode"
             
             box.addChild(multiplierLabelNode)
 
@@ -602,8 +608,8 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         for line in 1...count - 1 {
             
             let linePath = CGMutablePath()
-            linePath.move(to: CGPoint(x: holeWidth * CGFloat(line), y: 0))
-            linePath.addLine(to: CGPoint(x: holeWidth * CGFloat(line), y: Screen.height * 0.1))
+            linePath.move(to: CGPoint(x: boxWidth * CGFloat(line), y: 0))
+            linePath.addLine(to: CGPoint(x: boxWidth * CGFloat(line), y: Screen.height * 0.1))
             let lineNode = SKShapeNode(path: linePath)
             lineNode.name = "line\(line)"
             lineNode.strokeColor = UIColor(hexFromString: "0099ff")
@@ -624,7 +630,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             lineGlow.alpha = 0.4
             
             let lineGlowSpriteNode = SKSpriteNode(texture: SKView().texture(from: lineGlow))
-            lineGlowSpriteNode.position = CGPoint(x: holeWidth * CGFloat(line), y: 0 - 18)
+            lineGlowSpriteNode.position = CGPoint(x: boxWidth * CGFloat(line), y: 0 - 18)
             lineGlowSpriteNode.anchorPoint = .init(x: 0.5, y: 0)
             
             lineNode.addChild(lineGlowSpriteNode)
@@ -753,13 +759,6 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     
     func prepareBall() {
         
-        
-//        let lable = UILabel(frame: CGRect(x: ball.position.x, y: ball.position.y, width: ball.frame.width, height: ball.frame.height))
-//        lable.tag = 12345
-//        let lableView = SKView()
-//        lableView.addSubview(lable)
-//        ball.addChild(lableView)
-        
         ball = Ball().create()
         
         ball.position = CGPoint(x: Screen.width / 2 + 0.1, y: Screen.height * 0.78)
@@ -775,12 +774,10 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         ballGlow.strokeColor = Color.yellow.withAlphaComponent(0.6)
         ballGlow.lineWidth = 0.1
         ballGlow.glowWidth = 12
-//        ballGlow.zPosition = 290
         ballGlow.name = "glow\(ballsAdded.count)"
         
         ball.addChild(ballGlow)
         for child in ball.children {
-            //print("Child found: \(String(describing: child.name))")
             if let name = child.name {
                 if name.lowercased().contains("glow") {
                     child.zPosition = -10
@@ -851,7 +848,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
             extraNode.physicsBody = nil
-            extraNode.physicsBody = SKPhysicsBody(circleOfRadius: 25)
+            extraNode.physicsBody = SKPhysicsBody(circleOfRadius: 27)
             extraNode.physicsBody?.isDynamic = false
             extraNode.physicsBody?.categoryBitMask = ColliderType.Extra             // Who am i ?
             //extraNode.physicsBody?.collisionBitMask = ColliderType.Ball           // Who do i want to collide with?
@@ -897,11 +894,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     }
     
     let addPoints = SKAction.run {
-        
-//        if var points = ballsAdded.last.childNode(withName: "lable") as! SKLabelNode {
-//            
-//        }
-        
+                
         pointsCount = pointsCount + ballPointValue
         pointsLabelNode.text = "POINTS: \(pointsCount)"
         pointsLabelNode.run(scaleToActionSequence)
@@ -926,61 +919,8 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                 highscoreLabelNode.fontSize = 26
                 highscoreLabelNode.fontName = "LCD14"
                 highscoreLabelNode.alpha = 1
-                
                 pointsLabelNode.alpha = 0
             }
-            
-            
-            
-        } else {
-            
-            highscoreLabelNode.fontSize = 13
-            highscoreLabelNode.fontName = "LCD14"
-            pointsLabelNode.alpha = 1
-        }
-    }
-    
-    let addExtraPoints = SKAction.run {
-        
-        if extraNode.name == "pointsStar" {
-            
-            pointsCount = pointsCount + ballPointValue * 1000
-            pointsLabelNode.text = "POINTS: \(pointsCount)"
-            
-        } else if extraNode.name == "multiStar" {
-            
-            multiplyerCount = multiplyerCount + 3
-            multiplyerLabelNode.text = "MULTI: \(multiplyerCount)"
-            
-        } else if extraNode.name == "ghost" {
-            
-            multiplyerCount = multiplyerCount + 2
-            multiplyerLabelNode.text = "MULTI: \(multiplyerCount)"
-            
-        }
-        
-        if fxOn == true {
-            let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-            extraNode.run(pling)
-        }
-        
-        if pointsCount >= lastHighscore {
-            
-            lastHighscore = pointsCount
-            highscoreLabelNode.text = "HIGHSCORE: \(lastHighscore)"
-            highscoreLabelNode.run(scaleToActionSequence)
-            
-            if !highscoreLabelIsInFront {
-                
-                highscoreLabelNode.run(SKAction.moveBy(x: 0, y: Screen.height * -0.05, duration: 0.5))
-                highscoreLabelIsInFront = true
-            }
-            
-            highscoreLabelNode.fontSize = 26
-            highscoreLabelNode.fontName = "LCD14"
-            highscoreLabelNode.alpha = 1
-            
-            pointsLabelNode.alpha = 0
             
         } else {
             
@@ -1536,235 +1476,236 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        //        //print("KONTAKT")
         
         let contactBetween: UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        
-        if contactBetween == ColliderType.Ball | ColliderType.Ball {
+        if contactBetween == ColliderType.Ball | ColliderType.Obstacle {
+            
+            print("collision between ColliderType.Ball and ColliderType.Obstacle")
+            print("Thats a hit! o_-")
+            
+            var obstacleNode: SKNode
+            
+            if (contact.bodyA.node?.name!.lowercased().contains("ball"))! {
+                obstacleNode = contact.bodyB.node!
+            } else {
+                obstacleNode = contact.bodyA.node!
+            }
+            
+            
+            obstacleNode.children.first!.run(scalePlusPointsActionSequence)
+            pointsLabelNode.run(scaleToActionSequence)
+            
+            let miniPointsLabelNode = SKLabelNode(text: "+\(ballPointValue)")
+            miniPointsLabelNode.fontSize = 13
+            miniPointsLabelNode.alpha = 1
+            miniPointsLabelNode.fontName = "LCD14"
+            miniPointsLabelNode.horizontalAlignmentMode = .center
+            miniPointsLabelNode.fontColor = UIColor(hexFromString: "0099ff")
+            
+            let scaleAction = SKAction.scale(to: 1, duration: 0.4)
+            let moveAction = SKAction.moveBy(x: 0, y: 30, duration: 0.59)
+            let actionSequence = SKAction.sequence([scaleAction, moveAction])
+            
+            let miniPointsLabelSpriteNode = SKSpriteNode(texture: SKView().texture(from: miniPointsLabelNode))
+            miniPointsLabelSpriteNode.position = CGPoint(x: obstacleNode.position.x, y: obstacleNode.position.y + 16)
+            miniPointsLabelSpriteNode.setScale(0.1)
+            effectNode.addChild(miniPointsLabelSpriteNode)
+            miniPointsLabelSpriteNode.run(actionSequence)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6, execute: {
+                miniPointsLabelSpriteNode.removeFromParent()
+            })
+            
+            
+        }
+        else if contactBetween == ColliderType.Ball | ColliderType.Extra {
+            print("contact between ColliderType.Ball and ColliderType.Extra")
+            print("EXTRA-PARTEEEEEEEYYYYYYY WHOUP WHOUP :D")
+            
+            var extraPhysicsNode: SKNode = SKNode()
+            
+            if let bodyANodeName = contact.bodyA.node?.name {
+                if bodyANodeName.lowercased().contains("ball") {
+                    extraPhysicsNode = contact.bodyB.node ?? SKNode()
+                } else {
+                    extraPhysicsNode = contact.bodyA.node ?? SKNode()
+                }
+            } else {
+                extraPhysicsNode = contact.bodyA.node ?? SKNode()
+            }
+            
+            let miniPointsLabelNode = SKLabelNode(text: "")
+            
+            if (extraPhysicsNode.name?.contains("points"))! {
+                miniPointsLabelNode.text = "+\(ballPointValue)000 POINTS"
+                miniPointsLabelNode.fontColor = UIColor.init(hexFromString: "0099ff")
+                pointsCount = pointsCount + ballPointValue * 1000
+                pointsLabelNode.text = "POINTS: \(pointsCount)"
+            } else if (extraPhysicsNode.name?.contains("multi"))! {
+                miniPointsLabelNode.text = "X3 MULTI"
+                miniPointsLabelNode.fontColor = UIColor.yellow
+                multiplyerCount = multiplyerCount + 3
+                multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
+            } else if (extraPhysicsNode.name?.contains("ghost"))! {
+                miniPointsLabelNode.text = "BUUUUH"
+                miniPointsLabelNode.fontColor = UIColor.white
+                multiplyerCount = multiplyerCount + 2
+                multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
+                
+                ghostAllBalls()
+            }
+            
+            extraPhysicsNode.run(scalePlusPointsActionSequence)
+            
+            miniPointsLabelNode.fontSize = 30
+            miniPointsLabelNode.alpha = 0.8
+            miniPointsLabelNode.fontName = "LCD14"
+            miniPointsLabelNode.horizontalAlignmentMode = .center
+            
+            let scaleAction = SKAction.scale(to: 1.2, duration: 0.5)
+            let moveAction = SKAction.moveBy(x: 0, y: 100, duration: 0.5)
+            let actionSequence = SKAction.sequence([scaleAction, moveAction])
+            
+            let miniPointsLabelSpriteNode = SKSpriteNode(texture: SKView().texture(from: miniPointsLabelNode))
+            miniPointsLabelSpriteNode.position = CGPoint(x: contact.bodyA.node!.position.x, y: contact.bodyA.node!.position.y + 50)
+            miniPointsLabelSpriteNode.setScale(0.1)
+            effectNode.addChild(miniPointsLabelSpriteNode)
+            miniPointsLabelSpriteNode.run(actionSequence)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: {
+                miniPointsLabelSpriteNode.removeFromParent()
+            })
+            
+            animateExtra(extra: extraNode)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+                self.addExtra()
+            })
+            
+            if fxOn == true {
+                let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
+                extraNode.run(pling)
+            }
+            
+            if pointsCount >= lastHighscore {
+                
+                lastHighscore = pointsCount
+                highscoreLabelNode.text = "HIGHSCORE: \(lastHighscore)"
+                highscoreLabelNode.run(scaleToActionSequence)
+                
+                if !highscoreLabelIsInFront {
+                    
+                    highscoreLabelNode.run(SKAction.moveBy(x: 0, y: Screen.height * -0.05, duration: 0.5))
+                    highscoreLabelIsInFront = true
+                    highscoreLabelNode.fontSize = 26
+                    highscoreLabelNode.fontName = "LCD14"
+                    highscoreLabelNode.alpha = 1
+                    pointsLabelNode.alpha = 0
+                }
+                
+            } else {
+                
+                highscoreLabelNode.fontSize = 13
+                highscoreLabelNode.fontName = "LCD14"
+                pointsLabelNode.alpha = 1
+            }
+        }
+        else if contactBetween == ColliderType.Ball | ColliderType.Ball {
             
             print("contact between ColliderType.Ball and ColliderType.Ball")
             print("WOHOOOO!! :D 10P")
             
             
+        }
+        else if contactBetween == ColliderType.Ball | ColliderType.Box {
             
-        } else if contactBetween == ColliderType.Ball | ColliderType.Box {
+            var ballNode: SKNode = SKNode()
+            var boxNode: SKNode = SKNode()
             
-            print("contact between ColliderType.Ball and ColliderType.Box")
-            print("WHAT BOX? -_-")
+            if (contact.bodyA.node?.name!.lowercased().contains("ball"))! {
+                ballNode = contact.bodyA.node!
+                for box in boxes {
+                    if box.contains(ballNode.position) {
+                        boxNode = box
+                    }
+                }
+            } else {
+                ballNode = contact.bodyB.node!
+                for box in boxes {
+                    if box.contains(ballNode.position) {
+                        boxNode = box
+                    }
+                }
+            }
             
+            for (i, box) in boxes.enumerated() {
+                if box.name == boxNode.name && boxesCollected.contains(false) {
+                    let multiplier = multiplyers[i]
+                        
+                    if boxesCollected[i] == false {
+                        multiplyerCount = multiplyerCount + multiplier
+                        multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
+                        multiplyerLabelNode.run(scaleByActionSequence)
+                    }
+                    if pointsCount >= lastHighscore {
+                        lastHighscore = pointsCount
+                        highscoreLabelNode.text = "HIGHSCORE: \(lastHighscore)"
+                        if !highscoreLabelIsInFront {
+                            
+                            highscoreLabelNode.run(SKAction.moveBy(x: 0, y: Screen.height * -0.05, duration: 0.5))
+                            highscoreLabelIsInFront = true
+                            highscoreLabelNode.fontSize = 26
+                            highscoreLabelNode.fontName = "LCD14"
+                            highscoreLabelNode.alpha = 1
+                            pointsLabelNode.alpha = 0
+                            
+                        }
+                    } else {
+                        highscoreLabelNode.fontSize = 13
+                        highscoreLabelNode.fontName = "LCD14"
+                        pointsLabelNode.alpha = 1
+                    }
+                    boxesCollected[i] = true
+                    let resizeAction = SKAction.resize(toWidth: 0.01, height: 0.01, duration: 0.25)
+                    let alphaAction = SKAction.fadeAlpha(to: 0, duration: 0.25)
+                    let removeSequence = SKAction.sequence([resizeAction, alphaAction])
+                    boxes[i].run(SKAction.fadeAlpha(to: 0.6, duration: 0.25))
+                    boxes[i].children.first!.run(removeSequence)
+                }
+            }
             
-            
-        } else if contactBetween == ColliderType.Ball | ColliderType.BottomLine {
+            if ballCount == 0 {
+                for i in 0...ballsAdded.count - 1 {
+                    if ballsAdded[i].position.y <= Screen.height * 0.09 {
+                        ballsDown[i] = true
+                        if !ballsDown.contains(false) && gameOver == false {
+                            if menuOpen == true {
+                                closeMenu()
+                                self.settingsButtonNode.isUserInteractionEnabled = false
+                            }
+                            self.view?.isUserInteractionEnabled = false
+                            self.isUserInteractionEnabled = false
+                            gameOver = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                                self.showEndScreen()
+                            })
+                        }
+                    }
+                }
+            }
+        }
+        else if contactBetween == ColliderType.Ball | ColliderType.BottomLine {
             
             print("collision between ColliderType.Ball and ColliderType.BottomLine")
             print("You reached the bottom dude! @_@")
             
-            
-            
-        } else if contactBetween == ColliderType.Ball | ColliderType.Obstacle {
-            
-            print("collision between ColliderType.Ball and ColliderType.Obstacle")
-            print("Thats a hit! o_-")
-            
-            
-            
         }
-        
         
         // on the other hand we make here some other stuff we do on every contact
         
         if contact.collisionImpulse >= 1.4 {
             if vibrationOn {
                 lightVibration.impactOccurred()
-            }
-        }
-
-        
-        
-        
-        
-        
-        
-        print(contact.bodyA.node?.name as Any)
-        print(contact.bodyB.node?.name as Any)
-        
-        
-        
-        
-        
-        
-        
-        if (contact.bodyA.node != nil) && (contact.bodyB.node != nil) {
-            //            //print("KONTAKT1")
-            if ((contact.bodyA.node?.name) != nil) && ((contact.bodyB.node?.name) != nil) {
-                //                //print("KONTAKT2")
-                if (contact.bodyA.node?.name?.contains("ball"))! || (contact.bodyB.node?.name?.contains("ball"))! {
-                    //                    //print("KONTAKT3")
-                    
-                    for box in 0...boxes.count - 1 {
-                        if boxes[box].contains(contact.bodyB.node!.position) {
-                            if boxesCollected.contains(false) {
-                                let multiplier = multiplyers[box - 1]
-                                
-                                if boxesCollected[box] == false {
-                                    multiplyerCount = multiplyerCount + multiplier
-                                    multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
-                                    
-                                    multiplyerLabelNode.run(scaleByActionSequence)
-                                    
-                                    if boxes[box].children.count >= 1 {
-                                        boxes[box].children.last?.run(fadeDownDoubleSpeedAction)
-                                    }
-                                }
-                                
-                                
-                                if pointsCount >= lastHighscore {
-                                    
-                                    lastHighscore = pointsCount
-                                    highscoreLabelNode.text = "HIGHSCORE: \(lastHighscore)"
-                                    
-                                    if !highscoreLabelIsInFront {
-                                        highscoreLabelNode.run(SKAction.moveBy(x: 0, y: Screen.height * -0.05, duration: 0.5))
-                                        highscoreLabelNode.fontSize = 26
-                                        highscoreLabelNode.fontName = "LCD14"
-                                        highscoreLabelNode.alpha = 1
-                                        highscoreLabelIsInFront = true
-                                        pointsLabelNode.alpha = 0
-                                        
-                                    }
-                                    
-                                } else {
-                                    highscoreLabelNode.fontSize = 13
-                                    highscoreLabelNode.fontName = "LCD14"
-                                    pointsLabelNode.alpha = 1
-
-        //                                        pointsLabelNode.text = "POINTS: \(pointsCount)"
-                                }
-                                
-                                
-                                boxesCollected[box] = true
-                                let resizeAction = SKAction.resize(toWidth: 0.01, height: 0.01, duration: 0.25)
-                                let alphaAction = SKAction.fadeAlpha(to: 0, duration: 0.25)
-                                let removeSequence = SKAction.sequence([resizeAction, alphaAction])
-                                boxes[box].run(SKAction.fadeAlpha(to: 0.6, duration: 0.25))
-                                boxes[box].children.first!.run(removeSequence)
-                                
-                                
-                                
-                            }
-                            
-                            if ballCount == 0 {
-                                for ball in 0...ballsAdded.count - 1 {
-                                    if ballsAdded[ball].position.y <= Screen.height * 0.09 {
-                                        
-                                        ballsDown[ball] = true
-                                        if !ballsDown.contains(false) {
-                                            
-                                            if gameOver == false {
-                                                
-                                                if menuOpen == true {
-                                                    closeMenu()
-                                                    self.settingsButtonNode.isUserInteractionEnabled = false
-                                                }
-                                                
-                                                self.view?.isUserInteractionEnabled = false
-                                                self.isUserInteractionEnabled = false
-                                                gameOver = true
-                                                
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                                                    
-                                                    self.showEndScreen()
-                                                })
-
-        //                                                self.saveStats()
-                                                
-                                                
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    
-                }
-                
-                if (contact.bodyA.node?.name?.contains("obstacle"))! || (contact.bodyB.node?.name?.contains("obstacle"))! {
-                    contact.bodyA.node?.children.first!.run(scalePlusPointsActionSequence)
-                    pointsLabelNode.run(scaleToActionSequence)
-                    
-                    let miniPointsLabelNode = SKLabelNode(text: "+\(ballPointValue)")
-                    miniPointsLabelNode.fontSize = 13
-                    miniPointsLabelNode.alpha = 1
-                    miniPointsLabelNode.fontName = "LCD14"
-                    miniPointsLabelNode.horizontalAlignmentMode = .center
-                    miniPointsLabelNode.fontColor = UIColor(hexFromString: "0099ff")
-                    
-                    let scaleAction = SKAction.scale(to: 1, duration: 0.4)
-                    let moveAction = SKAction.moveBy(x: 0, y: 30, duration: 0.59)
-                    let actionSequence = SKAction.sequence([scaleAction, moveAction])
-                    
-                    let miniPointsLabelSpriteNode = SKSpriteNode(texture: SKView().texture(from: miniPointsLabelNode))
-                    miniPointsLabelSpriteNode.position = CGPoint(x: contact.bodyA.node!.position.x, y: contact.bodyA.node!.position.y + 16)
-                    miniPointsLabelSpriteNode.setScale(0.1)
-                    effectNode.addChild(miniPointsLabelSpriteNode)
-                    miniPointsLabelSpriteNode.run(actionSequence)
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6, execute: {
-                        miniPointsLabelSpriteNode.removeFromParent()
-                    })
-                    
-                    
-                }
-                
-                
-                if (contact.bodyA.node?.name?.contains("pointsStar"))! || (contact.bodyB.node?.name?.contains("pointsStar"))! || (contact.bodyA.node?.name?.contains("multiStar"))! || (contact.bodyB.node?.name?.contains("multiStar"))! ||
-                    (contact.bodyA.node?.name?.contains("ghost"))! || (contact.bodyB.node?.name?.contains("ghost"))! {
-                    contact.bodyA.node?.run(scalePlusPointsActionSequence)
-//                    pointsLabelNode.run(scaleToActionSequence)
-                    
-                    let miniPointsLabelNode = SKLabelNode(text: "")
-                    if (extraNode.name?.contains("points"))! {
-                        miniPointsLabelNode.text = "+\(ballPointValue)000 POINTS"
-                        miniPointsLabelNode.fontColor = UIColor.init(hexFromString: "0099ff")
-                    } else if (extraNode.name?.contains("multi"))! {
-                        miniPointsLabelNode.text = "X3 MULTI"
-                        miniPointsLabelNode.fontColor = UIColor.yellow
-                    } else if (extraNode.name?.contains("ghost"))! {
-                        miniPointsLabelNode.text = "BUUUUH"
-                        miniPointsLabelNode.fontColor = UIColor.white
-
-                        ghostAllBalls()
-                    }
-                    
-                    miniPointsLabelNode.fontSize = 30
-                    miniPointsLabelNode.alpha = 0.8
-                    miniPointsLabelNode.fontName = "LCD14"
-                    miniPointsLabelNode.horizontalAlignmentMode = .center
-                    
-                    let scaleAction = SKAction.scale(to: 1.2, duration: 0.5)
-                    let moveAction = SKAction.moveBy(x: 0, y: 100, duration: 0.5)
-                    let actionSequence = SKAction.sequence([scaleAction, moveAction])
-                    
-                    let miniPointsLabelSpriteNode = SKSpriteNode(texture: SKView().texture(from: miniPointsLabelNode))
-                    miniPointsLabelSpriteNode.position = CGPoint(x: contact.bodyA.node!.position.x, y: contact.bodyA.node!.position.y + 50)
-                    miniPointsLabelSpriteNode.setScale(0.1)
-                    effectNode.addChild(miniPointsLabelSpriteNode)
-                    miniPointsLabelSpriteNode.run(actionSequence)
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: {
-                        miniPointsLabelSpriteNode.removeFromParent()
-                    })
-                    
-                    extraNode.run(addExtraPoints)
-                    animateExtra(extra: extraNode)
-                    
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
-                        self.addExtra()
-                    })
-                }
             }
         }
     }
@@ -1774,22 +1715,12 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "totalPointsCollected") + pointsCount, forKey: "totalPointsCollected")
         UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "totalBallsDropped") + 5, forKey: "totalBallsDropped")
         UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "ballsDroppedSincePrestige") + 5, forKey: "ballsDroppedSincePrestige")
-        if pointsCount > lastHighscore {
+        ballsDroppedSincePrestige = ballsDroppedSincePrestige + 5
+        
+        if pointsCount >= lastHighscore {
             lastHighscore = pointsCount
         }
         UserDefaults.standard.set(lastHighscore, forKey: "highscore")
-        //print("-STATS SAVED!")
-        //print("---totalPointsCollected = \(UserDefaults.standard.integer(forKey: "totalPointsCollected"))")
-        //print("---totalBallsDropped = \(UserDefaults.standard.integer(forKey: "totalBallsDropped"))")
-        //print("---highscore = \(UserDefaults.standard.integer(forKey: "highscore"))")
-    }
-    
-    func saveHighScore() {
-        
-        let newHighscore = lastHighscore
-        
-        UserDefaults.standard.set(newHighscore, forKey: "highscore")
-        
     }
     
     override func update(_ currentTime: TimeInterval) {

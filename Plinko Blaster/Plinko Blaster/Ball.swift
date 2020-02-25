@@ -12,7 +12,7 @@ import SpriteKit
 class Ball {
     
 //    var label: SKLabelNode
-    
+        
     func create() -> SKShapeNode{
         
         let shapeNode = SKShapeNode(circleOfRadius: Screen.width * 0.035)

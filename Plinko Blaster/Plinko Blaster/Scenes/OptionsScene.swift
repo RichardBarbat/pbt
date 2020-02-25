@@ -30,7 +30,7 @@ class OptionsScene: SKScene {
         print("- In den OPTIONS -")
         
         self.view?.tintColor = .green
-        
+                
         addBackButtonNode()
         addOptionsTitleLabelNode()
         addMusicButtonLabelNode()
@@ -182,19 +182,12 @@ class OptionsScene: SKScene {
         
         prestigeButtonLabelNode = SKLabelNode(text: "- PRESTIGE")
         
-        let ballsTillPrestige = 50 - UserDefaults.standard.integer(forKey: "ballsDroppedSincePrestige")
-        
-        print("ballsDroppedTillPrestige = \(50 - UserDefaults.standard.integer(forKey: "ballsDroppedSincePrestige"))")
-        
-        if UserDefaults.standard.integer(forKey: "ballsDroppedSincePrestige") < 50 {
-            
-            prestigeButtonLabelNode.isUserInteractionEnabled = true
-            prestigeButtonLabelNode.fontColor = .red
-        } else {
-            
-            prestigeButtonLabelNode.isUserInteractionEnabled = false
-            prestigeButtonLabelNode.fontColor = .green
-        }
+        print("prestigeCount = \(prestigeCount)")
+        let multiplyedPrestigeCount = Int(Double(prestigeCount * 10).rounded())
+        print("multiplyedPrestigeCount = \(multiplyedPrestigeCount)")
+        print("ballsDroppedSincePrestige = \(ballsDroppedSincePrestige)")
+        let ballsToCollectForNextPrestige: Int = 50 - ballsDroppedSincePrestige + multiplyedPrestigeCount
+        print("ballsToCollectForNextPrestige = \(ballsToCollectForNextPrestige)")
         
         prestigeButtonLabelNode.position = CGPoint(x: 30, y: tutorialButtonLabelNode.position.y - 50)
         prestigeButtonLabelNode.fontName = "LCD14"
@@ -202,15 +195,36 @@ class OptionsScene: SKScene {
         prestigeButtonLabelNode.horizontalAlignmentMode = .left
         addChild(prestigeButtonLabelNode)
         
-        if ballsTillPrestige > 0 {
+        if ballsToCollectForNextPrestige > 0 {
             
-            prestigeButtonDescriptionLabelNode = SKLabelNode(text: "\(ballsTillPrestige) MORE BALLS FOR NEXT PRESTIGE.")
-            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 0, y: -23)
+            prestigeButtonLabelNode.isUserInteractionEnabled = true //???
+            prestigeButtonLabelNode.fontColor = .red
+            
+            prestigeButtonDescriptionLabelNode = SKLabelNode(text: "\(ballsToCollectForNextPrestige) MORE BALLS FOR NEXT PRESTIGE.")
+            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 0, y: -5)
             prestigeButtonDescriptionLabelNode.fontName = "LCD14"
             prestigeButtonDescriptionLabelNode.fontColor = .red
             prestigeButtonDescriptionLabelNode.fontSize = 11
             prestigeButtonDescriptionLabelNode.horizontalAlignmentMode = .left
+            prestigeButtonDescriptionLabelNode.verticalAlignmentMode = .top
             prestigeButtonLabelNode.addChild(prestigeButtonDescriptionLabelNode)
+            
+        } else {
+            
+            prestigeButtonLabelNode.isUserInteractionEnabled = false //???
+            prestigeButtonLabelNode.fontColor = .green
+            
+            prestigeButtonDescriptionLabelNode = SKLabelNode(text: "YOU CAN PRESTIGE NOW.\nBALLS WILL COLLECT \(ballPointValue + prestigeValue)X MORE POINTS.")
+            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 20, y: -5)
+            prestigeButtonDescriptionLabelNode.fontName = "LCD14"
+            prestigeButtonDescriptionLabelNode.fontColor = .green
+            prestigeButtonDescriptionLabelNode.numberOfLines = 3
+            prestigeButtonDescriptionLabelNode.preferredMaxLayoutWidth = Screen.width * 0.75
+            prestigeButtonDescriptionLabelNode.fontSize = 11
+            prestigeButtonDescriptionLabelNode.horizontalAlignmentMode = .left
+            prestigeButtonDescriptionLabelNode.verticalAlignmentMode = .top
+            prestigeButtonLabelNode.addChild(prestigeButtonDescriptionLabelNode)
+            
         }
     }
     
@@ -378,20 +392,19 @@ class OptionsScene: SKScene {
                 
                 if prestigeButtonLabelNode.contains(touch.location(in: self)) {
                     
-                    let prestigeValue = Double(lastHighscore) * prestigeMultiplyer
-                    let roundedPrestigeValue = round(prestigeValue)
+                    prestigeCount = prestigeCount + 1
+                    UserDefaults.standard.set(prestigeCount, forKey: "prestigeCount")
+                                        
+                    UserDefaults.standard.set(ballPointValue + prestigeValue, forKey: "ballPointValue")
                     
-
-                    print("prestigeValue = \(prestigeValue)")
-                    print("roundedPrestigeValue = \(roundedPrestigeValue)")
-                    
-                    UserDefaults.standard.set(ballPointValue + Int(roundedPrestigeValue), forKey: "ballPointValue")
                     UserDefaults.standard.set(0, forKey: "highscore")
 
                     UserDefaults.standard.set(0, forKey: "ballsDroppedSincePrestige")
                     
-                    ballPointValue = ballPointValue + Int(roundedPrestigeValue)
+                    ballPointValue = ballPointValue + prestigeValue
                     lastHighscore = 0
+                    ballsDroppedSincePrestige = 0
+                    highscoreLabelNode.text = "HIGHSCORE: 0"
                     
                     prestigeButtonLabelNode.removeFromParent()
                     prestigeButtonDescriptionLabelNode.removeFromParent()

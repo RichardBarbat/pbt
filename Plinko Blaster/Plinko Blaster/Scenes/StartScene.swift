@@ -287,6 +287,7 @@ class StartScene: SKScene {
                                         UserDefaults.standard.set(true, forKey: "backgroundMusicPlayerStatus")
                                         UserDefaults.standard.set(false, forKey: "tutorialShown")
                                         UserDefaults.standard.set(1, forKey: "ballPointValue")
+                                        UserDefaults.standard.set(1, forKey: "prestigeValue")
                                         UserDefaults.standard.set(0.00002, forKey: "prestigeMultiplyer")
                                         UserDefaults.standard.set(0, forKey: "ballsDroppedSincePrestige")
                                         

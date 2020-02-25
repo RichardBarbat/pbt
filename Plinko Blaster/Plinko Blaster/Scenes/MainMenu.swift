@@ -12,6 +12,12 @@ import SpriteKit
 // MARK: - globale Variablen
 
 var pointsCount = 0
+var multiplyerCount = 0
+
+var ballsDroppedSincePrestige = UserDefaults.standard.integer(forKey: "ballsDroppedSincePrestige")
+var prestigeCount = UserDefaults.standard.integer(forKey: "prestigeCount")
+var prestigeValue = UserDefaults.standard.integer(forKey: "prestigeValue")
+var ballPointValue = UserDefaults.standard.integer(forKey: "ballPointValue")
 var lastHighscore = UserDefaults.standard.integer(forKey: "highscore")
 let pointsLabelNode = SKLabelNode()
 var highscoreLabelNode = SKLabelNode()
@@ -20,12 +26,9 @@ var vibrationOn = UserDefaults.standard.bool(forKey: "vibrationOn")
 var startScreenOn = UserDefaults.standard.bool(forKey: "startScreenOn")
 var fxOn = UserDefaults.standard.bool(forKey: "fxOn")
 var highscoreLabelIsInFront = false
-var multiplyerCount = 0
 var multiplyerLabelNode = SKLabelNode()
 var extraNode = SKSpriteNode()
 
-var ballPointValue = UserDefaults.standard.integer(forKey: "ballPointValue")
-let prestigeMultiplyer = UserDefaults.standard.double(forKey: "prestigeMultiplyer")
 
 var scaleToActionSequence = SKAction.sequence([])
 var scaleByActionSequence = SKAction.sequence([])
@@ -68,7 +71,6 @@ class MainMenu: SKScene {
             
             UserDefaults.standard.set(true, forKey: "fxOn")
             UserDefaults.standard.set(true, forKey: "vibrationOn")
-            UserDefaults.standard.set(true, forKey: "backgroundMusicPlayerStatus")
         }
         
         backgroundMusicPlayerStatus = UserDefaults.standard.bool(forKey: "backgroundMusicPlayerStatus")
