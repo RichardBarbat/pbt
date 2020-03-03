@@ -1137,15 +1137,13 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.75, execute: {
             
-            let duration: Double = 2.0 //seconds
             let endValue = pointsCount * multiplyerCount
 
             if highscoreLabelIsInFront == true {
                 DispatchQueue.global().async {
                     for i in pointsCount ... endValue {
                         pointsCount = i
-                        let sleepTime = UInt32(duration/Double(endValue) * 1000000.0)
-                        usleep(sleepTime)
+                        usleep(0)
                         DispatchQueue.main.async {
                             highscorePointsLabelNode.text = "\(i)"
                         }
@@ -1160,13 +1158,7 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                 DispatchQueue.global().async {
                     for i in pointsCount ... endValue {
                         pointsCount = i
-                        var sleepTime = Double(0)
-                        if endValue != 0 {
-                            sleepTime = Double(duration/Double(endValue) * 1000000.0)
-                            usleep(UInt32(sleepTime))
-                        } else if sleepTime.isNaN || sleepTime.isInfinite || sleepTime.isSignalingNaN {
-                            usleep(0)
-                        }
+                        usleep(0)
                         DispatchQueue.main.async {
                             if (i >= lastHighscore) {
                                 if !highscoreLabelIsInFront {
@@ -1181,9 +1173,9 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                                 }
                                 highscorePointsLabelNode.text = "\(i)"
                             }
-                            if i == endValue {
-                                self.saveStats()
-                            }
+                        }
+                        if i == endValue {
+                            self.saveStats()
                         }
                         pointsPointsLabelNode.text = "\(i)"
                     }

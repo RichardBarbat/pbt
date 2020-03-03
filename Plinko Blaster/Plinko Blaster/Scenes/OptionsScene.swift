@@ -13,14 +13,13 @@ class OptionsScene: SKScene {
     let backButtonNode = SKSpriteNode(imageNamed: "back-button4")
     
     let optionsTitleLabelNode = SKLabelNode(text: "OPTIONS")
-    let donateTitleLabelNode = SKLabelNode(text: "LIKE THE GAME ?")
+    let extrasTitleLabelNode = SKLabelNode(text: "EXTRAS")
     var musicButtonLabelNode = SKLabelNode()
     var sfxButtonLabelNode = SKLabelNode()
     var vibrationButtonLabelNode = SKLabelNode()
     var startScreenButtonLabelNode = SKLabelNode()
     var tutorialButtonLabelNode = SKLabelNode()
     var prestigeButtonLabelNode = SKLabelNode()
-    var prestigeButtonDescriptionLabelNode = SKLabelNode()
     
     let resetButton = SKShapeNode(circleOfRadius: Screen.width * 0.03)
 
@@ -39,8 +38,7 @@ class OptionsScene: SKScene {
         addShowStartScreenButtonLabelNode()
         addShowTutorialButtonLabelNode()
         addPrestigeButtonLabelNode()
-        addDonateTitleLabelNode()
-        addDonateSection()
+        addExtrasSection()
 //        addResetButton()
     }
     
@@ -181,6 +179,7 @@ class OptionsScene: SKScene {
     func addPrestigeButtonLabelNode() {
         
         prestigeButtonLabelNode = SKLabelNode(text: "- PRESTIGE")
+        var prestigeButtonDescriptionLabelNode = SKLabelNode()
         
         print("prestigeCount = \(prestigeCount)")
         let multiplyedPrestigeCount = Int(Double(prestigeCount * 10).rounded())
@@ -227,42 +226,107 @@ class OptionsScene: SKScene {
             
         }
     }
-    
-    func addDonateTitleLabelNode() {
+
+    func addExtrasSection() {
         
-        donateTitleLabelNode.position = CGPoint(x: Screen.width / 2, y: prestigeButtonLabelNode.position.y - 110)
-        donateTitleLabelNode.alpha = 1
-        donateTitleLabelNode.fontName = "LCD14"
-        donateTitleLabelNode.fontColor = .green
-        donateTitleLabelNode.fontSize = 26
-        donateTitleLabelNode.horizontalAlignmentMode = .center
-        addChild(donateTitleLabelNode)
+        extrasTitleLabelNode.position = CGPoint(x: Screen.width / 2, y: prestigeButtonLabelNode.position.y - 110)
+        extrasTitleLabelNode.alpha = 1
+        extrasTitleLabelNode.fontName = "LCD14"
+        extrasTitleLabelNode.fontColor = .green
+        extrasTitleLabelNode.fontSize = 26
+        extrasTitleLabelNode.horizontalAlignmentMode = .center
+        addChild(extrasTitleLabelNode)
         
-    }
-    
-    func addDonateSection() {
-        let donateFrameWidth = Screen.width * 0.8
-        let donateFrameHeight = Screen.height * 0.3
-        let donateFramePositionX = Screen.width * 0.1
-        let donateFramePositionY = (donateTitleLabelNode.position.y - 20) - donateFrameHeight
-        let donateSectionFrame = SKShapeNode(rect: CGRect(x: donateFramePositionX, y: donateFramePositionY, width: donateFrameWidth, height: donateFrameHeight), cornerRadius: 20)
-        donateSectionFrame.fillColor = UIColor.black.withAlphaComponent(0.3)
-        donateSectionFrame.lineWidth = 5
-        donateSectionFrame.strokeColor = .green
-        addChild(donateSectionFrame)
+        let extraSectionFrameWidth = Screen.width * 0.8
+        let extraSectionFrameHeight = Screen.height * 0.21
+        let extraSectionFramePositionX = Screen.width * 0.1
+        let extraSectionFramePositionY = (extrasTitleLabelNode.position.y - 20) - extraSectionFrameHeight
+        let extraSectionFrame = SKShapeNode(rect: CGRect(x: extraSectionFramePositionX, y: extraSectionFramePositionY, width: extraSectionFrameWidth, height: extraSectionFrameHeight), cornerRadius: 20)
+        extraSectionFrame.fillColor = UIColor.black.withAlphaComponent(0.3)
+        extraSectionFrame.lineWidth = 5
+        extraSectionFrame.strokeColor = .green
+        addChild(extraSectionFrame)
+
+        let extraTitleDescriptionLabel = SKLabelNode(text: "BOOST YOUR HIGHSCORE WITH THESE AWESOME EXTRAS:")
+        extraTitleDescriptionLabel.alpha = 1
+        extraTitleDescriptionLabel.fontName = "LCD14"
+        extraTitleDescriptionLabel.fontColor = .green
+        extraTitleDescriptionLabel.fontSize = 14
+        extraTitleDescriptionLabel.horizontalAlignmentMode = .center
+        extraTitleDescriptionLabel.preferredMaxLayoutWidth = extraSectionFrameWidth - 30
+        extraTitleDescriptionLabel.numberOfLines = 3
+        extraTitleDescriptionLabel.position.x = Screen.center.x
+        extraTitleDescriptionLabel.position.y = extraSectionFramePositionY + extraSectionFrameHeight - extraTitleDescriptionLabel.frame.size.height - 20
+        extraSectionFrame.addChild(extraTitleDescriptionLabel)
         
-        let thankYouLabel = SKLabelNode(text: "WELCOME AND THANK YOU SO MUCH FOR PLAYING MY GAME!!!\nWANT MORE FUNNY FREE GAMES?\nSUPPORT ME:")
-        thankYouLabel.alpha = 1
-        thankYouLabel.fontName = "LCD14"
-        thankYouLabel.fontColor = .green
-        thankYouLabel.fontSize = 13
-        thankYouLabel.horizontalAlignmentMode = .center
-        thankYouLabel.preferredMaxLayoutWidth = donateFrameWidth - 30
-        thankYouLabel.numberOfLines = 3
-        thankYouLabel.position.x = Screen.center.x
-        thankYouLabel.position.y = donateFramePositionY + donateFrameHeight - thankYouLabel.frame.size.height - 20
-        donateSectionFrame.addChild(thankYouLabel)
         
+        
+        let firstExtraFrame = SKShapeNode(rect: CGRect(x: extraSectionFramePositionX, y: extraSectionFramePositionY, width: extraSectionFrameWidth / 3, height: extraSectionFrameHeight / 2), cornerRadius: 20)
+        firstExtraFrame.lineWidth = 0
+        firstExtraFrame.name = "firstExtraFrame"
+        
+        let firstExtraFrameImageRect = SKSpriteNode(imageNamed: "option_extra1")
+        firstExtraFrameImageRect.position = CGPoint(x: firstExtraFrame.frame.origin.x + firstExtraFrame.frame.size.width / 2, y: firstExtraFrame.frame.origin.y + firstExtraFrame.frame.size.height / 1.6)
+        firstExtraFrameImageRect.setScale(0.5)
+        firstExtraFrame.addChild(firstExtraFrameImageRect)
+        
+        let firstExtraFramePriceLabel = SKLabelNode(text: "0,79€")
+        firstExtraFramePriceLabel.fontName = "LCD14"
+        firstExtraFramePriceLabel.fontColor = .green
+        firstExtraFramePriceLabel.fontSize = 16
+        firstExtraFramePriceLabel.horizontalAlignmentMode = .center
+        firstExtraFramePriceLabel.preferredMaxLayoutWidth = firstExtraFrame.frame.size.width
+        firstExtraFramePriceLabel.position = CGPoint(x: firstExtraFrame.frame.origin.x + firstExtraFrame.frame.size.width / 2, y: firstExtraFrame.frame.origin.y + 10)
+        firstExtraFrame.addChild(firstExtraFramePriceLabel)
+        
+        
+        
+        
+        
+        let secondExtraFrame = SKShapeNode(rect: CGRect(x: extraSectionFramePositionX + firstExtraFrame.frame.size.width, y: extraSectionFramePositionY, width: extraSectionFrameWidth / 3, height: extraSectionFrameHeight / 2), cornerRadius: 20)
+        secondExtraFrame.lineWidth = 0
+        secondExtraFrame.name = "secondExtraFrame"
+        
+        let secondExtraFrameImageRect = SKSpriteNode(imageNamed: "option_extra2")
+        secondExtraFrameImageRect.position = CGPoint(x: secondExtraFrame.frame.origin.x + secondExtraFrame.frame.size.width / 2, y: secondExtraFrame.frame.origin.y + secondExtraFrame.frame.size.height / 1.6)
+        secondExtraFrameImageRect.setScale(0.5)
+        secondExtraFrame.addChild(secondExtraFrameImageRect)
+        
+        let secondExtraFramePriceLabel = SKLabelNode(text: "1,99€")
+        secondExtraFramePriceLabel.fontName = "LCD14"
+        secondExtraFramePriceLabel.fontColor = .green
+        secondExtraFramePriceLabel.fontSize = 16
+        secondExtraFramePriceLabel.horizontalAlignmentMode = .center
+        secondExtraFramePriceLabel.preferredMaxLayoutWidth = secondExtraFrame.frame.size.width
+        secondExtraFramePriceLabel.position = CGPoint(x: secondExtraFrame.frame.origin.x + secondExtraFrame.frame.size.width / 2, y: secondExtraFrame.frame.origin.y + 10)
+        secondExtraFrame.addChild(secondExtraFramePriceLabel)
+        
+        
+        
+        
+        let thirdExtraFrame = SKShapeNode(rect: CGRect(x: extraSectionFramePositionX + firstExtraFrame.frame.size.width + secondExtraFrame.frame.size.width, y: extraSectionFramePositionY, width: extraSectionFrameWidth / 3, height: extraSectionFrameHeight / 2), cornerRadius: 20)
+        thirdExtraFrame.lineWidth = 0
+        thirdExtraFrame.name = "thirdExtraFrame"
+        
+        let thirdExtraFrameImageRect = SKSpriteNode(imageNamed: "option_extra3")
+        thirdExtraFrameImageRect.position = CGPoint(x: thirdExtraFrame.frame.origin.x + thirdExtraFrame.frame.size.width / 2, y: thirdExtraFrame.frame.origin.y + thirdExtraFrame.frame.size.height / 1.6)
+        thirdExtraFrameImageRect.setScale(0.5)
+        thirdExtraFrame.addChild(thirdExtraFrameImageRect)
+        
+        let thirdExtraFramePriceLabel = SKLabelNode(text: "4,99€")
+        thirdExtraFramePriceLabel.fontName = "LCD14"
+        thirdExtraFramePriceLabel.fontColor = .green
+        thirdExtraFramePriceLabel.fontSize = 16
+        thirdExtraFramePriceLabel.horizontalAlignmentMode = .center
+        thirdExtraFramePriceLabel.preferredMaxLayoutWidth = thirdExtraFrame.frame.size.width
+        thirdExtraFramePriceLabel.position = CGPoint(x: thirdExtraFrame.frame.origin.x + thirdExtraFrame.frame.size.width / 2, y: thirdExtraFrame.frame.origin.y + 10)
+        thirdExtraFrame.addChild(thirdExtraFramePriceLabel)
+        
+        
+        
+        extraSectionFrame.addChild(firstExtraFrame)
+        extraSectionFrame.addChild(secondExtraFrame)
+        extraSectionFrame.addChild(thirdExtraFrame)
         
         
     }
@@ -403,7 +467,6 @@ class OptionsScene: SKScene {
                     ballsDroppedSincePrestige = 0
                     
                     prestigeButtonLabelNode.removeFromParent()
-                    prestigeButtonDescriptionLabelNode.removeFromParent()
                     
                     addPrestigeButtonLabelNode()
                     

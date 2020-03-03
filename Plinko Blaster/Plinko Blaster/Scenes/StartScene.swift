@@ -266,21 +266,13 @@ class StartScene: SKScene {
                             coinNode.run(SKAction.wait(forDuration: 0.3)) {
                                 mediumVibration.impactOccurred()
                                 coinNode.run(fadeOutAnimation) {
-                                    // TODO: make fancy sequence of impacts ;)
-                                    
                                     self.run(SKAction.playSoundFileNamed("insertCoin.mp3", waitForCompletion: false))
                                     heavyVibration.impactOccurred()
-                                    
                                     if launchedBefore == true {
-                                        
                                         print("Not first launch.")
-                                        
                                         self.myScene = SceneManager.SceneType.MainMenu
-                                        
                                     } else {
-                                        
                                         print("First launch, setting UserDefaults.")
-                                        
                                         UserDefaults.standard.set(true, forKey: "fxOn")
                                         UserDefaults.standard.set(true, forKey: "vibrationOn")
                                         UserDefaults.standard.set(true, forKey: "startScreenOn")
@@ -288,9 +280,7 @@ class StartScene: SKScene {
                                         UserDefaults.standard.set(false, forKey: "tutorialShown")
                                         UserDefaults.standard.set(1, forKey: "ballPointValue")
                                         UserDefaults.standard.set(1, forKey: "prestigeValue")
-                                        UserDefaults.standard.set(0.00002, forKey: "prestigeMultiplyer")
                                         UserDefaults.standard.set(0, forKey: "ballsDroppedSincePrestige")
-                                        
                                         
                                         self.myScene = SceneManager.SceneType.WelcomeScene
                                         
@@ -311,12 +301,9 @@ class StartScene: SKScene {
                                         
                                         SceneManager.shared.transition(self, toScene: self.myScene, transition: SKTransition.push(with: SKTransitionDirection.down, duration: 2))
                                     }
-                                    
-                                    
                                 }
                             }
                         }
-                        
                     }
                 } else {
                     
@@ -329,7 +316,6 @@ class StartScene: SKScene {
                         mediumVibration.impactOccurred()
                     }
                     
-                    
                 }
                 let coinPosition = CGPoint(x: touch.location(in: self).x, y: touch.location(in: self).y + 100)
                 if hasCoin {
@@ -340,10 +326,7 @@ class StartScene: SKScene {
         }
     }
     
-    
-    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("✊")
         
     }
     
