@@ -9,6 +9,7 @@
 import SpriteKit
 import UIKit
 import AVFoundation
+import EFCountingLabel
 
 // MARK: Struct für physicsBodys
 
@@ -114,10 +115,6 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         
         scalePlusPointsActionSequence = SKAction.sequence([addPoints, scaleUpAction, scaleDownAction])
         
-        //print("PLAYER = \(String(describing: playerName!))")
-        
-        //print("LAST HIGHSCORE = \(String(describing: lastHighscore))")
-        
         addHighscoreLableNode()
         
         addBallCounterNode()
@@ -209,9 +206,8 @@ class Level1: SKScene, SKPhysicsContactDelegate {
                 })
             })
             
-        } else {
-            //print("TUTORIAL WURDE SCHON MAL GEZEIGT ... ABER WENN DU WILLST ZEIG ICH ES DIR NOCHMAL ... KLICK EINFACH OBEN LINKS ... BLA BLA")
         }
+        
         if menuOpen == true {
             closeMenu()
         }
@@ -417,7 +413,6 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         multiplyerLabelNode.position = CGPoint(x: Screen.width * 0.979, y: Screen.height * 0.83)
         multiplyerLabelNode.fontColor = Color.yellow
         multiplyerLabelNode.alpha = 1
-        //print("multiplyerLabelNode = \(multiplyerLabelNode)")
         effectNode.addChild(multiplyerLabelNode)
     }
     
@@ -1012,6 +1007,11 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             self.effectNode.removeAllActions()
             self.removeAllChildren()
             self.removeAllActions()
+            for subview in self.view!.subviews {
+                if subview is EFCountingLabel {
+                    subview.removeFromSuperview()
+                }
+            }
             SceneManager.shared.transition(self, toScene: .Level1, transition: SKTransition.fade(withDuration: 0.5))
         }
     }
@@ -1025,67 +1025,51 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         backgroundLayer.fillColor = UIColor(hexFromString: "140032")
         backgroundLayer.strokeColor = UIColor(hexFromString: "140032")
         backgroundLayer.position = CGPoint(x: Screen.width / 2, y: Screen.height / 2)
-        backgroundLayer.alpha = 0
+        backgroundLayer.alpha = 1
         backgroundLayer.zPosition = 10000
         
         let gameLabelNode = SKLabelNode(text: "GAME")
         gameLabelNode.fontSize = 100
         gameLabelNode.fontName = "LCD14"
         gameLabelNode.fontColor = UIColor(hexFromString: "d800ff")
-        gameLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.72)
-        gameLabelNode.alpha = 0
+        gameLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.80)
+        gameLabelNode.alpha = 1
         gameLabelNode.zPosition = 10100
         
         let overLabelNode = SKLabelNode(text: "OVER")
         overLabelNode.fontSize = 100
         overLabelNode.fontName = "LCD14"
         overLabelNode.fontColor = UIColor(hexFromString: "d800ff")
-        overLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.6)
-        overLabelNode.alpha = 0
+        overLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.68)
+        overLabelNode.alpha = 1
         overLabelNode.zPosition = 10100
+                
+        let pointsTitleLabelNode = SKLabelNode(text: "POINTS: ")
+        pointsTitleLabelNode.horizontalAlignmentMode = .center
+        pointsTitleLabelNode.fontSize = 40
+        pointsTitleLabelNode.fontName = "LCD14"
+        pointsTitleLabelNode.fontColor = UIColor(hexFromString: "0099ff")
+        pointsTitleLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.45)
+        pointsTitleLabelNode.alpha = 1
+        pointsTitleLabelNode.zPosition = 10100
         
-        let highscoreLabelNode = SKLabelNode(text: "NEW HIGHSCORE")
-        highscoreLabelNode.fontSize = 30
-        highscoreLabelNode.fontName = "LCD14"
-        highscoreLabelNode.fontColor = Color.yellow
-        highscoreLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.45)
-        highscoreLabelNode.alpha = 0
-        highscoreLabelNode.zPosition = 10100
+        let pointsCountingLabel = EFCountingLabel(frame: CGRect(x: 0, y: Screen.height * 0.56, width: Screen.width, height: 50))
+        pointsCountingLabel.counter.timingFunction = EFTimingFunction.easeInOut(easingRate: 3)
+        pointsCountingLabel.font = UIFont(name: "LCD14", size: 50)
+        pointsCountingLabel.textColor = UIColor(hexFromString: "0099ff")
+        pointsCountingLabel.textAlignment = .center
+        pointsCountingLabel.text = "\(pointsCount)"
+        pointsCountingLabel.alpha = 1
+        pointsCountingLabel.tag = 1
         
-        let highscorePointsLabelNode = SKLabelNode(text: "\(lastHighscore)")
-        highscorePointsLabelNode.fontSize = 60
-        highscorePointsLabelNode.fontName = "LCD14"
-        highscorePointsLabelNode.fontColor = Color.yellow
-        highscorePointsLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.35)
-        highscorePointsLabelNode.alpha = 0
-        highscorePointsLabelNode.zPosition = 10100
-        
-        let pointsLabelNode = SKLabelNode(text: "POINTS: ")
-        pointsLabelNode.horizontalAlignmentMode = .center
-        pointsLabelNode.fontSize = 40
-        pointsLabelNode.fontName = "LCD14"
-        pointsLabelNode.fontColor = UIColor(hexFromString: "0099ff")
-        pointsLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.45)
-        pointsLabelNode.alpha = 0
-        pointsLabelNode.zPosition = 10100
-        
-        let pointsPointsLabelNode = SKLabelNode(text: "\(pointsCount)")
-        pointsPointsLabelNode.horizontalAlignmentMode = .center
-        pointsPointsLabelNode.fontSize = 50
-        pointsPointsLabelNode.fontName = "LCD14"
-        pointsPointsLabelNode.fontColor = UIColor(hexFromString: "0099ff")
-        pointsPointsLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.365)
-        pointsPointsLabelNode.alpha = 0
-        pointsPointsLabelNode.zPosition = 10100
-        
-        let multiplyerLabelNode = SKLabelNode(text: "X\(multiplyerCount)")
-        multiplyerLabelNode.horizontalAlignmentMode = .center
-        multiplyerLabelNode.fontSize = 30
-        multiplyerLabelNode.fontName = "LCD14"
-        multiplyerLabelNode.fontColor = Color.yellow
-        multiplyerLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.29)
-        multiplyerLabelNode.alpha = 0
-        multiplyerLabelNode.zPosition = 10100
+        let multiplyerLabelNode = EFCountingLabel(frame: CGRect(x: 0, y: Screen.height * 0.71, width: Screen.width, height: 50))
+        multiplyerLabelNode.counter.timingFunction = EFTimingFunction.linear
+        multiplyerLabelNode.font = UIFont(name: "LCD14", size: 30)
+        multiplyerLabelNode.textColor = UIColor.yellow
+        multiplyerLabelNode.textAlignment = .center
+        multiplyerLabelNode.alpha = 1
+        multiplyerLabelNode.text = "X\(multiplyerCount)"
+        multiplyerLabelNode.tag = 2
         
         let restartLabelNode = SKLabelNode(text: "TAP ANYWHERE TO RESTART")
         restartLabelNode.preferredMaxLayoutWidth = Screen.width * 0.9
@@ -1099,12 +1083,10 @@ class Level1: SKScene, SKPhysicsContactDelegate {
         effectNode.addChild(backgroundLayer)
         effectNode.addChild(gameLabelNode)
         effectNode.addChild(overLabelNode)
-        effectNode.addChild(pointsLabelNode)
-        effectNode.addChild(pointsPointsLabelNode)
+        effectNode.addChild(pointsTitleLabelNode)
+        self.view!.addSubview(pointsCountingLabel)
         effectNode.addChild(restartLabelNode)
-        effectNode.addChild(highscoreLabelNode)
-        effectNode.addChild(highscorePointsLabelNode)
-        effectNode.addChild(multiplyerLabelNode)
+        self.view!.addSubview(multiplyerLabelNode)
         
         backgroundLayer.run(SKAction.fadeAlpha(to: 0.9, duration: 0.35))
         
@@ -1113,86 +1095,102 @@ class Level1: SKScene, SKPhysicsContactDelegate {
             overLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
         })
 
-        let scaleUpAction = SKAction.scale(to: 0.9, duration: 0.4)
-        let scaleDownAction = SKAction.scale(to: 1.05, duration: 0.4)
-        let scaleSequenze = SKAction.sequence([scaleUpAction, scaleDownAction])
+//        let scaleUpAction = SKAction.scale(to: 0.9, duration: 0.4)
+//        let scaleDownAction = SKAction.scale(to: 1.05, duration: 0.4)
+//        let scaleSequenze = SKAction.sequence([scaleUpAction, scaleDownAction])
         
-//        let plingAudioAction = SKAction.playSoundFileNamed("boing2", waitForCompletion: false)
+        var pointsCountingLabelView: EFCountingLabel = EFCountingLabel()
+        var multiplyerCountingLabelView: EFCountingLabel = EFCountingLabel()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-            if highscoreLabelIsInFront {
-                highscoreLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
-                highscorePointsLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
-                highscorePointsLabelNode.run(SKAction.repeatForever(scaleSequenze))
-                multiplyerLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
-                multiplyerLabelNode.run(SKAction.repeatForever(scaleSequenze))
-                
-            } else {
-                pointsLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
-                pointsPointsLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
-                multiplyerLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
-                multiplyerLabelNode.run(SKAction.repeatForever(scaleSequenze))
+        for subview in self.view!.subviews {
+            if subview.tag == 1 {
+                pointsCountingLabelView = subview.viewWithTag(1) as! EFCountingLabel
+            } else if subview.tag == 2 {
+                multiplyerCountingLabelView = subview.viewWithTag(2) as! EFCountingLabel
             }
-        })
+        }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.75, execute: {
-            
-            let endValue = pointsCount * multiplyerCount
 
-            if highscoreLabelIsInFront == true {
-                DispatchQueue.global().async {
-                    for i in pointsCount ... endValue {
-                        pointsCount = i
-                        usleep(0)
-                        DispatchQueue.main.async {
-                            highscorePointsLabelNode.text = "\(i)"
-                        }
-                        if i == endValue {
-                            self.saveStats()
-                        }
-                    }
-                    pointsPointsLabelNode.run(SKAction.repeatForever(scaleSequenze))
-                    multiplyerLabelNode.run(SKAction.fadeAlpha(to: 0, duration: 0.2))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+
+            pointsCountingLabelView.countFrom(CGFloat(pointsCount), to: CGFloat(pointsCount * multiplyerCount), withDuration: 3)
+            multiplyerCountingLabelView.countFrom(CGFloat(multiplyerCount), to: 0, withDuration: 3)
+            
+            var currentPointsValue: CGFloat = pointsCountingLabelView.counter.currentValue.rounded()
+            var currentMultiplyerValue: CGFloat = multiplyerLabelNode.counter.currentValue.rounded()
+            
+            pointsCountingLabelView.counter.updateBlock = {(value) in
+                currentPointsValue = pointsCountingLabel.counter.currentValue
+                
+                if currentPointsValue >= CGFloat(lastHighscore) {
+                    let newHighscoreString = "NEW\nHIGHSCORE"
+                    let attrString = NSMutableAttributedString(string: newHighscoreString)
+                    let paragraphStyle = NSMutableParagraphStyle()
+                    paragraphStyle.alignment = .center
+                    let range = NSRange(location: 0, length: newHighscoreString.count)
+                    attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: range)
+                    attrString.addAttributes([NSAttributedString.Key.foregroundColor : UIColor.yellow, NSAttributedString.Key.font : UIFont.init(name: "LCD14", size: 45)!], range: range)
+                    pointsTitleLabelNode.attributedText = attrString
+                    pointsTitleLabelNode.numberOfLines = 2
+                    pointsTitleLabelNode.position.y = Screen.height * 0.47
+                    pointsTitleLabelNode.fontColor = .yellow
+                    pointsTitleLabelNode.horizontalAlignmentMode = .center
+                    pointsCountingLabelView.textColor = .yellow
+                    highscoreLabelIsInFront = true
                 }
-            } else {
-                DispatchQueue.global().async {
-                    for i in pointsCount ... endValue {
-                        pointsCount = i
-                        usleep(0)
-                        DispatchQueue.main.async {
-                            if (i >= lastHighscore) {
-                                if !highscoreLabelIsInFront {
-                                    highscoreLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
-                                    highscorePointsLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
-                                    highscorePointsLabelNode.run(SKAction.repeatForever(scaleSequenze))
-                                    pointsLabelNode.run(SKAction.fadeAlpha(to: 0, duration: 0.2))
-                                    pointsPointsLabelNode.run(SKAction.fadeAlpha(to: 0, duration: 0.2))
-                                    multiplyerLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
-                                    multiplyerLabelNode.run(SKAction.repeatForever(scaleSequenze))
-                                    highscoreLabelIsInFront = true
-                                }
-                                highscorePointsLabelNode.text = "\(i)"
-                            }
-                        }
-                        if i == endValue {
-                            self.saveStats()
-                        }
-                        pointsPointsLabelNode.text = "\(i)"
-                    }
-                    multiplyerLabelNode.run(SKAction.fadeAlpha(to: 0, duration: 0.2))
+                pointsCountingLabelView.text = "\(Int(currentPointsValue))"
+            }
+            
+            multiplyerLabelNode.counter.updateBlock = {(value) in
+                currentMultiplyerValue = multiplyerLabelNode.counter.currentValue
+                
+                multiplyerCountingLabelView.text = "X\(Int(currentMultiplyerValue))"
+            }
+            
+            pointsCountingLabelView.completionBlock = { () in
+                print("SAVED!!!!!!!!")
+                self.saveStats()
+                
+                if currentPointsValue >= CGFloat(lastHighscore) {
+                    let newHighscoreString = "NEW\nHIGHSCORE"
+                    let attrString = NSMutableAttributedString(string: newHighscoreString)
+                    let paragraphStyle = NSMutableParagraphStyle()
+                    paragraphStyle.alignment = .center
+                    let range = NSRange(location: 0, length: newHighscoreString.count)
+                    attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: range)
+                    attrString.addAttributes([NSAttributedString.Key.foregroundColor : UIColor.yellow, NSAttributedString.Key.font : UIFont.init(name: "LCD14", size: 45)!], range: range)
+                    pointsTitleLabelNode.attributedText = attrString
+                    pointsTitleLabelNode.numberOfLines = 2
+                    pointsTitleLabelNode.position.y = Screen.height * 0.47
+                    pointsTitleLabelNode.fontColor = .yellow
+                    pointsTitleLabelNode.horizontalAlignmentMode = .center
+                    pointsCountingLabelView.textColor = .yellow
+                    highscoreLabelIsInFront = true
                 }
+                pointsCountingLabelView.text = "\(Int(currentPointsValue))"
+                
+                pointsCountingLabelView.counter.invalidate()
+            }
+            
+            multiplyerCountingLabelView.completionBlock = { () in
+                UIView.animate(withDuration: 0.3) {
+                    multiplyerCountingLabelView.alpha = 0
+                }
+                multiplyerCountingLabelView.counter.invalidate()
             }
         })
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.5, execute: {
+            
+            restartLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                
                 self.view?.isUserInteractionEnabled = true
                 self.isUserInteractionEnabled = true
+                
             })
-            restartLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
         })
-        
-        
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -1422,13 +1420,13 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     
     func saveStats() {
         
-        UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "totalPointsCollected") + pointsCount, forKey: "totalPointsCollected")
+        UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "totalPointsCollected") + (pointsCount * multiplyerCount), forKey: "totalPointsCollected")
         UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "totalBallsDropped") + 5, forKey: "totalBallsDropped")
         UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "ballsDroppedSincePrestige") + 5, forKey: "ballsDroppedSincePrestige")
         ballsDroppedSincePrestige = ballsDroppedSincePrestige + 5
         
-        if pointsCount >= lastHighscore {
-            lastHighscore = pointsCount
+        if pointsCount * multiplyerCount >= lastHighscore {
+            lastHighscore = pointsCount * multiplyerCount
         }
         UserDefaults.standard.set(lastHighscore, forKey: "highscore")
     }
