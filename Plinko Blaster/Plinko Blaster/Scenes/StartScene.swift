@@ -21,17 +21,12 @@ class StartScene: SKScene {
     let backgroundNode = SKSpriteNode(imageNamed: "leather_texture")
     let logoBackgroundNode = SKSpriteNode(imageNamed: "logoBackground")
     let automatNode = SKSpriteNode(imageNamed: "Münzeinwurfsschlitz😂 3")
-    
     var hasCoin = false
     let pickUpCoinSoundAction = SKAction.playSoundFileNamed("pickUpCoin2.mp3", waitForCompletion: false)
     let neonOutSoundAction = SKAction.playSoundFileNamed("neonOut.mp3", waitForCompletion: false)
-    
     var coinAspectRatio = CGFloat()
-    
-    var myScene = SceneManager.SceneType.WelcomeScene
-    
+    var nextScene = SceneManager.SceneType.WelcomeScene
     let logoNode = SKSpriteNode(imageNamed: "plinko-blaster-logo3")
-
     var backgroundAmbientPlayer: AVAudioPlayer?
     
     // MARK: - Beginn der Funktionen
@@ -42,15 +37,11 @@ class StartScene: SKScene {
         
         UserDefaults.standard.set(true, forKey: "startScreenOn")
         startScreenOn = true
-        
         playBackgroundAmbientInLoop(playerStatus: UserDefaults.standard.bool(forKey: "backgroundAmbientPlayerStatus"))
-        
-        
         backgroundNode.position = Screen.center
         let backgroundAspectRatio = backgroundNode.size.width/backgroundNode.size.height
         backgroundNode.size = CGSize(width: Screen.height * 1.0, height: Screen.height * 1.0 / backgroundAspectRatio)
         addChild(backgroundNode)
-        
         addLogo()
         addAutomatNode()
         addCoinNode()
@@ -59,55 +50,39 @@ class StartScene: SKScene {
         
         self.view?.showsFPS = true
         self.view?.showsNodeCount = true
-        
     }
     
     func playBackgroundAmbientInLoop(playerStatus: Bool) {
         guard let url = Bundle.main.url(forResource: "ambient", withExtension: "mp3") else { return }
-        
         do {
             try AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
             
             /* The following line is required for the player to work on iOS 11. */
             backgroundAmbientPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-            
             guard let player = backgroundAmbientPlayer else { return }
-            
-            
             player.numberOfLoops = -1
-            
             player.play()
-            print("AMBIENT MUSIC PLAYS")
-            
-            
         } catch let error {
             print(error.localizedDescription)
         }
     }
     
     func addLogo() {
-        
-        
         let logoBackgroundAspectRatio = logoBackgroundNode.size.width/logoBackgroundNode.size.height
         logoBackgroundNode.size = CGSize(width: Screen.width * 0.85, height: Screen.width * 0.85 / logoBackgroundAspectRatio)
-        
         logoBackgroundNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         logoBackgroundNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.83)
         logoBackgroundNode.alpha = 1
         logoBackgroundNode.name = "logoBackgroundNode"
-        
         addChild(logoBackgroundNode)
         
         let logoAspectRatio = logoNode.size.width/logoNode.size.height
         logoNode.size = CGSize(width: Screen.width * 0.8, height: Screen.width * 0.8 / logoAspectRatio)
-        
         logoNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         logoNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.83)
         logoNode.alpha = 0.3
         logoNode.name = "logo"
-        
-        
         addChild(logoNode)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -169,8 +144,6 @@ class StartScene: SKScene {
         automatNode.size = CGSize(width: Screen.width / 2, height: Screen.width / 2 / automatAspectRatio)
         automatNode.position = CGPoint(x: Screen.width / 2, y: Screen.height / 2)
         automatNode.name = "automatNode"
-        
-        
         addChild(automatNode)
     }
     
@@ -179,7 +152,6 @@ class StartScene: SKScene {
         coinNode.size = CGSize(width: (self.childNode(withName: "automatNode")?.frame.size.height)! * 0.25, height: (self.childNode(withName: "automatNode")?.frame.size.height)! * 0.25 / coinAspectRatio)
         coinNode.position = CGPoint(x: Screen.width * 0.5, y: 100)
         coinNode.name = "coin"
-        
         addChild(coinNode)
     }
     
@@ -189,7 +161,6 @@ class StartScene: SKScene {
         coinFlipNode.alpha = 0
         coinFlipNode.position = CGPoint(x: (self.childNode(withName: "automatNode")?.position.x)!, y: (self.childNode(withName: "automatNode")?.position.y)! - 30)
         coinFlipNode.name = "coinFlip"
-        
         addChild(coinFlipNode)
     }
     
@@ -199,7 +170,6 @@ class StartScene: SKScene {
         coinInsertNode.alpha = 0
         coinInsertNode.position = CGPoint(x: (self.childNode(withName: "automatNode")?.position.x)!, y: (self.childNode(withName: "automatNode")?.position.y)! - 30)
         coinInsertNode.name = "coinInsert"
-        
         addChild(coinInsertNode)
     }
     
@@ -217,8 +187,6 @@ class StartScene: SKScene {
                 hasCoin = false
             }
         }
-        
-        
     }
     
     var isCoinInSlot = false
@@ -227,57 +195,38 @@ class StartScene: SKScene {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             if touch == touches.first {
-                
                 let coinNode = self.childNode(withName: "coin")! as! SKSpriteNode
-                
-                
                 let coinPosition = CGPoint(x: touch.location(in: self).x, y: touch.location(in: self).y + 70)
+                
                 if hasCoin && !isCoinInSlot {
                     self.childNode(withName: "coin")!.position = coinPosition
                 }
                 
-//                if isCoinInSlot { return }
                 if self.childNode(withName: "coinFlip")!.contains(touch.location(in: self)) && hasCoin {
-                    
                     if coinSide == false {
                         if coinNode.texture == SKTexture(imageNamed: "coinSide") { return }
                         let coinSideTexture = SKTexture(imageNamed: "coinSide")
-                        
                         coinNode.texture = coinSideTexture
                         coinNode.size.width = 21
-                        
                         coinSide = true
-                        
-                        mediumVibration.impactOccurred()
                     }
-                    
                     if self.childNode(withName: "coinInsert")!.contains(touch.location(in: self)) && hasCoin {
-                        
-//                        coinNode.isUserInteractionEnabled = false
                         if !isCoinInSlot {
                             let setPositionAnimation = SKAction.move(to: CGPoint(x: Screen.center.x, y: (self.childNode(withName: "automatNode")?.position.y)! + 85), duration: 0)
-                            
                             coinNode.run(setPositionAnimation)
                             mediumVibration.impactOccurred()
                             isCoinInSlot = true
                         }
-                        
                     } else {
                         isCoinInSlot = false
                     }
                 } else {
-                    
                     if coinSide == true {
                         coinNode.texture = SKTexture(imageNamed: "coin")
                         coinNode.size = CGSize(width: (self.childNode(withName: "automatNode")?.frame.size.height)! * 0.25, height: (self.childNode(withName: "automatNode")?.frame.size.height)! * 0.25 / coinAspectRatio)
-                        
                         coinSide = false
-                        
-                        mediumVibration.impactOccurred()
                     }
-                    
                 }
-                
             }
         }
     }
@@ -298,9 +247,11 @@ class StartScene: SKScene {
                 heavyVibration.impactOccurred()
                 if launchedBefore == true {
                     print("Not first launch.")
-                    self.myScene = SceneManager.SceneType.MainMenu
+                    
+                    self.nextScene = SceneManager.SceneType.MainMenu
                 } else {
                     print("First launch, setting UserDefaults.")
+                    
                     UserDefaults.standard.set(true, forKey: "fxOn")
                     UserDefaults.standard.set(true, forKey: "vibrationOn")
                     UserDefaults.standard.set(true, forKey: "startScreenOn")
@@ -311,21 +262,16 @@ class StartScene: SKScene {
                     UserDefaults.standard.set(0, forKey: "ballsDroppedSincePrestige")
                     UserDefaults.standard.synchronize()
                     
-                    self.myScene = SceneManager.SceneType.WelcomeScene
-                    
+                    self.nextScene = SceneManager.SceneType.WelcomeScene
                     let playerName = UserDefaults.standard.string(forKey: "playerName")
-                    
                     if playerName != "" && playerName != nil {
                         UserDefaults.standard.set(true, forKey: "launchedBefore")
                     }
-                    
-                    
                 }
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
                     
                     self.backgroundAmbientPlayer?.setVolume(0, fadeDuration: 2)
-                    
-                    SceneManager.shared.transition(self, toScene: self.myScene, transition: SKTransition.push(with: SKTransitionDirection.down, duration: 2))
+                    SceneManager.shared.transition(self, toScene: self.nextScene, transition: SKTransition.push(with: SKTransitionDirection.down, duration: 2))
                 }
             }
         }
