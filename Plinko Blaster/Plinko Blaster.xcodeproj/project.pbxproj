@@ -3,12 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1B00036824015CBE005228FA /* neonOut.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B00036724015CBE005228FA /* neonOut.mp3 */; };
 		1B19ADC023F3603500D9EB5F /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B19ADBF23F3603500D9EB5F /* StartScene.swift */; };
+		1B3610792414630A00DF8AB8 /* pickUpCoin2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B3610782414630A00DF8AB8 /* pickUpCoin2.mp3 */; };
 		1B500AFD225184EF0044B020 /* boing2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B500AFC225184EF0044B020 /* boing2.mp3 */; };
 		1B567C082263AEB500CCADD1 /* OverviewScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B567C072263AEB500CCADD1 /* OverviewScene.swift */; };
 		1B56E6F3223FB6F000EDEF9C /* background-music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B56E6F2223FB6F000EDEF9C /* background-music.mp3 */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		1B00036724015CBE005228FA /* neonOut.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = neonOut.mp3; path = ../../../../../Downloads/neonOut.mp3; sourceTree = "<group>"; };
 		1B19ADBF23F3603500D9EB5F /* StartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
+		1B3610782414630A00DF8AB8 /* pickUpCoin2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pickUpCoin2.mp3; sourceTree = "<group>"; };
 		1B500AFC225184EF0044B020 /* boing2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boing2.mp3; sourceTree = "<group>"; };
 		1B567C072263AEB500CCADD1 /* OverviewScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewScene.swift; sourceTree = "<group>"; };
 		1B56E6F2223FB6F000EDEF9C /* background-music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "background-music.mp3"; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				1B56E6F62245923D00EDEF9C /* klick.wav */,
 				1B94B1F523F9DC500044A3E3 /* ambient.mp3 */,
 				1B94B1FB23F9FC640044A3E3 /* pickUpCoin.mp3 */,
+				1B3610782414630A00DF8AB8 /* pickUpCoin2.mp3 */,
 				1B94B1F923F9FBA80044A3E3 /* insertCoin.mp3 */,
 				1B00036724015CBE005228FA /* neonOut.mp3 */,
 			);
@@ -180,7 +183,6 @@
 				522251FAC1B7156E2BD211CF /* Pods-Plinko Blaster.debug.xcconfig */,
 				D11032BA27D362D15375889E /* Pods-Plinko Blaster.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -254,6 +256,7 @@
 				1B56E6F52242EB5300EDEF9C /* background-music2.mp3 in Resources */,
 				1BBFF7AD22498D3000EEB83C /* boing.mp3 in Resources */,
 				1B56E6F3223FB6F000EDEF9C /* background-music.mp3 in Resources */,
+				1B3610792414630A00DF8AB8 /* pickUpCoin2.mp3 in Resources */,
 				1BE3055222528F3F00ECAC21 /* Assets.xcassets in Resources */,
 				1BBAE2942259454600DDB2ED /* lcd.otf in Resources */,
 				1B94B1FC23F9FC640044A3E3 /* pickUpCoin.mp3 in Resources */,

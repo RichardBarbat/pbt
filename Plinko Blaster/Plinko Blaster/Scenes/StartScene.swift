@@ -23,7 +23,7 @@ class StartScene: SKScene {
     let automatNode = SKSpriteNode(imageNamed: "Münzeinwurfsschlitz😂 3")
     
     var hasCoin = false
-    let pickUpCoinSoundAction = SKAction.playSoundFileNamed("pickUpCoin.mp3", waitForCompletion: false)
+    let pickUpCoinSoundAction = SKAction.playSoundFileNamed("pickUpCoin2.mp3", waitForCompletion: false)
     let neonOutSoundAction = SKAction.playSoundFileNamed("neonOut.mp3", waitForCompletion: false)
     
     var coinAspectRatio = CGFloat()
@@ -39,11 +39,6 @@ class StartScene: SKScene {
     override func didMove(to view: SKView) {
         
         print("- Im Start Bildschirm -")
-                
-//        let ambientAudioAction = SKAction.playSoundFileNamed("ambient.mp3", waitForCompletion: true)
-        
-//        let changeVolumeAction = SKAction.changeVolume(to: 0.1, duration: 0.01)
-//        let ambientAudioGroup = SKAction.group([ambientAudioAction, changeVolumeAction])
         
         UserDefaults.standard.set(true, forKey: "startScreenOn")
         startScreenOn = true
@@ -199,7 +194,7 @@ class StartScene: SKScene {
     }
     
     func addCoinInsertNode() {
-        let coinInsertNode = SKShapeNode(circleOfRadius: 25)
+        let coinInsertNode = SKShapeNode(circleOfRadius: 30)
         coinInsertNode.fillColor = .blue
         coinInsertNode.alpha = 0
         coinInsertNode.position = CGPoint(x: (self.childNode(withName: "automatNode")?.position.x)!, y: (self.childNode(withName: "automatNode")?.position.y)! - 30)
@@ -212,7 +207,7 @@ class StartScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if let touch = touches.first {
-            let coinPosition = CGPoint(x: touch.location(in: self).x, y: touch.location(in: self).y + 100)
+            let coinPosition = CGPoint(x: touch.location(in: self).x, y: touch.location(in: self).y + 70)
             if self.childNode(withName: "coin")!.contains(touch.location(in: self)) {
                 self.childNode(withName: "coin")!.position = coinPosition
                 hasCoin = true
@@ -226,7 +221,7 @@ class StartScene: SKScene {
         
     }
     
-    var isInsertAnimationRunning = false
+    var isCoinInSlot = false
     var coinSide = false
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -235,8 +230,14 @@ class StartScene: SKScene {
                 
                 let coinNode = self.childNode(withName: "coin")! as! SKSpriteNode
                 
-                if isInsertAnimationRunning { return }
-                if self.childNode(withName: "coinFlip")!.contains(touch.location(in: self)) {
+                
+                let coinPosition = CGPoint(x: touch.location(in: self).x, y: touch.location(in: self).y + 70)
+                if hasCoin && !isCoinInSlot {
+                    self.childNode(withName: "coin")!.position = coinPosition
+                }
+                
+//                if isCoinInSlot { return }
+                if self.childNode(withName: "coinFlip")!.contains(touch.location(in: self)) && hasCoin {
                     
                     if coinSide == false {
                         if coinNode.texture == SKTexture(imageNamed: "coinSide") { return }
@@ -250,60 +251,19 @@ class StartScene: SKScene {
                         mediumVibration.impactOccurred()
                     }
                     
-                    if self.childNode(withName: "coinInsert")!.contains(touch.location(in: self)) {
+                    if self.childNode(withName: "coinInsert")!.contains(touch.location(in: self)) && hasCoin {
                         
-                        coinNode.isUserInteractionEnabled = false
-                        
-                        let setPositionAnimation = SKAction.move(to: CGPoint(x: Screen.center.x, y: (self.childNode(withName: "automatNode")?.position.y)! + 85), duration: 0.1)
-
-                        isInsertAnimationRunning = true
-                        
-                        coinNode.run(setPositionAnimation) {
+//                        coinNode.isUserInteractionEnabled = false
+                        if !isCoinInSlot {
+                            let setPositionAnimation = SKAction.move(to: CGPoint(x: Screen.center.x, y: (self.childNode(withName: "automatNode")?.position.y)! + 85), duration: 0)
                             
-                            let fadeOutAnimation = SKAction.fadeOut(withDuration: 0.1)
-                            
+                            coinNode.run(setPositionAnimation)
                             mediumVibration.impactOccurred()
-                            coinNode.run(SKAction.wait(forDuration: 0.3)) {
-                                mediumVibration.impactOccurred()
-                                coinNode.run(fadeOutAnimation) {
-                                    self.run(SKAction.playSoundFileNamed("insertCoin.mp3", waitForCompletion: false))
-                                    heavyVibration.impactOccurred()
-                                    if launchedBefore == true {
-                                        print("Not first launch.")
-                                        self.myScene = SceneManager.SceneType.MainMenu
-                                    } else {
-                                        print("First launch, setting UserDefaults.")
-                                        UserDefaults.standard.set(true, forKey: "fxOn")
-                                        UserDefaults.standard.set(true, forKey: "vibrationOn")
-                                        UserDefaults.standard.set(true, forKey: "startScreenOn")
-                                        UserDefaults.standard.set(true, forKey: "backgroundMusicPlayerStatus")
-                                        UserDefaults.standard.set(false, forKey: "tutorialShown")
-                                        UserDefaults.standard.set(1, forKey: "ballPointValue")
-                                        UserDefaults.standard.set(1, forKey: "prestigeValue")
-                                        UserDefaults.standard.set(0, forKey: "ballsDroppedSincePrestige")
-                                        
-                                        self.myScene = SceneManager.SceneType.WelcomeScene
-                                        
-                                        let playerName = UserDefaults.standard.string(forKey: "playerName")
-                                        
-                                        UserDefaults.standard.synchronize()
-                                        
-                                        if playerName != "" && playerName != nil {
-
-                                            UserDefaults.standard.set(true, forKey: "launchedBefore")
-                                        }
-                                        
-                                    }
-                                    
-                                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-                                        
-                                        self.backgroundAmbientPlayer?.setVolume(0, fadeDuration: 2)
-                                        
-                                        SceneManager.shared.transition(self, toScene: self.myScene, transition: SKTransition.push(with: SKTransitionDirection.down, duration: 2))
-                                    }
-                                }
-                            }
+                            isCoinInSlot = true
                         }
+                        
+                    } else {
+                        isCoinInSlot = false
                     }
                 } else {
                     
@@ -317,17 +277,58 @@ class StartScene: SKScene {
                     }
                     
                 }
-                let coinPosition = CGPoint(x: touch.location(in: self).x, y: touch.location(in: self).y + 100)
-                if hasCoin {
-                    self.childNode(withName: "coin")!.position = coinPosition
-                }
                 
             }
         }
     }
+
+    let fadeOutAnimation = SKAction.fadeOut(withDuration: 0.15)
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        if !hasCoin {return}
+        else if hasCoin && !isCoinInSlot {
+            self.childNode(withName: "coin")!.position = (touches.first?.location(in: self))!
+            mediumVibration.impactOccurred()
+            hasCoin = false
+            return
+        } else if hasCoin && isCoinInSlot {
+            mediumVibration.impactOccurred()
+            self.coinNode.run(self.fadeOutAnimation) {
+                self.run(SKAction.playSoundFileNamed("insertCoin.mp3", waitForCompletion: false))
+                heavyVibration.impactOccurred()
+                if launchedBefore == true {
+                    print("Not first launch.")
+                    self.myScene = SceneManager.SceneType.MainMenu
+                } else {
+                    print("First launch, setting UserDefaults.")
+                    UserDefaults.standard.set(true, forKey: "fxOn")
+                    UserDefaults.standard.set(true, forKey: "vibrationOn")
+                    UserDefaults.standard.set(true, forKey: "startScreenOn")
+                    UserDefaults.standard.set(true, forKey: "backgroundMusicPlayerStatus")
+                    UserDefaults.standard.set(false, forKey: "tutorialShown")
+                    UserDefaults.standard.set(1, forKey: "ballPointValue")
+                    UserDefaults.standard.set(1, forKey: "prestigeValue")
+                    UserDefaults.standard.set(0, forKey: "ballsDroppedSincePrestige")
+                    UserDefaults.standard.synchronize()
+                    
+                    self.myScene = SceneManager.SceneType.WelcomeScene
+                    
+                    let playerName = UserDefaults.standard.string(forKey: "playerName")
+                    
+                    if playerName != "" && playerName != nil {
+                        UserDefaults.standard.set(true, forKey: "launchedBefore")
+                    }
+                    
+                    
+                }
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+                    
+                    self.backgroundAmbientPlayer?.setVolume(0, fadeDuration: 2)
+                    
+                    SceneManager.shared.transition(self, toScene: self.myScene, transition: SKTransition.push(with: SKTransitionDirection.down, duration: 2))
+                }
+            }
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
