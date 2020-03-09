@@ -9,10 +9,12 @@
 import SpriteKit
 import UIKit
 import AVFoundation
+import GameKit
 
 // MARK: - Beginn der Klasse
 
-class StartScene: SKScene {
+class StartScene: SKScene, GKGameCenterControllerDelegate {
+    
     
     
     // MARK: - Variablen & Instanzen
@@ -35,6 +37,8 @@ class StartScene: SKScene {
         
         print("- Im Start Bildschirm -")
         
+        authenticatePlayer()
+        
         UserDefaults.standard.set(true, forKey: "startScreenOn")
         startScreenOn = true
         playBackgroundAmbientInLoop(playerStatus: UserDefaults.standard.bool(forKey: "backgroundAmbientPlayerStatus"))
@@ -50,6 +54,22 @@ class StartScene: SKScene {
         
         self.view?.showsFPS = true
         self.view?.showsNodeCount = true
+    }
+    
+    func authenticatePlayer() {
+        let localPlayer = GKLocalPlayer.local
+        
+        localPlayer.authenticateHandler = {
+            (view, error) in
+            
+            if view != nil {
+                
+                let currentViewController:UIViewController=UIApplication.shared.keyWindow!.rootViewController!
+                currentViewController.present(view!, animated: true, completion: nil)
+            } else {
+                print("USER IS AUTHENTICATED: \(GKLocalPlayer.local.isAuthenticated)")
+            }
+        }
     }
     
     func playBackgroundAmbientInLoop(playerStatus: Bool) {
@@ -72,7 +92,7 @@ class StartScene: SKScene {
         let logoBackgroundAspectRatio = logoBackgroundNode.size.width/logoBackgroundNode.size.height
         logoBackgroundNode.size = CGSize(width: Screen.width * 0.85, height: Screen.width * 0.85 / logoBackgroundAspectRatio)
         logoBackgroundNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        logoBackgroundNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.83)
+        logoBackgroundNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.73)
         logoBackgroundNode.alpha = 1
         logoBackgroundNode.name = "logoBackgroundNode"
         addChild(logoBackgroundNode)
@@ -80,7 +100,7 @@ class StartScene: SKScene {
         let logoAspectRatio = logoNode.size.width/logoNode.size.height
         logoNode.size = CGSize(width: Screen.width * 0.8, height: Screen.width * 0.8 / logoAspectRatio)
         logoNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        logoNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.83)
+        logoNode.position = CGPoint(x: logoBackgroundNode.position.x, y: logoBackgroundNode.position.y)
         logoNode.alpha = 0.3
         logoNode.name = "logo"
         addChild(logoNode)
@@ -142,7 +162,7 @@ class StartScene: SKScene {
     func addAutomatNode() {
         let automatAspectRatio = automatNode.size.width/automatNode.size.height
         automatNode.size = CGSize(width: Screen.width / 2, height: Screen.width / 2 / automatAspectRatio)
-        automatNode.position = CGPoint(x: Screen.width / 2, y: Screen.height / 2)
+        automatNode.position = CGPoint(x: Screen.width / 2, y: (logoBackgroundNode.position.y - logoBackgroundNode.frame.size.height / 2) - (automatNode.frame.size.height / 2) - 20)
         automatNode.name = "automatNode"
         addChild(automatNode)
     }
@@ -159,16 +179,16 @@ class StartScene: SKScene {
         let coinFlipNode = SKShapeNode(circleOfRadius: 70)
         coinFlipNode.fillColor = .red
         coinFlipNode.alpha = 0
-        coinFlipNode.position = CGPoint(x: (self.childNode(withName: "automatNode")?.position.x)!, y: (self.childNode(withName: "automatNode")?.position.y)! - 30)
+        coinFlipNode.position = CGPoint(x: (self.childNode(withName: "automatNode")?.position.x)!, y: (self.childNode(withName: "automatNode")?.position.y)! - 5)
         coinFlipNode.name = "coinFlip"
         addChild(coinFlipNode)
     }
     
     func addCoinInsertNode() {
-        let coinInsertNode = SKShapeNode(circleOfRadius: 30)
+        let coinInsertNode = SKShapeNode(ellipseIn: CGRect(x: 0, y: 0, width: 35, height: 60))
         coinInsertNode.fillColor = .blue
         coinInsertNode.alpha = 0
-        coinInsertNode.position = CGPoint(x: (self.childNode(withName: "automatNode")?.position.x)!, y: (self.childNode(withName: "automatNode")?.position.y)! - 30)
+        coinInsertNode.position = CGPoint(x: (self.childNode(withName: "automatNode")?.position.x)! - coinInsertNode.frame.size.width / 2, y: (self.childNode(withName: "automatNode")?.position.y)! - 30)
         coinInsertNode.name = "coinInsert"
         addChild(coinInsertNode)
     }
@@ -275,6 +295,10 @@ class StartScene: SKScene {
                 }
             }
         }
+    }
+    
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
     }
     
     override func update(_ currentTime: TimeInterval) {

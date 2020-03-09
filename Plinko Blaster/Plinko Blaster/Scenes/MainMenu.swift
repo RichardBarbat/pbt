@@ -383,6 +383,7 @@ class MainMenu: SKScene {
                 item.fontSize = 60
                 item.addGlow(radius: 10)
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
+                
             } else if item.text == "OVERVIEW" {
                 item.position = CGPoint(x: Screen.width / 2, y: 100)
                 item.fontSize = 25
@@ -396,39 +397,25 @@ class MainMenu: SKScene {
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
                 
             } else if item.text == "MUSIC: ON " {
+                item.fontSize = 25
+                item.position = CGPoint(x: Screen.width / 2, y: 50)
+                item.alpha = 1
                 if backgroundMusicPlayerStatus == false {
                     item.text = "MUSIC: OFF "
-                    item.fontSize = 25
                     item.fontColor = UIColor.red
-                    item.position = CGPoint(x: Screen.width / 2, y: 50)
-                    item.alpha = 1
-                    item.removeAllChildren()
-                    item.addGlow(radius: 7)
-                    item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
-                    self.addChild(item)
                     backgroundMusicPlayer?.stop()
-                    return
-                    
                 } else {
                     item.text = "MUSIC: ON "
-                    item.fontSize = 25
                     item.fontColor = UIColor.green
-                    item.position = CGPoint(x: Screen.width / 2, y: 50)
-                    item.alpha = 1
-                    item.removeAllChildren()
-                    item.addGlow(radius: 7)
-                    item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
-                    self.addChild(item)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         backgroundMusicPlayer?.play()
                     }
-                    return
-                    
                 }
+                item.removeAllChildren()
+                item.addGlow(radius: 7)
+                item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
             }
-            
             self.addChild(item)
-            
         }
     }
     

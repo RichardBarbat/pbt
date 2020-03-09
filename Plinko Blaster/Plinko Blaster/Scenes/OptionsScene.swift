@@ -7,10 +7,12 @@
 //
 
 import SpriteKit
+import GameKit
 
-class OptionsScene: SKScene {
+class OptionsScene: SKScene, GKGameCenterControllerDelegate {
     
     let backButtonNode = SKSpriteNode(imageNamed: "back-button4")
+    let gameCenterButtonNode = SKSpriteNode(imageNamed: "gc-icon")
     
     let optionsTitleLabelNode = SKLabelNode(text: "OPTIONS")
     let extrasTitleLabelNode = SKLabelNode(text: "EXTRAS")
@@ -31,6 +33,7 @@ class OptionsScene: SKScene {
         self.view?.tintColor = .green
                 
         addBackButtonNode()
+        addGameCenterButtonNode()
         addOptionsTitleLabelNode()
         addMusicButtonLabelNode()
         addSFXButtonLabelNode()
@@ -53,6 +56,15 @@ class OptionsScene: SKScene {
         backButtonNode.position = CGPoint(x: Screen.width * 0.1, y: Screen.height * 0.95)
         backButtonNode.alpha = 0.7
         addChild(backButtonNode)
+    }
+    
+    func addGameCenterButtonNode() {
+        gameCenterButtonNode.size = CGSize(width: Screen.width * 0.08, height: Screen.width * 0.08 )
+        
+        gameCenterButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        gameCenterButtonNode.position = CGPoint(x: Screen.width * 0.9, y: Screen.height * 0.95)
+        gameCenterButtonNode.alpha = 0.7
+        addChild(gameCenterButtonNode)
     }
     
     func addResetButton() {
@@ -335,6 +347,7 @@ class OptionsScene: SKScene {
         for touch in touches {
             if touch == touches.first {
                 
+                // BACK BUTTON
                 if backButtonNode.contains(touch.location(in: self)) {
                     print("<- ab zum Hauptmenü <-")
                     if fxOn == true {
@@ -347,6 +360,21 @@ class OptionsScene: SKScene {
                     SceneManager.shared.transition(self, toScene: .MainMenu, transition: SKTransition.fade(withDuration: 0.5))
                 }
                 
+                // GAME CENTER BUTTON
+                if gameCenterButtonNode.contains(touch.location(in: self)) {
+                    print("OPEN GAME CENTER !!!")
+                    if vibrationOn == true {
+                        mediumVibration.impactOccurred()
+                    }
+                    
+                    let currentViewController:UIViewController=UIApplication.shared.keyWindow!.rootViewController!
+                    let gameCenterViewController = GKGameCenterViewController()
+                    gameCenterViewController.gameCenterDelegate = self
+                    currentViewController.present(gameCenterViewController, animated: true, completion: nil)
+                    
+                }
+                
+                // MUSIC BUTTON
                 if musicButtonLabelNode.contains(touch.location(in: self)) {
                     if fxOn == true {
                         let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
@@ -370,6 +398,7 @@ class OptionsScene: SKScene {
                     }
                 }
                 
+                // SFX BUTTON
                 if sfxButtonLabelNode.contains(touch.location(in: self)) {
                     if fxOn == true {
                         sfxButtonLabelNode.text = "- SOUND-FX: OFF"
@@ -391,6 +420,7 @@ class OptionsScene: SKScene {
                     }
                 }
                 
+                // VIBRATION BUTTON
                 if vibrationButtonLabelNode.contains(touch.location(in: self)) {
                     if vibrationOn == true {
                         vibrationButtonLabelNode.text = "- VIBRATION: OFF"
@@ -412,6 +442,7 @@ class OptionsScene: SKScene {
                     }
                 }
                 
+                // STARTSCREEN BUTTON
                 if startScreenButtonLabelNode.contains(touch.location(in: self)) {
                     if startScreenOn == true {
                         startScreenButtonLabelNode.text = "- START-SCREEN: OFF"
@@ -433,6 +464,7 @@ class OptionsScene: SKScene {
                     }
                 }
                 
+                // GAME TUTORIAL BUTTON
                 if tutorialButtonLabelNode.contains(touch.location(in: self)) {
                     if tutorialShown == true {
                         tutorialButtonLabelNode.text = "- GAME-TUTORIAL: ON"
@@ -454,6 +486,7 @@ class OptionsScene: SKScene {
                     }
                 }
                 
+                // PRESTIGE BUTTON
                 if prestigeButtonLabelNode.contains(touch.location(in: self)) {
                     
                     prestigeCount = prestigeCount + 1
@@ -480,16 +513,22 @@ class OptionsScene: SKScene {
                         mediumVibration.impactOccurred()
                     }
                 }
-                
-                
-                
             }
         }
     }
     
+    
+    
+    
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
+    
     override func update(_ currentTime: TimeInterval) {
         
     }
-    
 }
 

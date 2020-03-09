@@ -10,6 +10,7 @@ import SpriteKit
 import UIKit
 import AVFoundation
 import EFCountingLabel
+import GameKit
 
 // MARK: Struct für physicsBodys
 
@@ -25,7 +26,8 @@ struct ColliderType {
 
 // MARK: - Beginn der Klasse
 
-class Level1: SKScene, SKPhysicsContactDelegate {
+class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate {
+    
     
     // MARK: - Variablen & Instanzen
 
@@ -1420,15 +1422,28 @@ class Level1: SKScene, SKPhysicsContactDelegate {
     
     func saveStats() {
         
+        if pointsCount * multiplyerCount >= lastHighscore {
+            lastHighscore = pointsCount * multiplyerCount
+        }
+        
+        if GKLocalPlayer.local.isAuthenticated {
+            let scoreReporter = GKScore(leaderboardIdentifier: "highscore")
+            scoreReporter.value = Int64(lastHighscore)
+            let scoreArray:[GKScore] = [scoreReporter]
+            GKScore.report(scoreArray, withCompletionHandler: nil)
+        }
+        
         UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "totalPointsCollected") + (pointsCount * multiplyerCount), forKey: "totalPointsCollected")
         UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "totalBallsDropped") + 5, forKey: "totalBallsDropped")
         UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "ballsDroppedSincePrestige") + 5, forKey: "ballsDroppedSincePrestige")
         ballsDroppedSincePrestige = ballsDroppedSincePrestige + 5
         
-        if pointsCount * multiplyerCount >= lastHighscore {
-            lastHighscore = pointsCount * multiplyerCount
-        }
+        
         UserDefaults.standard.set(lastHighscore, forKey: "highscore")
+    }
+    
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
     }
     
     override func update(_ currentTime: TimeInterval) {
