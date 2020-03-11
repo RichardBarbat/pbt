@@ -22,6 +22,7 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
     let coinNode = SKSpriteNode(imageNamed: "coin")
     let backgroundNode = SKSpriteNode(imageNamed: "leather_texture")
     let logoBackgroundNode = SKSpriteNode(imageNamed: "logoBackground")
+    var logoBackgroundNodePosition = CGPoint.init(x: Screen.width / 2, y: Screen.height * 0.73)
     let automatNode = SKSpriteNode(imageNamed: "Münzeinwurfsschlitz😂 3")
     var hasCoin = false
     let pickUpCoinSoundAction = SKAction.playSoundFileNamed("pickUpCoin2.mp3", waitForCompletion: false)
@@ -64,10 +65,19 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
             
             if view != nil {
                 
+                self.logoBackgroundNodePosition = CGPoint.init(x: Screen.width / 2, y: Screen.height * 0.8)
+                
                 let currentViewController:UIViewController=UIApplication.shared.keyWindow!.rootViewController!
                 currentViewController.present(view!, animated: true, completion: nil)
+                
             } else {
                 print("USER IS AUTHENTICATED: \(GKLocalPlayer.local.isAuthenticated)")
+                self.logoBackgroundNodePosition = CGPoint.init(x: Screen.width / 2, y: Screen.height * 0.8)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.7) {
+                    self.logoBackgroundNode.run(SKAction.move(to: self.logoBackgroundNodePosition, duration: 0.4))
+                    self.logoNode.run(SKAction.move(to: self.logoBackgroundNodePosition, duration: 0.4))
+                }
             }
         }
     }
@@ -92,7 +102,7 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
         let logoBackgroundAspectRatio = logoBackgroundNode.size.width/logoBackgroundNode.size.height
         logoBackgroundNode.size = CGSize(width: Screen.width * 0.85, height: Screen.width * 0.85 / logoBackgroundAspectRatio)
         logoBackgroundNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        logoBackgroundNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.73)
+        logoBackgroundNode.position = logoBackgroundNodePosition
         logoBackgroundNode.alpha = 1
         logoBackgroundNode.name = "logoBackgroundNode"
         addChild(logoBackgroundNode)

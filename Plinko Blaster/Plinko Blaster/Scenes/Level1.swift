@@ -61,7 +61,7 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
     var totalPointsCollected = 0
     var extraNodeTexture = SKTexture()
     var menuOpen = false
-    let extraTypes = ["pointsStar", "multiStar", "ghost"]
+    let extraTypes = ["star", "ghost"]
     
     // MARK: - Beginn der Funktionen
     
@@ -694,16 +694,28 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
     func addExtra() {
         extraNode.size = CGSize(width: 30, height: 30)
         let extraType = extraTypes.randomElement()
-        if extraType == "multiStar" {
-            extraNodeTexture = SKTexture(imageNamed: "star_yellow")
-        } else if extraType == "pointsStar" {
-            extraNodeTexture = SKTexture(imageNamed: "star_blue")
+        var extraName = ""
+        
+        if extraType == "star" {
+            let textures = [SKTexture(imageNamed: "star_yellow"), SKTexture(imageNamed: "star_blue")]
+            extraNodeTexture = textures.randomElement()!
+            
+
+            if let index = textures.firstIndex(of: extraNodeTexture) {
+                if index == 0 {
+                    extraName = "star_yellow"
+                } else if index == 1 {
+                    extraName = "star_blue"
+                }
+            }
+            
         } else if extraType == "ghost" {
             extraNodeTexture = SKTexture(imageNamed: "ghost")
+            extraName = "ghost"
         }
         extraNode = SKSpriteNode(texture: extraNodeTexture, size: extraNode.size)
+        extraNode.name = extraName
         extraNode.addGlow(radius: 10)
-        extraNode.name = extraType
         print("extraNode.name = \(String(describing: extraNode.name))")
         let heights = [Screen.height/2 - 195,
                        Screen.height/2 - 136,
@@ -779,6 +791,9 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
     
     func ghostAllBalls() {
         isGhostOn = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {ballPointValue = ballPointValue * 2})
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4.5, execute: {ballPointValue = ballPointValue / 2})
         let fadeOutAction = SKAction.fadeOut(withDuration: 1)
         let waitAction = SKAction.wait(forDuration: 4)
         let turnAllBallsOn = SKAction.run {
@@ -793,6 +808,7 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
         for ball in ballsAdded {
             ball.run(ghostSequence)
         }
+        
     }
     
     func addDownArrows(count: Int) {
@@ -1242,36 +1258,35 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
             print("contact between ColliderType.Ball and ColliderType.Extra")
             print("EXTRA-PARTEEEEEEEYYYYYYY WHOUP WHOUP :D")
             
-            var extraPhysicsNode: SKNode = SKNode()
+            var extraPhysicsNode: SKSpriteNode = SKSpriteNode()
             
             if let bodyANodeName = contact.bodyA.node?.name {
                 if bodyANodeName.lowercased().contains("ball") {
-                    extraPhysicsNode = contact.bodyB.node ?? SKNode()
+                    extraPhysicsNode = contact.bodyB.node as! SKSpriteNode
                 } else {
-                    extraPhysicsNode = contact.bodyA.node ?? SKNode()
+                    extraPhysicsNode = contact.bodyA.node as! SKSpriteNode
                 }
             } else {
-                extraPhysicsNode = contact.bodyA.node ?? SKNode()
+                extraPhysicsNode = contact.bodyA.node as! SKSpriteNode
             }
             
             let miniPointsLabelNode = SKLabelNode(text: "")
             
-            if (extraPhysicsNode.name?.contains("points"))! {
-                miniPointsLabelNode.text = "+\(ballPointValue)000 POINTS"
-                miniPointsLabelNode.fontColor = UIColor.init(hexFromString: "0099ff")
-                pointsCount = pointsCount + ballPointValue * 1000
-                pointsLabelNode.text = "POINTS: \(pointsCount)"
-            } else if (extraPhysicsNode.name?.contains("multi"))! {
-                miniPointsLabelNode.text = "X3 MULTI"
-                miniPointsLabelNode.fontColor = UIColor.yellow
-                multiplyerCount = multiplyerCount + 3
-                multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
+            if (extraPhysicsNode.name?.contains("star"))! {
+                if (extraPhysicsNode.name?.contains("yellow"))! {
+                    miniPointsLabelNode.text = "+\(ballPointValue * 1)00 POINTS"
+                    miniPointsLabelNode.fontColor = .yellow
+                    pointsCount = pointsCount + ballPointValue * 100
+                    pointsLabelNode.text = "POINTS: \(pointsCount)"
+                } else if (extraPhysicsNode.name?.contains("blue"))! {
+                    miniPointsLabelNode.text = "+\(ballPointValue * 2)00 POINTS"
+                    miniPointsLabelNode.fontColor = UIColor.init(hexFromString: "0099ff")
+                    pointsCount = pointsCount + ballPointValue * 200
+                    pointsLabelNode.text = "POINTS: \(pointsCount)"
+                }
             } else if (extraPhysicsNode.name?.contains("ghost"))! {
                 miniPointsLabelNode.text = "BUUUUH"
                 miniPointsLabelNode.fontColor = UIColor.white
-                multiplyerCount = multiplyerCount + 2
-                multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
-                
                 ghostAllBalls()
             }
             
@@ -1430,7 +1445,7 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
             let scoreReporter = GKScore(leaderboardIdentifier: "highscore")
             scoreReporter.value = Int64(lastHighscore)
             let scoreArray:[GKScore] = [scoreReporter]
-            GKScore.report(scoreArray, withCompletionHandler: nil)
+            GKScore.report(scoreArray, withCompletionHandler: nil) 
         }
         
         UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "totalPointsCollected") + (pointsCount * multiplyerCount), forKey: "totalPointsCollected")
