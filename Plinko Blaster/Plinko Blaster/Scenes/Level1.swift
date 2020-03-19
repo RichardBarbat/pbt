@@ -692,31 +692,31 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
     }
     
     func addExtra() {
-        extraNode.size = CGSize(width: 30, height: 30)
+        extraNode.size = CGSize(width: 29, height: 29)
         let extraType = extraTypes.randomElement()
-        var extraName = ""
-        
         if extraType == "star" {
-            let textures = [SKTexture(imageNamed: "star_yellow"), SKTexture(imageNamed: "star_blue")]
+            
+            let textures = [SKTexture(imageNamed: "star_yellow"),
+                            SKTexture(imageNamed: "star_blue"),
+                            SKTexture(imageNamed: "star_green"),
+                            SKTexture(imageNamed: "star_pink"),
+                            SKTexture(imageNamed: "star_original")]
             extraNodeTexture = textures.randomElement()!
             
-
-            if let index = textures.firstIndex(of: extraNodeTexture) {
-                if index == 0 {
-                    extraName = "star_yellow"
-                } else if index == 1 {
-                    extraName = "star_blue"
-                }
-            }
-            
         } else if extraType == "ghost" {
-            extraNodeTexture = SKTexture(imageNamed: "ghost")
-            extraName = "ghost"
+            
+            let textures = [SKTexture(imageNamed: "ghost_yellow"),
+                            SKTexture(imageNamed: "ghost_blue"),
+                            SKTexture(imageNamed: "ghost_green"),
+                            SKTexture(imageNamed: "ghost_pink"),
+                            SKTexture(imageNamed: "ghost_original")]
+            extraNodeTexture = textures.randomElement()!
         }
+
         extraNode = SKSpriteNode(texture: extraNodeTexture, size: extraNode.size)
-        extraNode.name = extraName
+        extraNode.name = String(describing: extraNodeTexture).components(separatedBy: "'")[1]
         extraNode.addGlow(radius: 10)
-        print("extraNode.name = \(String(describing: extraNode.name))")
+        print("extraNode.name = \(String(describing: extraNode.name!))")
         let heights = [Screen.height/2 - 195,
                        Screen.height/2 - 136,
                        Screen.height/2 - 80,
@@ -730,7 +730,7 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
         effectNode.addChild(extraNode)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
             extraNode.physicsBody = nil
-            extraNode.physicsBody = SKPhysicsBody(circleOfRadius: 27)
+            extraNode.physicsBody = SKPhysicsBody(circleOfRadius: 28)
             extraNode.physicsBody?.isDynamic = false
             extraNode.physicsBody?.categoryBitMask = ColliderType.Extra             // Who am i ?
             //extraNode.physicsBody?.collisionBitMask = ColliderType.Ball           // Who do i want to collide with?
@@ -789,13 +789,30 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
     
     var isGhostOn = false
     
-    func ghostAllBalls() {
+    func ghostAllBalls(seconds: TimeInterval ,color: UIColor) {
         isGhostOn = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {ballPointValue = ballPointValue * 2})
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            ballPointValue = ballPointValue * 2
+            for ball in self.ballsAdded {
+                let label = ball.children.first as! SKLabelNode
+                label.text = "X\(ballPointValue)"
+                label.fontColor = color
+                ball.strokeColor = color
+            }
+        })
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4.5, execute: {ballPointValue = ballPointValue / 2})
-        let fadeOutAction = SKAction.fadeOut(withDuration: 1)
-        let waitAction = SKAction.wait(forDuration: 4)
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds + 0.5, execute: {
+            ballPointValue = ballPointValue / 2
+            for ball in self.ballsAdded {
+                let label = ball.children.first as! SKLabelNode
+                label.text = "X\(ballPointValue)"
+                label.fontColor = .yellow
+                ball.strokeColor = .yellow
+            }
+        })
+        
+        let fadeOutAction = SKAction.fadeAlpha(to: 0.1, duration: 0.5)
+        let waitAction = SKAction.wait(forDuration: seconds)
         let turnAllBallsOn = SKAction.run {
             for ball in self.ballsAdded {
                 ball.run(SKAction.fadeIn(withDuration: 1))
@@ -808,7 +825,6 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
         for ball in ballsAdded {
             ball.run(ghostSequence)
         }
-        
     }
     
     func addDownArrows(count: Int) {
@@ -1271,24 +1287,66 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
             }
             
             let miniPointsLabelNode = SKLabelNode(text: "")
+            var seconds = TimeInterval(1)
             
             if (extraPhysicsNode.name?.contains("star"))! {
+                
                 if (extraPhysicsNode.name?.contains("yellow"))! {
                     miniPointsLabelNode.text = "+\(ballPointValue * 1)00 POINTS"
                     miniPointsLabelNode.fontColor = .yellow
                     pointsCount = pointsCount + ballPointValue * 100
-                    pointsLabelNode.text = "POINTS: \(pointsCount)"
                 } else if (extraPhysicsNode.name?.contains("blue"))! {
                     miniPointsLabelNode.text = "+\(ballPointValue * 2)00 POINTS"
-                    miniPointsLabelNode.fontColor = UIColor.init(hexFromString: "0099ff")
+                    miniPointsLabelNode.fontColor = UIColor(hexFromString: "0099ff")
                     pointsCount = pointsCount + ballPointValue * 200
-                    pointsLabelNode.text = "POINTS: \(pointsCount)"
+                } else if (extraPhysicsNode.name?.contains("green"))! {
+                    miniPointsLabelNode.text = "+\(ballPointValue * 4)00 POINTS"
+                    miniPointsLabelNode.fontColor = .green
+                    pointsCount = pointsCount + ballPointValue * 400
+                } else if (extraPhysicsNode.name?.contains("pink"))! {
+                    miniPointsLabelNode.text = "+\(ballPointValue * 7)00 POINTS"
+                    miniPointsLabelNode.fontColor = UIColor(hexFromString: "d800ff")
+                    pointsCount = pointsCount + ballPointValue * 700
+                } else if (extraPhysicsNode.name?.contains("original"))! {
+                    miniPointsLabelNode.text = "+\(ballPointValue * 10)00 POINTS"
+                    miniPointsLabelNode.fontColor = .white
+                    pointsCount = pointsCount + ballPointValue * 1000
                 }
+                pointsLabelNode.text = "POINTS: \(pointsCount)"
+                
             } else if (extraPhysicsNode.name?.contains("ghost"))! {
-                miniPointsLabelNode.text = "BUUUUH"
-                miniPointsLabelNode.fontColor = UIColor.white
-                ghostAllBalls()
+                
+                var color = UIColor()
+                if (extraPhysicsNode.name?.contains("yellow"))! {
+                    color = .yellow
+                    miniPointsLabelNode.text = "BUUH"
+                    seconds += 1
+                } else if (extraPhysicsNode.name?.contains("blue"))! {
+                    color = UIColor(hexFromString: "0099ff")
+                    miniPointsLabelNode.text = "BUUUH"
+                    seconds += 2
+                } else if (extraPhysicsNode.name?.contains("green"))! {
+                    color = .green
+                    miniPointsLabelNode.text = "BUUUUH"
+                    seconds += 3
+                } else if (extraPhysicsNode.name?.contains("pink"))! {
+                    color = UIColor(hexFromString: "d800ff")
+                    miniPointsLabelNode.text = "BUUUUUH"
+                    seconds += 4
+                } else if (extraPhysicsNode.name?.contains("original"))! {
+                    color = .white
+                    miniPointsLabelNode.text = "BUUUUUUH"
+                    seconds += 5
+                }
+                
+                miniPointsLabelNode.fontColor = color
+                ghostAllBalls(seconds: seconds ,color: color)
             }
+            
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5 + seconds, execute: {
+                self.addExtra()
+            })
             
             extraPhysicsNode.run(scalePlusPointsActionSequence)
             
@@ -1313,9 +1371,6 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
             
             animateExtra(extra: extraNode)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
-                self.addExtra()
-            })
             
             if fxOn == true {
                 let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
