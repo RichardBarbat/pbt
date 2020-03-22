@@ -20,7 +20,7 @@ struct ColliderType {
     static let Line: UInt32             = 0x1 << 2 // 4
     static let Box: UInt32              = 0x1 << 3 // 8
     static let BottomLine: UInt32       = 0x1 << 4 // 16
-    static let Extra: UInt32            = 0x1 << 5 // 32
+    static let Collectible: UInt32      = 0x1 << 5 // 32
     static let Scene: UInt32            = 0x1 << 6 // 64
 }
 
@@ -61,7 +61,9 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
     var totalPointsCollected = 0
     var extraNodeTexture = SKTexture()
     var menuOpen = false
-    let extraTypes = ["star", "ghost"]
+    let allCollectibles = CollectiblesData().allCollectibles()
+    var currentCollectible = Collectible(name: "", texture: SKTexture(), description: "", points: 0, multi: 0, seconds: 0, miniLabelText: "", freeAtPrestigeLevel: 0, color: .clear, action: SKAction())
+    var collectibleNode = SKSpriteNode()
     
     // MARK: - Beginn der Funktionen
     
@@ -147,7 +149,7 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
         
         prepareBall()
         
-        addExtra()
+        addRandomCollectible()
         
         if tutorialShown == false {
             self.view?.isUserInteractionEnabled = false
@@ -213,6 +215,7 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
         if menuOpen == true {
             closeMenu()
         }
+        
         let sceneEdgeLoop = SKPhysicsBody(edgeLoopFrom: self.frame)
         self.scene!.physicsBody = sceneEdgeLoop
         self.scene?.physicsBody?.friction = 500
@@ -666,7 +669,7 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
         ball.strokeColor = UIColor.yellow
         ball.lineWidth = Screen.width * 0.008
         if isGhostOn {
-            ball.alpha = 0
+            ball.alpha = 0.1
         }
         let ballGlow = SKShapeNode(circleOfRadius: ball.frame.size.width / 2.5)
         ballGlow.strokeColor = Color.yellow.withAlphaComponent(0.6)
@@ -691,71 +694,60 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
         }
     }
     
-    func addExtra() {
-        extraNode.size = CGSize(width: 29, height: 29)
-        let extraType = extraTypes.randomElement()
-        if extraType == "star" {
-            
-            let textures = [SKTexture(imageNamed: "star_yellow"),
-                            SKTexture(imageNamed: "star_blue"),
-                            SKTexture(imageNamed: "star_green"),
-                            SKTexture(imageNamed: "star_pink"),
-                            SKTexture(imageNamed: "star_original")]
-            extraNodeTexture = textures.randomElement()!
-            
-        } else if extraType == "ghost" {
-            
-            let textures = [SKTexture(imageNamed: "ghost_yellow"),
-                            SKTexture(imageNamed: "ghost_blue"),
-                            SKTexture(imageNamed: "ghost_green"),
-                            SKTexture(imageNamed: "ghost_pink"),
-                            SKTexture(imageNamed: "ghost_original")]
-            extraNodeTexture = textures.randomElement()!
-        }
-
-        extraNode = SKSpriteNode(texture: extraNodeTexture, size: extraNode.size)
-        extraNode.name = String(describing: extraNodeTexture).components(separatedBy: "'")[1]
-        extraNode.addGlow(radius: 10)
-        print("extraNode.name = \(String(describing: extraNode.name!))")
-        let heights = [Screen.height/2 - 195,
-                       Screen.height/2 - 136,
-                       Screen.height/2 - 80,
-                       Screen.height/2 - 23,
-                       Screen.height/2 + 35,
-                       Screen.height/2 + 93]
-        extraNode.position = CGPoint(x: CGFloat.random(in: 60...Screen.width-60), y: heights.randomElement()!)
-        extraNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: -10, duration: 0.3)))
-        extraNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: 10, duration: 0.3)))
-        extraNode.run(SKAction.repeatForever(SKAction.sequence([rotateActionSequence])))
-        effectNode.addChild(extraNode)
+    func addRandomCollectible() {
+        
+        let newRandomCollectibleType = allCollectibles.randomElement()
+        
+        currentCollectible = newRandomCollectibleType!.collectibles.randomElement()!
+        
+        collectibleNode = SKSpriteNode(texture: currentCollectible.texture)
+        collectibleNode.size = CGSize(width: 29, height: 29)
+        collectibleNode.name = currentCollectible.name
+        collectibleNode.addGlow(radius: 10)
+        
+        print("newCollectibleNode.name = \(String(describing: currentCollectible.name))")
+        
+        let availableRows = [   Screen.height/2 - 195,
+                                Screen.height/2 - 136,
+                                Screen.height/2 - 80,
+                                Screen.height/2 - 23,
+                                Screen.height/2 + 35,
+                                Screen.height/2 + 93
+        ]
+        collectibleNode.position = CGPoint(x: CGFloat.random(in: 60...Screen.width-60), y: availableRows.randomElement()!)
+        collectibleNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: -10, duration: 0.3)))
+        collectibleNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: 10, duration: 0.3)))
+        collectibleNode.run(SKAction.repeatForever(SKAction.sequence([rotateActionSequence])))
+        
+        effectNode.addChild(collectibleNode)
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-            extraNode.physicsBody = nil
-            extraNode.physicsBody = SKPhysicsBody(circleOfRadius: 28)
-            extraNode.physicsBody?.isDynamic = false
-            extraNode.physicsBody?.categoryBitMask = ColliderType.Extra             // Who am i ?
-            //extraNode.physicsBody?.collisionBitMask = ColliderType.Ball           // Who do i want to collide with?
-            extraNode.physicsBody?.contactTestBitMask = ColliderType.Ball           // Test and tell "didBeginContact()" that "ColliderType.Extra" has contact with "ColliderType.Ball"
+            self.collectibleNode.physicsBody = nil
+            self.collectibleNode.physicsBody = SKPhysicsBody(circleOfRadius: 28)
+            self.collectibleNode.physicsBody?.isDynamic = false
+            self.collectibleNode.physicsBody?.categoryBitMask = ColliderType.Collectible             // Who am i ?
+            //self.extraNode.physicsBody?.collisionBitMask = ColliderType.Ball           // Who do i want to collide with?
+            self.collectibleNode.physicsBody?.contactTestBitMask = ColliderType.Ball           // Test and tell "didBeginContact()" that "ColliderType.Extra" has contact with "ColliderType.Ball"
         })
     }
     
-    func animateExtra(extra: SKSpriteNode) {
+    func animateCollectibleOnCollision(collidedSpriteNode: SKSpriteNode) {
         
-        extra.physicsBody = nil
+        collidedSpriteNode.physicsBody = nil
+        
         let inflate = SKAction.resize(toWidth: 200, height: 200, duration: 0.2)
         let explode = SKAction.resize(toWidth: 300, height: 300, duration: 0.4)
         let moveToCenter = SKAction.move(to: CGPoint(x: Screen.width / 2, y: Screen.height / 2), duration: 1)
         let fadeOut = SKAction.fadeOut(withDuration: 0.4)
         let animationSequence = SKAction.sequence([inflate, explode])
-        extra.run(moveToCenter)
-        extra.run(animationSequence)
+        collidedSpriteNode.run(moveToCenter)
+        collidedSpriteNode.run(animationSequence)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-            extra.run(fadeOut)
+            collidedSpriteNode.run(fadeOut)
         })
         DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-            extra.physicsBody = nil
-            self.effectNode.childNode(withName: "pointsStar")?.removeFromParent()
-            self.effectNode.childNode(withName: "multiStar")?.removeFromParent()
-            self.effectNode.childNode(withName: "ghost")?.removeFromParent()
+            collidedSpriteNode.physicsBody = nil
+            collidedSpriteNode.removeFromParent()
         })
     }
     
@@ -789,30 +781,26 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
     
     var isGhostOn = false
     
-    func ghostAllBalls(seconds: TimeInterval ,color: UIColor) {
+    func ghostAllBalls(seconds: Int) {
         isGhostOn = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             ballPointValue = ballPointValue * 2
             for ball in self.ballsAdded {
                 let label = ball.children.first as! SKLabelNode
                 label.text = "X\(ballPointValue)"
-                label.fontColor = color
-                ball.strokeColor = color
             }
         })
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + seconds + 0.5, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(seconds) + 0.5, execute: {
             ballPointValue = ballPointValue / 2
             for ball in self.ballsAdded {
                 let label = ball.children.first as! SKLabelNode
                 label.text = "X\(ballPointValue)"
-                label.fontColor = .yellow
-                ball.strokeColor = .yellow
             }
         })
         
         let fadeOutAction = SKAction.fadeAlpha(to: 0.1, duration: 0.5)
-        let waitAction = SKAction.wait(forDuration: seconds)
+        let waitAction = SKAction.wait(forDuration: TimeInterval(seconds))
         let turnAllBallsOn = SKAction.run {
             for ball in self.ballsAdded {
                 ball.run(SKAction.fadeIn(withDuration: 1))
@@ -1270,115 +1258,47 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
             
             
         }
-        else if contactBetween == ColliderType.Ball | ColliderType.Extra {
+        else if contactBetween == ColliderType.Ball | ColliderType.Collectible {
             print("contact between ColliderType.Ball and ColliderType.Extra")
             print("EXTRA-PARTEEEEEEEYYYYYYY WHOUP WHOUP :D")
-            
-            var extraPhysicsNode: SKSpriteNode = SKSpriteNode()
-            
-            if let bodyANodeName = contact.bodyA.node?.name {
-                if bodyANodeName.lowercased().contains("ball") {
-                    extraPhysicsNode = contact.bodyB.node as! SKSpriteNode
-                } else {
-                    extraPhysicsNode = contact.bodyA.node as! SKSpriteNode
-                }
-            } else {
-                extraPhysicsNode = contact.bodyA.node as! SKSpriteNode
-            }
-            
-            let miniPointsLabelNode = SKLabelNode(text: "")
-            var seconds = TimeInterval(1)
-            
-            if (extraPhysicsNode.name?.contains("star"))! {
-                
-                if (extraPhysicsNode.name?.contains("yellow"))! {
-                    miniPointsLabelNode.text = "+\(ballPointValue * 1)00 POINTS"
-                    miniPointsLabelNode.fontColor = .yellow
-                    pointsCount = pointsCount + ballPointValue * 100
-                } else if (extraPhysicsNode.name?.contains("blue"))! {
-                    miniPointsLabelNode.text = "+\(ballPointValue * 2)00 POINTS"
-                    miniPointsLabelNode.fontColor = UIColor(hexFromString: "0099ff")
-                    pointsCount = pointsCount + ballPointValue * 200
-                } else if (extraPhysicsNode.name?.contains("green"))! {
-                    miniPointsLabelNode.text = "+\(ballPointValue * 4)00 POINTS"
-                    miniPointsLabelNode.fontColor = .green
-                    pointsCount = pointsCount + ballPointValue * 400
-                } else if (extraPhysicsNode.name?.contains("pink"))! {
-                    miniPointsLabelNode.text = "+\(ballPointValue * 7)00 POINTS"
-                    miniPointsLabelNode.fontColor = UIColor(hexFromString: "d800ff")
-                    pointsCount = pointsCount + ballPointValue * 700
-                } else if (extraPhysicsNode.name?.contains("original"))! {
-                    miniPointsLabelNode.text = "+\(ballPointValue * 10)00 POINTS"
-                    miniPointsLabelNode.fontColor = .white
-                    pointsCount = pointsCount + ballPointValue * 1000
-                }
-                pointsLabelNode.text = "POINTS: \(pointsCount)"
-                
-            } else if (extraPhysicsNode.name?.contains("ghost"))! {
-                
-                var color = UIColor()
-                if (extraPhysicsNode.name?.contains("yellow"))! {
-                    color = .yellow
-                    miniPointsLabelNode.text = "BUUH"
-                    seconds += 1
-                } else if (extraPhysicsNode.name?.contains("blue"))! {
-                    color = UIColor(hexFromString: "0099ff")
-                    miniPointsLabelNode.text = "BUUUH"
-                    seconds += 2
-                } else if (extraPhysicsNode.name?.contains("green"))! {
-                    color = .green
-                    miniPointsLabelNode.text = "BUUUUH"
-                    seconds += 3
-                } else if (extraPhysicsNode.name?.contains("pink"))! {
-                    color = UIColor(hexFromString: "d800ff")
-                    miniPointsLabelNode.text = "BUUUUUH"
-                    seconds += 4
-                } else if (extraPhysicsNode.name?.contains("original"))! {
-                    color = .white
-                    miniPointsLabelNode.text = "BUUUUUUH"
-                    seconds += 5
-                }
-                
-                miniPointsLabelNode.fontColor = color
-                ghostAllBalls(seconds: seconds ,color: color)
-            }
-            
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5 + seconds, execute: {
-                self.addExtra()
-            })
-            
-            extraPhysicsNode.run(scalePlusPointsActionSequence)
-            
-            miniPointsLabelNode.fontSize = 30
-            miniPointsLabelNode.alpha = 0.8
-            miniPointsLabelNode.fontName = "LCD14"
-            miniPointsLabelNode.horizontalAlignmentMode = .center
             
             let scaleAction = SKAction.scale(to: 1.2, duration: 0.5)
             let moveAction = SKAction.moveBy(x: 0, y: 100, duration: 0.5)
             let actionSequence = SKAction.sequence([scaleAction, moveAction])
             
+            let miniPointsLabelNode = SKLabelNode(text: currentCollectible.miniLabelText)
+            miniPointsLabelNode.fontColor = currentCollectible.color
+            miniPointsLabelNode.fontSize = 30
+            miniPointsLabelNode.alpha = 0.8
+            miniPointsLabelNode.fontName = "LCD14"
+            miniPointsLabelNode.horizontalAlignmentMode = .center
+            
             let miniPointsLabelSpriteNode = SKSpriteNode(texture: SKView().texture(from: miniPointsLabelNode))
             miniPointsLabelSpriteNode.position = CGPoint(x: contact.bodyA.node!.position.x, y: contact.bodyA.node!.position.y + 50)
             miniPointsLabelSpriteNode.setScale(0.1)
             effectNode.addChild(miniPointsLabelSpriteNode)
+            
+            animateCollectibleOnCollision(collidedSpriteNode: collectibleNode)
             miniPointsLabelSpriteNode.run(actionSequence)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: {
-                miniPointsLabelSpriteNode.removeFromParent()
-            })
+            //TODO: REPLACE THIS CODEPART vvvvvvvvv WITH SOMETHING LIKE: collectibleNode.run(currentCollectible.action(with: XY some: YX parameters:YX))
             
-            animateExtra(extra: extraNode)
-            
+            if (collectibleNode.name?.contains("star"))! {
+                
+                pointsCount = pointsCount + ballPointValue * currentCollectible.points
+                pointsLabelNode.text = "POINTS: \(pointsCount)"
+                
+            } else if (collectibleNode.name?.contains("ghost"))! {
+                
+                ghostAllBalls(seconds: currentCollectible.seconds)
+            }
             
             if fxOn == true {
                 let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                extraNode.run(pling)
+                collectibleNode.run(pling)
             }
             
             if pointsCount >= lastHighscore {
-                
                 lastHighscore = pointsCount
                 highscoreLabelNode.text = "HIGHSCORE: \(lastHighscore)"
                 highscoreLabelNode.run(scaleToActionSequence)
@@ -1399,6 +1319,15 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
                 highscoreLabelNode.fontName = "LCD14"
                 pointsLabelNode.alpha = 1
             }
+            
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: {
+                miniPointsLabelSpriteNode.removeFromParent()
+            })
+            
+            DispatchQueue.main.asyncAfter(deadline: Int(5 + currentCollectible.seconds).seconds.fromNow , execute: {
+                self.addRandomCollectible()
+            })
         }
         else if contactBetween == ColliderType.Ball | ColliderType.Box {
             

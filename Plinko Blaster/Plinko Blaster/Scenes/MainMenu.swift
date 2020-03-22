@@ -27,7 +27,6 @@ var startScreenOn = UserDefaults.standard.bool(forKey: "startScreenOn")
 var fxOn = UserDefaults.standard.bool(forKey: "fxOn")
 var highscoreLabelIsInFront = false
 var multiplyerLabelNode = SKLabelNode()
-var extraNode = SKSpriteNode()
 
 
 var scaleToActionSequence = SKAction.sequence([])
@@ -53,7 +52,7 @@ class MainMenu: SKScene {
     
     let generator = UIImpactFeedbackGenerator(style: .medium)
     let starFieldNode = SKShapeNode()
-    let menuItems = ["PLAY", "OVERVIEW", "OPTIONS", "MUSIC: ON "]
+    let menuItems = ["PLAY", "COLLECTIBLES", "OVERVIEW", "OPTIONS", "MUSIC: ON "]
     
     let playerName = UserDefaults.standard.string(forKey: "playerName")!
     
@@ -379,23 +378,34 @@ class MainMenu: SKScene {
             item.fontColor = .green
             
             if item.text == "PLAY" {
+                
                 item.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.45 - (CGFloat(i) * (item.frame.size.height + 50)))
                 item.fontSize = 60
                 item.addGlow(radius: 10)
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
                 
-            } else if item.text == "OVERVIEW" {
-                item.position = CGPoint(x: Screen.width / 2, y: 100)
-                item.fontSize = 25
+            } else if item.text == "COLLECTIBLES" {
+                
+                item.position = CGPoint(x: Screen.width / 2, y: 220)
+                item.fontSize = 28
+                item.fontColor = UIColor(hexFromString: "0099ff")
                 item.addGlow(radius: 7)
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
-                
+               
             } else if item.text == "OPTIONS" {
+                
                 item.position = CGPoint(x: Screen.width / 2, y: 150)
                 item.fontSize = 25
                 item.addGlow(radius: 7)
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
+
+            } else if item.text == "OVERVIEW" {
                 
+                item.position = CGPoint(x: Screen.width / 2, y: 100)
+                item.fontSize = 25
+                item.addGlow(radius: 7)
+                item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
+
             } else if item.text == "MUSIC: ON " {
                 item.fontSize = 25
                 item.position = CGPoint(x: Screen.width / 2, y: 50)
@@ -471,6 +481,25 @@ class MainMenu: SKScene {
                     })
                     
                     
+                    
+                } else if self.childNode(withName: "COLLECTIBLES-Button") != nil && self.childNode(withName: "COLLECTIBLES-Button")!.contains(touch.location(in: self)) {
+                                   
+                    print("-> ab zu den COLLECTIBLES ->")
+
+                    DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+                       if vibrationOn == true {
+                           self.generator.impactOccurred()
+                       }
+                       if fxOn == true {
+                           let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
+                           self.childNode(withName: "COLLECTIBLES-Button")!.run(pling)
+                       }
+                    })
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                       self.removeAllChildren()
+                       self.removeAllActions()
+                       SceneManager.shared.transition(self, toScene: .CollectiblesScene, transition: SKTransition.fade(withDuration: 0.5))
+                    })
                     
                 } else if self.childNode(withName: "OVERVIEW-Button") != nil && self.childNode(withName: "OVERVIEW-Button")!.contains(touch.location(in: self)) {
                     

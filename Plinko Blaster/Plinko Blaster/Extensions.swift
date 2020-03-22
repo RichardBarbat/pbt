@@ -39,6 +39,7 @@ struct DeviceType {
 }
 
 extension UIColor {
+    
     convenience init(hexFromString:String, alpha:CGFloat = 1.0) {
         var cString:String = hexFromString.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         var rgbValue:UInt32 = 10066329 //color #999999 if string has wrong format
@@ -59,47 +60,6 @@ extension UIColor {
         )
     }
     
-}
-
-extension SKNode {
-    func addGlow(radius:CGFloat=30) {
-        let view = SKView()
-        let effectNode = SKEffectNode()
-        let texture = view.texture(from: self)
-        effectNode.filter = CIFilter(name: "CIGaussianBlur",parameters: ["inputRadius":radius])
-        effectNode.blendMode = .add
-        effectNode.position = CGPoint(x: self.position.x, y: self.position.y )
-        effectNode.shouldCenterFilter = true
-        effectNode.shouldEnableEffects = true
-        effectNode.shouldRasterize = true
-        
-        
-        addChild(effectNode)
-        effectNode.addChild(SKSpriteNode(texture: texture))
-    }
-    
-    func run(action: SKAction!, withKey: String!, optionalCompletion:(() -> Void)?) {
-        if let completion = optionalCompletion
-        {
-            let completionAction = SKAction.run(completion)
-            let compositeAction = SKAction.sequence([ action, completionAction ])
-            run(compositeAction, withKey: withKey )
-        }
-        else
-        {
-            run( action, withKey: withKey )
-        }
-    }
-    
-    func actionForKeyIsRunning(key: String) -> Bool {
-        return self.action(forKey: key) != nil ? true : false
-    }
-}
-
-
-
-extension UIColor {
-    
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
         assert(green >= 0 && green <= 255, "Invalid green component")
@@ -119,7 +79,38 @@ extension UIColor {
     static func random() -> UIColor {
         return UIColor(rgb: Int(CGFloat(arc4random()) / CGFloat(UINT32_MAX) * 0xFFFFFF))
     }
+}
+
+extension SKNode {
     
+    func addGlow(radius:CGFloat=30) {
+        let view = SKView()
+        let effectNode = SKEffectNode()
+        let texture = view.texture(from: self)
+        effectNode.filter = CIFilter(name: "CIGaussianBlur",parameters: ["inputRadius":radius])
+        effectNode.blendMode = .add
+        effectNode.position = CGPoint(x: self.position.x, y: self.position.y )
+        effectNode.shouldCenterFilter = true
+        effectNode.shouldEnableEffects = true
+        effectNode.shouldRasterize = true
+        addChild(effectNode)
+        effectNode.addChild(SKSpriteNode(texture: texture))
+    }
+    
+    func run(action: SKAction!, withKey: String!, optionalCompletion:(() -> Void)?) {
+        if let completion = optionalCompletion
+        {
+            let completionAction = SKAction.run(completion)
+            let compositeAction = SKAction.sequence([ action, completionAction ])
+            run(compositeAction, withKey: withKey )
+        } else {
+            run( action, withKey: withKey )
+        }
+    }
+    
+    func actionForKeyIsRunning(key: String) -> Bool {
+        return self.action(forKey: key) != nil ? true : false
+    }
 }
 
 
@@ -147,5 +138,32 @@ extension DispatchQueue {
                 })
             }
         }
+    }
+    
+}
+
+public extension Int {
+    
+    var seconds: DispatchTimeInterval {
+        return DispatchTimeInterval.seconds(self)
+    }
+    
+    var second: DispatchTimeInterval {
+        return seconds
+    }
+    
+    var milliseconds: DispatchTimeInterval {
+        return DispatchTimeInterval.milliseconds(self)
+    }
+    
+    var millisecond: DispatchTimeInterval {
+        return milliseconds
+    }
+    
+}
+
+public extension DispatchTimeInterval {
+    var fromNow: DispatchTime {
+        return DispatchTime.now() + self
     }
 }

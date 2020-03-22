@@ -23,7 +23,7 @@ class Ball {
         shapeNode.physicsBody?.restitution = 0.45
         shapeNode.physicsBody?.categoryBitMask = ColliderType.Ball
         shapeNode.physicsBody?.collisionBitMask = ColliderType.Ball | ColliderType.Obstacle | ColliderType.Scene | ColliderType.Line | ColliderType.BottomLine
-        shapeNode.physicsBody?.contactTestBitMask = ColliderType.Ball | ColliderType.Obstacle | ColliderType.BottomLine | ColliderType.Box | ColliderType.Extra
+        shapeNode.physicsBody?.contactTestBitMask = ColliderType.Ball | ColliderType.Obstacle | ColliderType.BottomLine | ColliderType.Box | ColliderType.Collectible
 //        shapeNode.fillColor = UIColor.black.withAlphaComponent(0.5)
 //        shapeNode.fillColor = UIColor.yellow.withAlphaComponent(0.5)
         shapeNode.zPosition = 300
