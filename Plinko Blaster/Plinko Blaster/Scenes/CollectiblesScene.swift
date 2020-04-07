@@ -10,8 +10,9 @@ import SpriteKit
 import UIKit
 
 class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
+    
 
-    let collectiblesTableView = UITableView(frame: CGRect(x: 0, y: Screen.height * 0.2, width: Screen.width, height: Screen.height * 0.8))
+    var collectiblesTableView = UITableView()
     
     let backButtonNode = SKSpriteNode(imageNamed: "back-button4")
 
@@ -19,11 +20,14 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         
         print("CollectiblesScene")
         
-        self.view?.tintColor = .green
+        self.backgroundColor = UIColor.init(hexFromString: "242d24")
         
         addBackButtonNode()
         
         addTitleNode()
+        
+        collectiblesTableView = UITableView(frame: CGRect(x: 0, y: Screen.height * 0.2, width: Screen.width, height: Screen.height * 0.8))
+        collectiblesTableView.alpha = 0
         
         addTableView()
         
@@ -107,6 +111,12 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         
         collectiblesTableView.separatorInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.collectiblesTableView.alpha = 1
+        }
+        
+        
+        
         self.view?.addSubview(collectiblesTableView)
         
     }
@@ -121,7 +131,7 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         let view = UIView(frame: CGRect(x: 0, y: 0, width: Screen.width - 30, height: 50))
         view.layer.borderWidth = 5
         view.layer.borderColor = UIColor.green.withAlphaComponent(0.5).cgColor
-        view.backgroundColor = UIColor.green.withAlphaComponent(0.1)
+        view.backgroundColor = UIColor.init(hexFromString: "242d24")
         
         let titleLable = UILabel(frame: view.frame)
         titleLable.font = UIFont(name: "LCD14", size: 30)
@@ -157,9 +167,10 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         cell!.backgroundColor = UIColor.white.withAlphaComponent(0)
         cell!.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
         
-        cell!.imageView?.image = UIImage.init(named: allCollectables[indexPath.section].collectibles[indexPath.row].name)
+        cell!.imageView?.image = UIImage(cgImage: allCollectables[indexPath.section].collectibles[indexPath.row].texture.cgImage())
         cell!.textLabel?.text = allCollectables[indexPath.section].collectibles[indexPath.row].name
         cell!.detailTextLabel?.text = allCollectables[indexPath.section].collectibles[indexPath.row].description
+        cell?.detailTextLabel?.numberOfLines = 2
         
         
         return cell!

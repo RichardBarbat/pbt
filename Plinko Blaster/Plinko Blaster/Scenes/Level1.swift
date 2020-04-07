@@ -1106,7 +1106,7 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
         effectNode.addChild(gameLabelNode)
         effectNode.addChild(overLabelNode)
         effectNode.addChild(pointsTitleLabelNode)
-        self.view!.addSubview(pointsCountingLabel)
+        self.view!.addSubview(pointsCountingLabel) // WTF???
         effectNode.addChild(restartLabelNode)
         self.view!.addSubview(multiplyerLabelNode)
         

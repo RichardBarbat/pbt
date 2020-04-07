@@ -29,7 +29,6 @@
 		1B94B1FA23F9FBA80044A3E3 /* insertCoin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B94B1F923F9FBA80044A3E3 /* insertCoin.mp3 */; };
 		1B94B1FC23F9FC640044A3E3 /* pickUpCoin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B94B1FB23F9FC640044A3E3 /* pickUpCoin.mp3 */; };
 		1BAE80F42426F552004D9D35 /* Collectibles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE80F32426F552004D9D35 /* Collectibles.swift */; };
-		1BAE80F72427DE75004D9D35 /* neonOut.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1BAE80F62427DE75004D9D35 /* neonOut.mp3 */; };
 		1BBAE2942259454600DDB2ED /* lcd.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1BBAE2932259430B00DDB2ED /* lcd.otf */; };
 		1BBAE2962259477B00DDB2ED /* lcd2.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1BBAE2952259470100DDB2ED /* lcd2.otf */; };
 		1BBFF7AD22498D3000EEB83C /* boing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1BBFF7AC22498D3000EEB83C /* boing.mp3 */; };
@@ -37,6 +36,7 @@
 		1BE3055222528F3F00ECAC21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BE3055122528F3F00ECAC21 /* Assets.xcassets */; };
 		1BE6E97D2415BE9A000ABD7F /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BE6E97C2415BE9A000ABD7F /* GameKit.framework */; };
 		1BF2C87122FF3A530026226B /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF2C87022FF3A530026226B /* Ball.swift */; };
+		6F9A1309243D19C100255E40 /* neonOut.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6F9A1308243D19C100255E40 /* neonOut.wav */; };
 		93093ABF484BC313B101E768 /* Pods_Plinko_Blaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C297C27902B1DD324758280 /* Pods_Plinko_Blaster.framework */; };
 /* End PBXBuildFile section */
 
@@ -65,7 +65,6 @@
 		1B94B1F923F9FBA80044A3E3 /* insertCoin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = insertCoin.mp3; sourceTree = "<group>"; };
 		1B94B1FB23F9FC640044A3E3 /* pickUpCoin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pickUpCoin.mp3; sourceTree = "<group>"; };
 		1BAE80F32426F552004D9D35 /* Collectibles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collectibles.swift; sourceTree = "<group>"; };
-		1BAE80F62427DE75004D9D35 /* neonOut.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = neonOut.mp3; sourceTree = "<group>"; };
 		1BBAE2932259430B00DDB2ED /* lcd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lcd.otf; sourceTree = "<group>"; };
 		1BBAE2952259470100DDB2ED /* lcd2.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lcd2.otf; sourceTree = "<group>"; };
 		1BBFF7AC22498D3000EEB83C /* boing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boing.mp3; sourceTree = "<group>"; };
@@ -74,6 +73,7 @@
 		1BE6E97C2415BE9A000ABD7F /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		1BF2C87022FF3A530026226B /* Ball.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
 		522251FAC1B7156E2BD211CF /* Pods-Plinko Blaster.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plinko Blaster.debug.xcconfig"; path = "Target Support Files/Pods-Plinko Blaster/Pods-Plinko Blaster.debug.xcconfig"; sourceTree = "<group>"; };
+		6F9A1308243D19C100255E40 /* neonOut.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = neonOut.wav; sourceTree = "<group>"; };
 		9C297C27902B1DD324758280 /* Pods_Plinko_Blaster.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plinko_Blaster.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D11032BA27D362D15375889E /* Pods-Plinko Blaster.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plinko Blaster.release.xcconfig"; path = "Target Support Files/Pods-Plinko Blaster/Pods-Plinko Blaster.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -152,7 +152,7 @@
 				1B94B1FB23F9FC640044A3E3 /* pickUpCoin.mp3 */,
 				1B3610782414630A00DF8AB8 /* pickUpCoin2.mp3 */,
 				1B94B1F923F9FBA80044A3E3 /* insertCoin.mp3 */,
-				1BAE80F62427DE75004D9D35 /* neonOut.mp3 */,
+				6F9A1308243D19C100255E40 /* neonOut.wav */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -260,10 +260,10 @@
 				1B94B1FA23F9FBA80044A3E3 /* insertCoin.mp3 in Resources */,
 				1B606EF3223C101300BD21C9 /* LaunchScreen.storyboard in Resources */,
 				1B500AFD225184EF0044B020 /* boing2.mp3 in Resources */,
-				1BAE80F72427DE75004D9D35 /* neonOut.mp3 in Resources */,
 				1B56E6F72245923D00EDEF9C /* klick.wav in Resources */,
 				1B8B636F231F0FF500A33285 /* Default-568h@2x.png in Resources */,
 				1B56E6F52242EB5300EDEF9C /* background-music2.mp3 in Resources */,
+				6F9A1309243D19C100255E40 /* neonOut.wav in Resources */,
 				1BBFF7AD22498D3000EEB83C /* boing.mp3 in Resources */,
 				1B56E6F3223FB6F000EDEF9C /* background-music.mp3 in Resources */,
 				1B3610792414630A00DF8AB8 /* pickUpCoin2.mp3 in Resources */,

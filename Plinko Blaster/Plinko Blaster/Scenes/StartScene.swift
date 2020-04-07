@@ -22,11 +22,11 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
     let coinNode = SKSpriteNode(imageNamed: "coin")
     let backgroundNode = SKSpriteNode(imageNamed: "leather_texture")
     let logoBackgroundNode = SKSpriteNode(imageNamed: "logoBackground")
-    var logoBackgroundNodePosition = CGPoint.init(x: Screen.width / 2, y: Screen.height * 0.73)
+    var logoBackgroundNodePosition = CGPoint.init(x: Screen.width / 2, y: Screen.height * 0.8)
     let automatNode = SKSpriteNode(imageNamed: "Münzeinwurfsschlitz😂 3")
     var hasCoin = false
     let pickUpCoinSoundAction = SKAction.playSoundFileNamed("pickUpCoin2.mp3", waitForCompletion: false)
-    let neonOutSoundAction = SKAction.playSoundFileNamed("neonOut.mp3", waitForCompletion: false)
+    let neonOutSoundAction = SKAction.playSoundFileNamed("neonOut.wav", waitForCompletion: false)
     var coinAspectRatio = CGFloat()
     var nextScene = SceneManager.SceneType.WelcomeScene
     let logoNode = SKSpriteNode(imageNamed: "plinko-blaster-logo3")
@@ -64,20 +64,9 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
             (view, error) in
             
             if view != nil {
-                
-                self.logoBackgroundNodePosition = CGPoint.init(x: Screen.width / 2, y: Screen.height * 0.8)
-                
-                let currentViewController:UIViewController=UIApplication.shared.keyWindow!.rootViewController!
+                                
+                let currentViewController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!
                 currentViewController.present(view!, animated: true, completion: nil)
-                
-            } else {
-                print("USER IS AUTHENTICATED: \(GKLocalPlayer.local.isAuthenticated)")
-                self.logoBackgroundNodePosition = CGPoint.init(x: Screen.width / 2, y: Screen.height * 0.8)
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3.7) {
-                    self.logoBackgroundNode.run(SKAction.move(to: self.logoBackgroundNodePosition, duration: 0.4))
-                    self.logoNode.run(SKAction.move(to: self.logoBackgroundNodePosition, duration: 0.4))
-                }
             }
         }
     }
@@ -172,7 +161,7 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
     func addAutomatNode() {
         let automatAspectRatio = automatNode.size.width/automatNode.size.height
         automatNode.size = CGSize(width: Screen.width / 2, height: Screen.width / 2 / automatAspectRatio)
-        automatNode.position = CGPoint(x: Screen.width / 2, y: (logoBackgroundNode.position.y - logoBackgroundNode.frame.size.height / 2) - (automatNode.frame.size.height / 2) - 20)
+        automatNode.position = CGPoint(x: Screen.width / 2, y: (logoBackgroundNode.position.y - logoBackgroundNode.frame.size.height / 2) - (automatNode.frame.size.height / 2) - 60)
         automatNode.name = "automatNode"
         addChild(automatNode)
     }

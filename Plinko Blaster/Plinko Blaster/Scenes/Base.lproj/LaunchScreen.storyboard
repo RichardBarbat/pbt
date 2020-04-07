@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14854.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14806.4"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="plinko-blaster-logo3" translatesAutoresizingMaskIntoConstraints="NO" id="jP3-ER-Xop">
-                                <rect key="frame" x="0.0" y="297" width="414" height="312"/>
+                                <rect key="frame" x="0.0" y="197" width="414" height="312"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="jP3-ER-Xop" secondAttribute="height" multiplier="374:281" constant="-1.5836298932384238" id="LZg-fB-Hml"/>
                                 </constraints>
@@ -28,7 +28,7 @@
                             <constraint firstAttribute="trailing" secondItem="jP3-ER-Xop" secondAttribute="trailing" id="D9A-GJ-eLi"/>
                             <constraint firstItem="jP3-ER-Xop" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="OJ4-KS-wut"/>
                             <constraint firstItem="jP3-ER-Xop" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="fWx-pi-UWA"/>
-                            <constraint firstItem="jP3-ER-Xop" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="oex-id-9kO"/>
+                            <constraint firstItem="jP3-ER-Xop" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-100" id="oex-id-9kO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

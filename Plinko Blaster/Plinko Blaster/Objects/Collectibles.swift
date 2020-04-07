@@ -35,9 +35,9 @@ class CollectiblesData {
     //MARK: COLLECTIBLES
     let stars =  Collectibles(name: "stars", collectibles: [
         
-        Collectible(name: "star_yellow",
+        Collectible(name: "Star Yellow",
                     texture: SKTexture(imageNamed: "star_yellow"),
-                    description: "This is a test destcription of star_yellow.",
+                    description: "Sammle diesen Stern ein und bekomme 100 Punkte!",
                     points: 100,
                     multi: 0,
                     seconds: 0,
@@ -117,7 +117,7 @@ class CollectiblesData {
                     points: 0,
                     multi: 2,
                     seconds: 2,
-                    miniLabelText: "BUUH",
+                    miniLabelText: "BUUUH",
                     freeAtPrestigeLevel: 0,
                     color: UIColor(hexFromString: "0099ff"),
                     action: SKAction()
@@ -129,7 +129,7 @@ class CollectiblesData {
                     points: 0,
                     multi: 2,
                     seconds: 3,
-                    miniLabelText: "BUUH",
+                    miniLabelText: "BUUUUH",
                     freeAtPrestigeLevel: 0,
                     color: .green,
                     action: SKAction()
@@ -141,7 +141,7 @@ class CollectiblesData {
                     points: 0,
                     multi: 2,
                     seconds: 4,
-                    miniLabelText: "BUUH",
+                    miniLabelText: "BUUUUUH",
                     freeAtPrestigeLevel: 0,
                     color: UIColor(hexFromString: "d800ff"),
                     action: SKAction()
@@ -153,13 +153,14 @@ class CollectiblesData {
                     points: 0,
                     multi: 2,
                     seconds: 5,
-                    miniLabelText: "BUUH",
+                    miniLabelText: "BUUUUUUH",
                     freeAtPrestigeLevel: 0,
                     color: .white,
                     action: SKAction()
         )
     
     ])
+    
     
     
     //MARK: CLASS FUNCTIONS
@@ -171,6 +172,4 @@ class CollectiblesData {
         return arrayOfAllCollectibles
     }
 
-    
-    
 }

@@ -30,6 +30,8 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         
         print("- In den OPTIONS -")
         
+        self.backgroundColor = UIColor.init(hexFromString: "242d24")
+        
         self.view?.tintColor = .green
                 
         addBackButtonNode()
