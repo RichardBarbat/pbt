@@ -668,7 +668,7 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
         ball.name = "ball\(ballsAdded.count)"
         ball.strokeColor = UIColor.yellow
         ball.lineWidth = Screen.width * 0.008
-        if isGhostOn {
+        if ballsAreGhosted {
             ball.alpha = 0.1
         }
         let ballGlow = SKShapeNode(circleOfRadius: ball.frame.size.width / 2.5)
@@ -696,9 +696,17 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
     
     func addRandomCollectible() {
         
-        let newRandomCollectibleType = allCollectibles.randomElement()
+        var availableCollectibles: [Collectible] = []
+        for collectibles in allCollectibles {
+            let cacheCollectibles = collectibles.collectibles
+            for posiblyFreeCollectible in cacheCollectibles {
+                if posiblyFreeCollectible.freeAtPrestigeLevel <= prestigeCount + 1 {
+                    availableCollectibles.append(posiblyFreeCollectible)
+                }
+            }
+        }
         
-        currentCollectible = newRandomCollectibleType!.collectibles.randomElement()!
+        currentCollectible = availableCollectibles.randomElement()!
         
         collectibleNode = SKSpriteNode(texture: currentCollectible.texture)
         collectibleNode.size = CGSize(width: 29, height: 29)
@@ -779,10 +787,10 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
         }
     }
     
-    var isGhostOn = false
+    var ballsAreGhosted = false
     
     func ghostAllBalls(seconds: Int) {
-        isGhostOn = true
+        ballsAreGhosted = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             ballPointValue = ballPointValue * 2
             for ball in self.ballsAdded {
@@ -805,7 +813,7 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
             for ball in self.ballsAdded {
                 ball.run(SKAction.fadeIn(withDuration: 1))
                 if ball == self.ballsAdded.last {
-                    self.isGhostOn = false
+                    self.ballsAreGhosted = false
                 }
             }
         }
@@ -870,8 +878,8 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
                     if menuOpen {
                         closeMenu()
                     }
-                    self.removeAllChildren()
-                    self.removeAllActions()
+//                    self.effectNode.removeAllChildren()
+//                    self.removeAllChildren()
                     SceneManager.shared.transition(self, toScene: .MainMenu, transition: SKTransition.fade(withDuration: 0.5))
                 } else if miniMenu.contains(touch.location(in: self)) && menuOpen {
                     if vibrationOn {
@@ -1231,7 +1239,6 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
                 obstacleNode = contact.bodyA.node!
             }
             
-            
             obstacleNode.children.first!.run(scalePlusPointsActionSequence)
             pointsLabelNode.run(scaleToActionSequence)
             
@@ -1283,13 +1290,18 @@ class Level1: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate 
             
             //TODO: REPLACE THIS CODEPART vvvvvvvvv WITH SOMETHING LIKE: collectibleNode.run(currentCollectible.action(with: XY some: YX parameters:YX))
             
-            if (collectibleNode.name?.contains("star"))! {
+            if (collectibleNode.name?.lowercased().contains("triangle"))! {
                 
                 pointsCount = pointsCount + ballPointValue * currentCollectible.points
                 pointsLabelNode.text = "POINTS: \(pointsCount)"
                 
-            } else if (collectibleNode.name?.contains("ghost"))! {
+            } else if (collectibleNode.name?.lowercased().contains("star"))! {
                 
+                pointsCount = pointsCount + ballPointValue * currentCollectible.points
+                pointsLabelNode.text = "POINTS: \(pointsCount)"
+                
+            } else if (collectibleNode.name?.lowercased().contains("ghost"))! {
+
                 ghostAllBalls(seconds: currentCollectible.seconds)
             }
             

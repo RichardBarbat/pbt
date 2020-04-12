@@ -106,7 +106,7 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         collectiblesTableView.allowsSelection = false
         
         collectiblesTableView.layer.borderWidth = 5
-        collectiblesTableView.layer.borderColor = UIColor.green.withAlphaComponent(0.5).cgColor
+        collectiblesTableView.layer.borderColor = UIColor.green.cgColor
         collectiblesTableView.sectionHeaderHeight = 50
         
         collectiblesTableView.separatorInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
@@ -114,8 +114,6 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.collectiblesTableView.alpha = 1
         }
-        
-        
         
         self.view?.addSubview(collectiblesTableView)
         
@@ -130,14 +128,24 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: Screen.width - 30, height: 50))
         view.layer.borderWidth = 5
-        view.layer.borderColor = UIColor.green.withAlphaComponent(0.5).cgColor
+        view.layer.borderColor = UIColor.green.cgColor
         view.backgroundColor = UIColor.init(hexFromString: "242d24")
         
         let titleLable = UILabel(frame: view.frame)
         titleLable.font = UIFont(name: "LCD14", size: 30)
         titleLable.textColor = .green
-        titleLable.text = allCollectables[section].name.uppercased()
+        
+        titleLable.text = "???"
         titleLable.layer.position = CGPoint(x: Screen.width / 2 + 10, y: 23)
+        
+        for collectableType in allCollectables {
+            let cacheCollectables = collectableType.collectibles
+            for collectable in cacheCollectables {
+                if collectable.freeAtPrestigeLevel <= prestigeCount + 1 {
+                    titleLable.text = allCollectables[section].name.uppercased()
+                }
+            }
+        }
         
         view.addSubview(titleLable)
         
@@ -155,32 +163,41 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCell(withIdentifier: "collectibleCell")
+        let cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "collectibleCell")
         
-        if (cell == nil)
-        {
-            cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle,
-                        reuseIdentifier: "collectibleCell")
+        cell.backgroundView?.alpha = 0
+        cell.backgroundColor = UIColor.white.withAlphaComponent(0)
+        cell.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
+        
+        
+        let noImage = UIImage(named: "?")
+        cell.imageView?.image = noImage
+        cell.imageView?.frame.size = CGSize(width: 10, height: 10)
+        
+        cell.textLabel?.text = "???"
+        cell.textLabel?.textColor = .green
+        cell.textLabel?.font = UIFont(name: "LCD14", size: 20)
+        
+        cell.detailTextLabel?.text = "Free at prestige level: \(allCollectables[indexPath.section].collectibles[indexPath.row].freeAtPrestigeLevel)\nYou are now at prestige level: \(prestigeCount + 1)".uppercased()
+        cell.detailTextLabel?.textColor = .green
+        cell.detailTextLabel?.numberOfLines = 3
+        
+        if allCollectables[indexPath.section].collectibles[indexPath.row].freeAtPrestigeLevel <= prestigeCount + 1 {
+            cell.imageView?.image = UIImage(cgImage: allCollectables[indexPath.section].collectibles[indexPath.row].texture.cgImage())
+            
+            cell.textLabel?.text = allCollectables[indexPath.section].collectibles[indexPath.row].name.uppercased()
+            cell.textLabel?.textColor = allCollectables[indexPath.section].collectibles[indexPath.row].color
+            
+            cell.detailTextLabel?.text = allCollectables[indexPath.section].collectibles[indexPath.row].description.uppercased()
+            cell.detailTextLabel?.textColor = allCollectables[indexPath.section].collectibles[indexPath.row].color
         }
         
-        cell!.backgroundView?.alpha = 0
-        cell!.backgroundColor = UIColor.white.withAlphaComponent(0)
-        cell!.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
-        
-        cell!.imageView?.image = UIImage(cgImage: allCollectables[indexPath.section].collectibles[indexPath.row].texture.cgImage())
-        cell!.textLabel?.text = allCollectables[indexPath.section].collectibles[indexPath.row].name
-        cell!.detailTextLabel?.text = allCollectables[indexPath.section].collectibles[indexPath.row].description
-        cell?.detailTextLabel?.numberOfLines = 2
-        
-        
-        return cell!
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("indexPath = \(indexPath)")
     }
-    
-    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80

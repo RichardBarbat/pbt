@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import GameKit
 
 
 // MARK: - globale Variablen
@@ -63,6 +64,8 @@ class MainMenu: SKScene {
         
         print("- Im Hauptmenü -")
         
+        authenticatePlayer()
+        
         self.backgroundColor = UIColor.init(hexFromString: "140032")
         
         if !UserDefaults.standard.bool(forKey: "mainMenuStartedBefore") {
@@ -79,7 +82,7 @@ class MainMenu: SKScene {
         
         view.showsFPS = true
         view.showsNodeCount = true
-//        view.showsDrawCount = true
+        view.showsDrawCount = true
         
         addStarFieldNode()
         addLaserFieldNode()
@@ -89,6 +92,20 @@ class MainMenu: SKScene {
         addWelcomeLabel()
         addSelections()
         
+    }
+    
+    func authenticatePlayer() {
+        let localPlayer = GKLocalPlayer.local
+        
+        localPlayer.authenticateHandler = {
+            (view, error) in
+            
+            if view != nil {
+                                
+                let currentViewController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!
+                currentViewController.present(view!, animated: true, completion: nil)
+            }
+        }
     }
     
     func addStarFieldNode() {

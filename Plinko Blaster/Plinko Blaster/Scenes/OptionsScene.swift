@@ -193,6 +193,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
     func addPrestigeButtonLabelNode() {
         
         prestigeButtonLabelNode = SKLabelNode(text: "- PRESTIGE")
+        var prestigeButtonLevelLabelNode = SKLabelNode()
         var prestigeButtonDescriptionLabelNode = SKLabelNode()
         
         print("prestigeCount = \(prestigeCount)")
@@ -208,16 +209,26 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         prestigeButtonLabelNode.horizontalAlignmentMode = .left
         addChild(prestigeButtonLabelNode)
         
+        
         if ballsToCollectForNextPrestige > 0 {
             
             prestigeButtonLabelNode.isUserInteractionEnabled = true //???
             prestigeButtonLabelNode.fontColor = .red
+
+            prestigeButtonLevelLabelNode = SKLabelNode(text: "YOU ARE NOW AT PRESTIGE LEVEL: \(prestigeCount + 1)")
+            prestigeButtonLevelLabelNode.position = CGPoint(x: 25, y: -5)
+            prestigeButtonLevelLabelNode.fontName = "LCD14"
+            prestigeButtonLevelLabelNode.fontColor = .green
+            prestigeButtonLevelLabelNode.fontSize = 10
+            prestigeButtonLevelLabelNode.horizontalAlignmentMode = .left
+            prestigeButtonLevelLabelNode.verticalAlignmentMode = .top
+            prestigeButtonLabelNode.addChild(prestigeButtonLevelLabelNode)
             
-            prestigeButtonDescriptionLabelNode = SKLabelNode(text: "\(ballsToCollectForNextPrestige) MORE BALLS FOR NEXT PRESTIGE.")
-            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 25, y: -5)
+            prestigeButtonDescriptionLabelNode = SKLabelNode(text: "DROP \(ballsToCollectForNextPrestige) MORE BALLS FOR NEXT PRESTIGE.")
+            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 25, y: -20)
             prestigeButtonDescriptionLabelNode.fontName = "LCD14"
-            prestigeButtonDescriptionLabelNode.fontColor = .red
-            prestigeButtonDescriptionLabelNode.fontSize = 11
+            prestigeButtonDescriptionLabelNode.fontSize = 10
+            prestigeButtonDescriptionLabelNode.fontColor = .green
             prestigeButtonDescriptionLabelNode.horizontalAlignmentMode = .left
             prestigeButtonDescriptionLabelNode.verticalAlignmentMode = .top
             prestigeButtonLabelNode.addChild(prestigeButtonDescriptionLabelNode)
@@ -226,14 +237,24 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
             
             prestigeButtonLabelNode.isUserInteractionEnabled = false //???
             prestigeButtonLabelNode.fontColor = .green
+
+            prestigeButtonLevelLabelNode = SKLabelNode(text: "YOU ARE NOW AT PRESTIGE LEVEL: \(prestigeCount + 1)\nNEXT LEVEL: \(prestigeCount + 2)")
+            prestigeButtonLevelLabelNode.numberOfLines = 2
+            prestigeButtonLevelLabelNode.position = CGPoint(x: 25, y: -5)
+            prestigeButtonLevelLabelNode.fontName = "LCD14"
+            prestigeButtonLevelLabelNode.fontColor = .green
+            prestigeButtonLevelLabelNode.fontSize = 10
+            prestigeButtonLevelLabelNode.horizontalAlignmentMode = .left
+            prestigeButtonLevelLabelNode.verticalAlignmentMode = .top
+            prestigeButtonLabelNode.addChild(prestigeButtonLevelLabelNode)
             
             prestigeButtonDescriptionLabelNode = SKLabelNode(text: "YOU CAN PRESTIGE NOW.\nBALLS WILL COLLECT \(ballPointValue + prestigeValue)X MORE POINTS.")
-            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 25, y: -5)
+            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 25, y: -35)
             prestigeButtonDescriptionLabelNode.fontName = "LCD14"
-            prestigeButtonDescriptionLabelNode.fontColor = .green
-            prestigeButtonDescriptionLabelNode.numberOfLines = 3
+            prestigeButtonDescriptionLabelNode.numberOfLines = 2
             prestigeButtonDescriptionLabelNode.preferredMaxLayoutWidth = Screen.width * 0.75
-            prestigeButtonDescriptionLabelNode.fontSize = 11
+            prestigeButtonDescriptionLabelNode.fontSize = 10
+            prestigeButtonDescriptionLabelNode.fontColor = .green
             prestigeButtonDescriptionLabelNode.horizontalAlignmentMode = .left
             prestigeButtonDescriptionLabelNode.verticalAlignmentMode = .top
             prestigeButtonLabelNode.addChild(prestigeButtonDescriptionLabelNode)

@@ -33,11 +33,12 @@ class CollectiblesData {
     
     
     //MARK: COLLECTIBLES
-    let stars =  Collectibles(name: "stars", collectibles: [
+    
+    let triangles =  Collectibles(name: "triangles", collectibles: [
         
-        Collectible(name: "Star Yellow",
-                    texture: SKTexture(imageNamed: "star_yellow"),
-                    description: "Sammle diesen Stern ein und bekomme 100 Punkte!",
+        Collectible(name: "Yellow Triangle",
+                    texture: SKTexture(imageNamed: "triangle_yellow"),
+                    description: "Gives 100 points.",
                     points: 100,
                     multi: 0,
                     seconds: 0,
@@ -47,50 +48,114 @@ class CollectiblesData {
                     action: SKAction()
         ),
     
-        Collectible(name: "star_blue",
-                    texture: SKTexture(imageNamed: "star_blue"),
-                    description: "This is a test destcription of star_blue.",
+        Collectible(name: "Blue Triangle",
+                    texture: SKTexture(imageNamed: "triangle_blue"),
+                    description: "Gives 200 points.",
                     points: 200,
                     multi: 0,
                     seconds: 0,
                     miniLabelText: "+\(ballPointValue * 2)00 POINTS",
-                    freeAtPrestigeLevel: 0,
+                    freeAtPrestigeLevel: 2,
                     color: UIColor(hexFromString: "0099ff"),
                     action: SKAction()
         ),
     
-        Collectible(name: "star_green",
-                    texture: SKTexture(imageNamed: "star_green"),
-                    description: "This is a test destcription of star_green.",
+        Collectible(name: "Green Triangle",
+                    texture: SKTexture(imageNamed: "triangle_green"),
+                    description: "Gives 400 points.",
                     points: 400,
                     multi: 0,
                     seconds: 0,
                     miniLabelText: "+\(ballPointValue * 4)00 POINTS",
-                    freeAtPrestigeLevel: 0,
+                    freeAtPrestigeLevel: 4,
                     color: .green,
                     action: SKAction()
         ),
     
-        Collectible(name: "star_pink",
-                    texture: SKTexture(imageNamed: "star_pink"),
-                    description: "This is a test destcription of star_pink.",
+        Collectible(name: "Pink Triangle",
+                    texture: SKTexture(imageNamed: "triangle_pink"),
+                    description: "Gives 700 points.",
                     points: 700,
                     multi: 0,
                     seconds: 0,
                     miniLabelText: "+\(ballPointValue * 7)00 POINTS",
-                    freeAtPrestigeLevel: 0,
+                    freeAtPrestigeLevel: 6,
                     color: UIColor(hexFromString: "d800ff"),
                     action: SKAction()
         ),
     
-        Collectible(name: "star_original",
-                    texture: SKTexture(imageNamed: "star_original"),
-                    description: "This is a test destcription of star_original.",
+        Collectible(name: "Orange Triangle",
+                    texture: SKTexture(imageNamed: "triangle_original"),
+                    description: "Gives 1000 points !!!",
                     points: 1000,
                     multi: 0,
                     seconds: 0,
                     miniLabelText: "+\(ballPointValue * 10)00 POINTS",
+                    freeAtPrestigeLevel: 8,
+                    color: .white,
+                    action: SKAction()
+        )
+    
+    ])
+    
+    let stars =  Collectibles(name: "stars", collectibles: [
+        
+        Collectible(name: "Yellow Star",
+                    texture: SKTexture(imageNamed: "star_yellow"),
+                    description: "Gives 100 points.",
+                    points: 100,
+                    multi: 0,
+                    seconds: 0,
+                    miniLabelText: "+\(ballPointValue * 1)00 POINTS",
                     freeAtPrestigeLevel: 0,
+                    color: .yellow,
+                    action: SKAction()
+        ),
+    
+        Collectible(name: "Blue Star",
+                    texture: SKTexture(imageNamed: "star_blue"),
+                    description: "Gives 200 points.",
+                    points: 200,
+                    multi: 0,
+                    seconds: 0,
+                    miniLabelText: "+\(ballPointValue * 2)00 POINTS",
+                    freeAtPrestigeLevel: 2,
+                    color: UIColor(hexFromString: "0099ff"),
+                    action: SKAction()
+        ),
+    
+        Collectible(name: "Green Star",
+                    texture: SKTexture(imageNamed: "star_green"),
+                    description: "Gives 400 points.",
+                    points: 400,
+                    multi: 0,
+                    seconds: 0,
+                    miniLabelText: "+\(ballPointValue * 4)00 POINTS",
+                    freeAtPrestigeLevel: 4,
+                    color: .green,
+                    action: SKAction()
+        ),
+    
+        Collectible(name: "Pink Star",
+                    texture: SKTexture(imageNamed: "star_pink"),
+                    description: "Gives 700 points.",
+                    points: 700,
+                    multi: 0,
+                    seconds: 0,
+                    miniLabelText: "+\(ballPointValue * 7)00 POINTS",
+                    freeAtPrestigeLevel: 6,
+                    color: UIColor(hexFromString: "d800ff"),
+                    action: SKAction()
+        ),
+    
+        Collectible(name: "Rainbow Star",
+                    texture: SKTexture(imageNamed: "star_original"),
+                    description: "Gives 1000 points !!!",
+                    points: 1000,
+                    multi: 0,
+                    seconds: 0,
+                    miniLabelText: "+\(ballPointValue * 10)00 POINTS",
+                    freeAtPrestigeLevel: 8,
                     color: .white,
                     action: SKAction()
         )
@@ -99,62 +164,62 @@ class CollectiblesData {
     
     let ghosts =  Collectibles(name: "ghosts", collectibles: [
         
-        Collectible(name: "ghost_yellow",
+        Collectible(name: "Yellow Ghost",
                     texture: SKTexture(imageNamed: "ghost_yellow"),
-                    description: "This is a test destcription of ghost_yellow.",
+                    description: "BUUH! Hides all balls for 1 second. Balls give double points.",
                     points: 0,
                     multi: 2,
                     seconds: 1,
                     miniLabelText: "BUUH",
-                    freeAtPrestigeLevel: 0,
+                    freeAtPrestigeLevel: 5,
                     color: .yellow,
                     action: SKAction()
         ),
     
-        Collectible(name: "ghost_blue",
+        Collectible(name: "Blue Ghost",
                     texture: SKTexture(imageNamed: "ghost_blue"),
-                    description: "This is a test destcription of ghost_blue.",
+                    description: "BUUUH! Hides all balls for 2 second. Balls give double points.",
                     points: 0,
                     multi: 2,
                     seconds: 2,
                     miniLabelText: "BUUUH",
-                    freeAtPrestigeLevel: 0,
+                    freeAtPrestigeLevel: 6,
                     color: UIColor(hexFromString: "0099ff"),
                     action: SKAction()
         ),
     
-        Collectible(name: "ghost_green",
+        Collectible(name: "Green Ghost",
                     texture: SKTexture(imageNamed: "ghost_green"),
-                    description: "This is a test destcription of ghost_green.",
+                    description: "BUUUUH! Hides all balls for 3 second. Balls give double points.",
                     points: 0,
                     multi: 2,
                     seconds: 3,
                     miniLabelText: "BUUUUH",
-                    freeAtPrestigeLevel: 0,
+                    freeAtPrestigeLevel: 7,
                     color: .green,
                     action: SKAction()
         ),
     
-        Collectible(name: "ghost_pink",
+        Collectible(name: "Pink Ghost",
                     texture: SKTexture(imageNamed: "ghost_pink"),
-                    description: "This is a test destcription of ghost_pink.",
+                    description: "BUUUUUH! Hides all balls for 4 second. Balls give double points.",
                     points: 0,
                     multi: 2,
                     seconds: 4,
                     miniLabelText: "BUUUUUH",
-                    freeAtPrestigeLevel: 0,
+                    freeAtPrestigeLevel: 8,
                     color: UIColor(hexFromString: "d800ff"),
                     action: SKAction()
         ),
     
-        Collectible(name: "ghost_original",
+        Collectible(name: "White Ghost",
                     texture: SKTexture(imageNamed: "ghost_original"),
-                    description: "This is a test destcription of ghost_original.",
+                    description: "BUUUUUUH! Hides all balls for 5 second. Balls give double points.",
                     points: 0,
                     multi: 2,
                     seconds: 5,
                     miniLabelText: "BUUUUUUH",
-                    freeAtPrestigeLevel: 0,
+                    freeAtPrestigeLevel: 9,
                     color: .white,
                     action: SKAction()
         )
@@ -166,8 +231,9 @@ class CollectiblesData {
     //MARK: CLASS FUNCTIONS
     func allCollectibles() -> [Collectibles] {
         
-        let arrayOfAllCollectibles = [Collectibles(name: "stars", collectibles: stars.collectibles),
-                                      Collectibles(name: "ghosts", collectibles: ghosts.collectibles)]
+        let arrayOfAllCollectibles = [  Collectibles(name: "triangles", collectibles: triangles.collectibles),
+                                        Collectibles(name: "stars", collectibles: stars.collectibles),
+                                        Collectibles(name: "ghosts", collectibles: ghosts.collectibles)]
         
         return arrayOfAllCollectibles
     }
