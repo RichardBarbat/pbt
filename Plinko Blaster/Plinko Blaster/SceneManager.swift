@@ -12,7 +12,7 @@ import SpriteKit
 class SceneManager {
     
     enum SceneType {
-        case StartScene, MainMenu, Options, Level1, OverviewScene, WelcomeScene, CollectiblesScene
+        case StartScene, MainMenu, Options, GameLevel, OverviewScene, WelcomeScene, CollectiblesScene
     }
     
     private init() {}
@@ -48,8 +48,8 @@ class SceneManager {
             case SceneType.Options:
                 return OptionsScene(size: CGSize(width: Screen.width, height: Screen.height))
                 
-            case SceneType.Level1:
-                return Level1(size: CGSize(width: Screen.width, height: Screen.height))
+            case SceneType.GameLevel:
+                return GameLevel(size: CGSize(width: Screen.width, height: Screen.height))
                 
             case SceneType.OverviewScene:
                 return OverviewScene(size: CGSize(width: Screen.width, height: Screen.height))

@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 //MARK: STRUCTS
-struct Collectable {
+struct Collectible {
     let name: String
     let texture: SKTexture
     let description: String
@@ -23,9 +23,9 @@ struct Collectable {
     let action: SKAction
 }
 
-struct Collectables {
+struct Collectibles {
     let name: String
-    let collectibles: [Collectable]
+    let collectibles: [Collectible]
 }
 
 //MARK: CLASS
@@ -34,9 +34,9 @@ class CollectiblesData {
     
     //MARK: COLLECTIBLES
     
-    let triangles =  Collectables(name: "triangles", collectibles: [
+    let triangles =  Collectibles(name: "triangles", collectibles: [
         
-        Collectable(name: "Yellow Triangle",
+        Collectible(name: "Yellow Triangle",
                     texture: SKTexture(imageNamed: "triangle_yellow"),
                     description: "Gives 100 points.",
                     points: 100,
@@ -48,7 +48,7 @@ class CollectiblesData {
                     action: SKAction()
         ),
     
-        Collectable(name: "Blue Triangle",
+        Collectible(name: "Blue Triangle",
                     texture: SKTexture(imageNamed: "triangle_blue"),
                     description: "Gives 200 points.",
                     points: 200,
@@ -60,7 +60,7 @@ class CollectiblesData {
                     action: SKAction()
         ),
     
-        Collectable(name: "Green Triangle",
+        Collectible(name: "Green Triangle",
                     texture: SKTexture(imageNamed: "triangle_green"),
                     description: "Gives 400 points.",
                     points: 400,
@@ -72,7 +72,7 @@ class CollectiblesData {
                     action: SKAction()
         ),
     
-        Collectable(name: "Pink Triangle",
+        Collectible(name: "Pink Triangle",
                     texture: SKTexture(imageNamed: "triangle_pink"),
                     description: "Gives 700 points.",
                     points: 700,
@@ -84,7 +84,7 @@ class CollectiblesData {
                     action: SKAction()
         ),
     
-        Collectable(name: "Orange Triangle",
+        Collectible(name: "Orange Triangle",
                     texture: SKTexture(imageNamed: "triangle_original"),
                     description: "Gives 1000 points !!!",
                     points: 1000,
@@ -98,9 +98,9 @@ class CollectiblesData {
     
     ])
     
-    let stars =  Collectables(name: "stars", collectibles: [
+    let stars =  Collectibles(name: "stars", collectibles: [
         
-        Collectable(name: "Yellow Star",
+        Collectible(name: "Yellow Star",
                     texture: SKTexture(imageNamed: "star_yellow"),
                     description: "Gives 100 points.",
                     points: 100,
@@ -112,7 +112,7 @@ class CollectiblesData {
                     action: SKAction()
         ),
     
-        Collectable(name: "Blue Star",
+        Collectible(name: "Blue Star",
                     texture: SKTexture(imageNamed: "star_blue"),
                     description: "Gives 200 points.",
                     points: 200,
@@ -124,7 +124,7 @@ class CollectiblesData {
                     action: SKAction()
         ),
     
-        Collectable(name: "Green Star",
+        Collectible(name: "Green Star",
                     texture: SKTexture(imageNamed: "star_green"),
                     description: "Gives 400 points.",
                     points: 400,
@@ -136,7 +136,7 @@ class CollectiblesData {
                     action: SKAction()
         ),
     
-        Collectable(name: "Pink Star",
+        Collectible(name: "Pink Star",
                     texture: SKTexture(imageNamed: "star_pink"),
                     description: "Gives 700 points.",
                     points: 700,
@@ -148,7 +148,7 @@ class CollectiblesData {
                     action: SKAction()
         ),
     
-        Collectable(name: "Rainbow Star",
+        Collectible(name: "Rainbow Star",
                     texture: SKTexture(imageNamed: "star_original"),
                     description: "Gives 1000 points !!!",
                     points: 1000,
@@ -162,9 +162,9 @@ class CollectiblesData {
     
     ])
     
-    let ghosts =  Collectables(name: "ghosts", collectibles: [
+    let ghosts =  Collectibles(name: "ghosts", collectibles: [
         
-        Collectable(name: "Yellow Ghost",
+        Collectible(name: "Yellow Ghost",
                     texture: SKTexture(imageNamed: "ghost_yellow"),
                     description: "BUUH! Hides all balls for 1 second. Balls give double points.",
                     points: 0,
@@ -176,7 +176,7 @@ class CollectiblesData {
                     action: SKAction()
         ),
     
-        Collectable(name: "Blue Ghost",
+        Collectible(name: "Blue Ghost",
                     texture: SKTexture(imageNamed: "ghost_blue"),
                     description: "BUUUH! Hides all balls for 2 second. Balls give double points.",
                     points: 0,
@@ -188,7 +188,7 @@ class CollectiblesData {
                     action: SKAction()
         ),
     
-        Collectable(name: "Green Ghost",
+        Collectible(name: "Green Ghost",
                     texture: SKTexture(imageNamed: "ghost_green"),
                     description: "BUUUUH! Hides all balls for 3 second. Balls give double points.",
                     points: 0,
@@ -200,7 +200,7 @@ class CollectiblesData {
                     action: SKAction()
         ),
     
-        Collectable(name: "Pink Ghost",
+        Collectible(name: "Pink Ghost",
                     texture: SKTexture(imageNamed: "ghost_pink"),
                     description: "BUUUUUH! Hides all balls for 4 second. Balls give double points.",
                     points: 0,
@@ -212,7 +212,7 @@ class CollectiblesData {
                     action: SKAction()
         ),
     
-        Collectable(name: "White Ghost",
+        Collectible(name: "White Ghost",
                     texture: SKTexture(imageNamed: "ghost_original"),
                     description: "BUUUUUUH! Hides all balls for 5 second. Balls give double points.",
                     points: 0,
@@ -229,11 +229,11 @@ class CollectiblesData {
     
     
     //MARK: CLASS FUNCTIONS
-    func allCollectibles() -> [Collectables] {
+    func allCollectibles() -> [Collectibles] {
         
-        let arrayOfAllCollectibles = [  Collectables(name: "triangles", collectibles: triangles.collectibles),
-                                        Collectables(name: "stars", collectibles: stars.collectibles),
-                                        Collectables(name: "ghosts", collectibles: ghosts.collectibles)]
+        let arrayOfAllCollectibles = [  Collectibles(name: "triangles", collectibles: triangles.collectibles),
+                                        Collectibles(name: "stars", collectibles: stars.collectibles),
+                                        Collectibles(name: "ghosts", collectibles: ghosts.collectibles)]
         
         return arrayOfAllCollectibles
     }

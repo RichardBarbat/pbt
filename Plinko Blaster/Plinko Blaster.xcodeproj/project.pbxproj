@@ -20,7 +20,7 @@
 		1B606EFD223C15AE00BD21C9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B606EFC223C15AE00BD21C9 /* Extensions.swift */; };
 		1B606EFF223C1AD200BD21C9 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B606EFE223C1AD200BD21C9 /* MainMenu.swift */; };
 		1B606F01223C24BD00BD21C9 /* SceneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B606F00223C24BD00BD21C9 /* SceneManager.swift */; };
-		1B606F03223C286100BD21C9 /* Level1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B606F02223C286100BD21C9 /* Level1.swift */; };
+		1B606F03223C286100BD21C9 /* GameLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B606F02223C286100BD21C9 /* GameLevel.swift */; };
 		1B62FBCE223EE261004CC711 /* OptionsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B62FBCD223EE261004CC711 /* OptionsScene.swift */; };
 		1B69750F2423F46C0092C077 /* CollectiblesScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69750E2423F46C0092C077 /* CollectiblesScene.swift */; };
 		1B8B636F231F0FF500A33285 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B8B636E231F0FF500A33285 /* Default-568h@2x.png */; };
@@ -28,7 +28,7 @@
 		1B94B1F623F9DC500044A3E3 /* ambient.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B94B1F523F9DC500044A3E3 /* ambient.mp3 */; };
 		1B94B1FA23F9FBA80044A3E3 /* insertCoin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B94B1F923F9FBA80044A3E3 /* insertCoin.mp3 */; };
 		1B94B1FC23F9FC640044A3E3 /* pickUpCoin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B94B1FB23F9FC640044A3E3 /* pickUpCoin.mp3 */; };
-		1BAE80F42426F552004D9D35 /* Collectibles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE80F32426F552004D9D35 /* Collectibles.swift */; };
+		1BAE80F42426F552004D9D35 /* Collectables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAE80F32426F552004D9D35 /* Collectables.swift */; };
 		1BBAE2942259454600DDB2ED /* lcd.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1BBAE2932259430B00DDB2ED /* lcd.otf */; };
 		1BBAE2962259477B00DDB2ED /* lcd2.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1BBAE2952259470100DDB2ED /* lcd2.otf */; };
 		1BBFF7AD22498D3000EEB83C /* boing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1BBFF7AC22498D3000EEB83C /* boing.mp3 */; };
@@ -56,7 +56,7 @@
 		1B606EFC223C15AE00BD21C9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1B606EFE223C1AD200BD21C9 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		1B606F00223C24BD00BD21C9 /* SceneManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneManager.swift; sourceTree = "<group>"; };
-		1B606F02223C286100BD21C9 /* Level1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level1.swift; sourceTree = "<group>"; };
+		1B606F02223C286100BD21C9 /* GameLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLevel.swift; sourceTree = "<group>"; };
 		1B62FBCD223EE261004CC711 /* OptionsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsScene.swift; sourceTree = "<group>"; };
 		1B69750E2423F46C0092C077 /* CollectiblesScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectiblesScene.swift; sourceTree = "<group>"; };
 		1B8B636E231F0FF500A33285 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 		1B94B1F523F9DC500044A3E3 /* ambient.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ambient.mp3; sourceTree = "<group>"; };
 		1B94B1F923F9FBA80044A3E3 /* insertCoin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = insertCoin.mp3; sourceTree = "<group>"; };
 		1B94B1FB23F9FC640044A3E3 /* pickUpCoin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pickUpCoin.mp3; sourceTree = "<group>"; };
-		1BAE80F32426F552004D9D35 /* Collectibles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collectibles.swift; sourceTree = "<group>"; };
+		1BAE80F32426F552004D9D35 /* Collectables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collectables.swift; sourceTree = "<group>"; };
 		1BBAE2932259430B00DDB2ED /* lcd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lcd.otf; sourceTree = "<group>"; };
 		1BBAE2952259470100DDB2ED /* lcd2.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lcd2.otf; sourceTree = "<group>"; };
 		1BBFF7AC22498D3000EEB83C /* boing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boing.mp3; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 				1B19ADBF23F3603500D9EB5F /* StartScene.swift */,
 				1B94A58F2269F6A9007F5DC1 /* WelcomeScene.swift */,
 				1B606EFE223C1AD200BD21C9 /* MainMenu.swift */,
-				1B606F02223C286100BD21C9 /* Level1.swift */,
+				1B606F02223C286100BD21C9 /* GameLevel.swift */,
 				1B62FBCD223EE261004CC711 /* OptionsScene.swift */,
 				1B567C072263AEB500CCADD1 /* OverviewScene.swift */,
 				1B69750E2423F46C0092C077 /* CollectiblesScene.swift */,
@@ -170,7 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				1BF2C87022FF3A530026226B /* Ball.swift */,
-				1BAE80F32426F552004D9D35 /* Collectibles.swift */,
+				1BAE80F32426F552004D9D35 /* Collectables.swift */,
 				1B8B636B231F09CC00A33285 /* Sounds */,
 				1BE3055122528F3F00ECAC21 /* Assets.xcassets */,
 				1B8B636C231F0A1B00A33285 /* Fonts */,
@@ -324,11 +324,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B606F03223C286100BD21C9 /* Level1.swift in Sources */,
+				1B606F03223C286100BD21C9 /* GameLevel.swift in Sources */,
 				1B606EFF223C1AD200BD21C9 /* MainMenu.swift in Sources */,
 				1BF2C87122FF3A530026226B /* Ball.swift in Sources */,
 				1B62FBCE223EE261004CC711 /* OptionsScene.swift in Sources */,
-				1BAE80F42426F552004D9D35 /* Collectibles.swift in Sources */,
+				1BAE80F42426F552004D9D35 /* Collectables.swift in Sources */,
 				1B606EFB223C117300BD21C9 /* GameViewController.swift in Sources */,
 				1B567C082263AEB500CCADD1 /* OverviewScene.swift in Sources */,
 				1BD6F62523E3543E00CC870A /* SpriteKit-Spring.swift in Sources */,

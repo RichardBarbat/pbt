@@ -30,10 +30,10 @@ var highscoreLabelIsInFront = false
 var multiplyerLabelNode = SKLabelNode()
 
 
-var scaleToActionSequence = SKAction.sequence([])
-var scaleByActionSequence = SKAction.sequence([])
-var pulseActionSequence = SKAction.sequence([])
-var rotateActionSequence = SKAction.sequence([])
+var scaleToActionSequence = SKAction.sequence([SKAction.scale(to: 1.1, duration: 0.1), SKAction.scale(to: 1, duration: 0.1)])
+var scaleByActionSequence = SKAction.sequence([SKAction.scale(by: 1.2, duration: 0.1), SKAction.scale(by: 0.8, duration: 0.1)])
+var pulseActionSequence = SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 1), SKAction.wait(forDuration: 1), SKAction.fadeAlpha(to: 0.75, duration: 1)])
+var rotateActionSequence = SKAction.sequence([SKAction.rotate(toAngle: .pi / 15, duration: 1), SKAction.rotate(toAngle: .pi / -15, duration: 1)])
 var scalePlusPointsActionSequence = SKAction.sequence([])
 
 let lightVibration = UIImpactFeedbackGenerator(style: .light)
@@ -473,7 +473,7 @@ class MainMenu: SKScene {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                         self.removeAllChildren()
                         self.removeAllActions()
-                        SceneManager.shared.transition(self, toScene: .Level1, transition: SKTransition.fade(withDuration: 0.5))
+                        SceneManager.shared.transition(self, toScene: .GameLevel, transition: SKTransition.fade(withDuration: 0.5))
                     })
                     
                     

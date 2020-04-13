@@ -119,10 +119,10 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         
     }
     
-    let allCollectables = CollectiblesData().allCollectibles()
+    let allCollectibles = CollectiblesData().allCollectibles()
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return allCollectables.count
+        return allCollectibles.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -138,12 +138,9 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         titleLable.text = "???"
         titleLable.layer.position = CGPoint(x: Screen.width / 2 + 10, y: 23)
         
-        for collectableType in allCollectables {
-            let cacheCollectables = collectableType.collectibles
-            for collectable in cacheCollectables {
-                if collectable.freeAtPrestigeLevel <= prestigeCount + 1 {
-                    titleLable.text = allCollectables[section].name.uppercased()
-                }
+        for collectible in allCollectibles[section].collectibles {
+            if collectible.freeAtPrestigeLevel <= prestigeCount + 1 {
+                titleLable.text = allCollectibles[section].name.uppercased()
             }
         }
         
@@ -153,8 +150,8 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if allCollectables[section].collectibles.count > 0 {
-            return allCollectables[section].collectibles.count
+        if allCollectibles[section].collectibles.count > 0 {
+            return allCollectibles[section].collectibles.count
         } else {
             return 0
         }
@@ -175,21 +172,21 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         cell.imageView?.frame.size = CGSize(width: 10, height: 10)
         
         cell.textLabel?.text = "???"
-        cell.textLabel?.textColor = .green
+        cell.textLabel?.textColor = .red
         cell.textLabel?.font = UIFont(name: "LCD14", size: 20)
         
-        cell.detailTextLabel?.text = "Free at prestige level: \(allCollectables[indexPath.section].collectibles[indexPath.row].freeAtPrestigeLevel)\nYou are now at prestige level: \(prestigeCount + 1)".uppercased()
-        cell.detailTextLabel?.textColor = .green
+        cell.detailTextLabel?.text = "Free at prestige level: \(allCollectibles[indexPath.section].collectibles[indexPath.row].freeAtPrestigeLevel)\nYour prestige level: \(prestigeCount + 1)".uppercased()
+        cell.detailTextLabel?.textColor = .white
         cell.detailTextLabel?.numberOfLines = 3
         
-        if allCollectables[indexPath.section].collectibles[indexPath.row].freeAtPrestigeLevel <= prestigeCount + 1 {
-            cell.imageView?.image = UIImage(cgImage: allCollectables[indexPath.section].collectibles[indexPath.row].texture.cgImage())
+        if allCollectibles[indexPath.section].collectibles[indexPath.row].freeAtPrestigeLevel <= prestigeCount + 1 {
+            cell.imageView?.image = UIImage(cgImage: allCollectibles[indexPath.section].collectibles[indexPath.row].texture.cgImage())
             
-            cell.textLabel?.text = allCollectables[indexPath.section].collectibles[indexPath.row].name.uppercased()
-            cell.textLabel?.textColor = allCollectables[indexPath.section].collectibles[indexPath.row].color
+            cell.textLabel?.text = allCollectibles[indexPath.section].collectibles[indexPath.row].name.uppercased()
+            cell.textLabel?.textColor = allCollectibles[indexPath.section].collectibles[indexPath.row].color
             
-            cell.detailTextLabel?.text = allCollectables[indexPath.section].collectibles[indexPath.row].description.uppercased()
-            cell.detailTextLabel?.textColor = allCollectables[indexPath.section].collectibles[indexPath.row].color
+            cell.detailTextLabel?.text = allCollectibles[indexPath.section].collectibles[indexPath.row].description.uppercased()
+//            cell.detailTextLabel?.textColor = allCollectibles[indexPath.section].collectibles[indexPath.row].color
         }
         
         return cell

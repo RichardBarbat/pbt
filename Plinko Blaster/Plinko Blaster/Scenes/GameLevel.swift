@@ -1048,14 +1048,14 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         if gameOver {
             self.effectNode.removeAllChildren()
             self.effectNode.removeAllActions()
-            self.removeAllChildren()
-            self.removeAllActions()
+            
             for subview in self.view!.subviews {
-                if subview is EFCountingLabel {
+                if subview.tag == 1 || subview.tag == 2 {
                     subview.removeFromSuperview()
                 }
             }
-            SceneManager.shared.transition(self, toScene: .Level1, transition: SKTransition.fade(withDuration: 0.5))
+            
+            SceneManager.shared.transition(self, toScene: .GameLevel, transition: SKTransition.fade(withDuration: 0.5))
         }
     }
     
@@ -1138,9 +1138,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             overLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
         })
 
-//        let scaleUpAction = SKAction.scale(to: 0.9, duration: 0.4)
-//        let scaleDownAction = SKAction.scale(to: 1.05, duration: 0.4)
-//        let scaleSequenze = SKAction.sequence([scaleUpAction, scaleDownAction])
         
         var pointsCountingLabelView: EFCountingLabel = EFCountingLabel()
         var multiplyerCountingLabelView: EFCountingLabel = EFCountingLabel()
