@@ -81,7 +81,17 @@ extension UIColor {
     }
 }
 
-extension SKNode {
+protocol Down {
+     var isDown: Bool { get set }
+}
+extension SKNode: Down {
+    
+    var isDown: Bool {
+        get {
+            return false
+        }
+        set {}
+    }
     
     func addGlow(radius:CGFloat=30) {
         let view = SKView()

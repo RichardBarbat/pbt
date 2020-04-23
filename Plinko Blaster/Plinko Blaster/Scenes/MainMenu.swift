@@ -12,6 +12,10 @@ import GameKit
 
 // MARK: - globale Variablen
 
+let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
+
+var tutorialShown = UserDefaults.standard.bool(forKey: "tutorialShown")
+
 var pointsCount = 0
 var multiplyerCount = 0
 
@@ -29,7 +33,6 @@ var fxOn = UserDefaults.standard.bool(forKey: "fxOn")
 var highscoreLabelIsInFront = false
 var multiplyerLabelNode = SKLabelNode()
 
-
 var scaleToActionSequence = SKAction.sequence([SKAction.scale(to: 1.1, duration: 0.1), SKAction.scale(to: 1, duration: 0.1)])
 var scaleByActionSequence = SKAction.sequence([SKAction.scale(by: 1.2, duration: 0.1), SKAction.scale(by: 0.8, duration: 0.1)])
 var pulseActionSequence = SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 1), SKAction.wait(forDuration: 1), SKAction.fadeAlpha(to: 0.75, duration: 1)])
@@ -40,8 +43,6 @@ let lightVibration = UIImpactFeedbackGenerator(style: .light)
 let mediumVibration = UIImpactFeedbackGenerator(style: .medium)
 let heavyVibration = UIImpactFeedbackGenerator(style: .heavy)
 var gameOver = false
-
-var tutorialShown = UserDefaults.standard.bool(forKey: "tutorialShown")
 
 
 // MARK: - Beginn der Klasse
@@ -54,7 +55,6 @@ class MainMenu: SKScene {
     let generator = UIImpactFeedbackGenerator(style: .medium)
     let starFieldNode = SKShapeNode()
     let menuItems = ["PLAY", "COLLECTIBLES", "OVERVIEW", "OPTIONS", "MUSIC: ON "]
-    
     let playerName = UserDefaults.standard.string(forKey: "playerName")!
     
     
@@ -452,8 +452,6 @@ class MainMenu: SKScene {
                 if self.childNode(withName: "logo")!.contains(touch.location(in: self)) {
                     
                     if fxOn {
-                        print("PLING!!!")
-                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
                         self.run(pling)
                     }
                     
@@ -466,8 +464,8 @@ class MainMenu: SKScene {
                             self.generator.impactOccurred()
                         }
                         if fxOn == true {
-                            let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                            self.childNode(withName: "PLAY-Button")!.run(pling)
+                            
+                            self.run(pling)
                         }
                     })
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
@@ -487,8 +485,7 @@ class MainMenu: SKScene {
                             self.generator.impactOccurred()
                         }
                         if fxOn == true {
-                            let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                            self.childNode(withName: "OPTIONS-Button")!.run(pling)
+                            self.run(pling)
                         }
                     })
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
@@ -508,8 +505,7 @@ class MainMenu: SKScene {
                            self.generator.impactOccurred()
                        }
                        if fxOn == true {
-                           let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                           self.childNode(withName: "COLLECTIBLES-Button")!.run(pling)
+                           self.run(pling)
                        }
                     })
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
@@ -527,8 +523,7 @@ class MainMenu: SKScene {
                             self.generator.impactOccurred()
                         }
                         if fxOn == true {
-                            let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                            self.childNode(withName: "OVERVIEW-Button")!.run(pling)
+                            self.run(pling)
                         }
                     })
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
@@ -545,8 +540,7 @@ class MainMenu: SKScene {
                         self.generator.impactOccurred()
                     }
                     if fxOn == true {
-                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        self.childNode(withName: "MUSIC: ON -Button")!.run(pling)
+                        self.run(pling)
                     }
                     
                     if backgroundMusicPlayerStatus == true {

@@ -9,24 +9,30 @@
 import Foundation
 import SpriteKit
 
-class Ball {
+class Ball: SKShapeNode {
     
-//    var label: SKLabelNode
+    
+    //    var label: SKLabelNode
         
-    func create() -> SKShapeNode{
+    var down: Bool = false
+    
+    func create() -> SKShapeNode {
         
-        let shapeNode = SKShapeNode(circleOfRadius: Screen.width * 0.035)
+        let ballNode = SKShapeNode(circleOfRadius: Screen.width * 0.035)
         
-        shapeNode.physicsBody = SKPhysicsBody(circleOfRadius: shapeNode.frame.size.width / 2.1 )
-        shapeNode.physicsBody?.isDynamic = false
-        shapeNode.physicsBody?.friction = 0
-        shapeNode.physicsBody?.restitution = 0.45
-        shapeNode.physicsBody?.categoryBitMask = ColliderType.Ball
-        shapeNode.physicsBody?.collisionBitMask = ColliderType.Ball | ColliderType.Obstacle | ColliderType.Scene | ColliderType.Line | ColliderType.BottomLine
-        shapeNode.physicsBody?.contactTestBitMask = ColliderType.Ball | ColliderType.Obstacle | ColliderType.BottomLine | ColliderType.Box | ColliderType.Collectible
+        ballNode.strokeColor = UIColor.yellow
+        ballNode.lineWidth = Screen.width * 0.008
+        
+        ballNode.physicsBody = SKPhysicsBody(circleOfRadius: ballNode.frame.size.width / 2.1 )
+        ballNode.physicsBody?.isDynamic = false
+        ballNode.physicsBody?.friction = 0
+        ballNode.physicsBody?.restitution = 0.45
+        ballNode.physicsBody?.categoryBitMask = ColliderType.Ball
+        ballNode.physicsBody?.collisionBitMask = ColliderType.Ball | ColliderType.Obstacle | ColliderType.Scene | ColliderType.Line | ColliderType.BottomLine
+        ballNode.physicsBody?.contactTestBitMask = ColliderType.Ball | ColliderType.Obstacle | ColliderType.BottomLine | ColliderType.Box | ColliderType.Collectible
 //        shapeNode.fillColor = UIColor.black.withAlphaComponent(0.5)
 //        shapeNode.fillColor = UIColor.yellow.withAlphaComponent(0.5)
-        shapeNode.zPosition = 300
+        ballNode.zPosition = 300
         
         let lable = SKLabelNode(fontNamed: "LCD14")
         
@@ -36,9 +42,9 @@ class Ball {
         lable.position.y = lable.position.y - lable.frame.height / 2.2
         lable.addGlow()
         
-        shapeNode.addChild(lable)
+        ballNode.addChild(lable)
         
-        return shapeNode
+        return ballNode
     }
     
     

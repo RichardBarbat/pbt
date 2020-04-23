@@ -215,7 +215,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
             prestigeButtonLabelNode.isUserInteractionEnabled = true //???
             prestigeButtonLabelNode.fontColor = .red
 
-            prestigeButtonLevelLabelNode = SKLabelNode(text: "YOU ARE NOW AT PRESTIGE LEVEL: \(prestigeCount + 1)")
+            prestigeButtonLevelLabelNode = SKLabelNode(text: "YOUR PRESTIGE LEVEL: \(prestigeCount + 1)")
             prestigeButtonLevelLabelNode.position = CGPoint(x: 25, y: -5)
             prestigeButtonLevelLabelNode.fontName = "LCD14"
             prestigeButtonLevelLabelNode.fontColor = .green
@@ -238,7 +238,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
             prestigeButtonLabelNode.isUserInteractionEnabled = false //???
             prestigeButtonLabelNode.fontColor = .green
 
-            prestigeButtonLevelLabelNode = SKLabelNode(text: "YOU ARE NOW AT PRESTIGE LEVEL: \(prestigeCount + 1)\nNEXT LEVEL: \(prestigeCount + 2)")
+            prestigeButtonLevelLabelNode = SKLabelNode(text: "YOUR PRESTIGE LEVEL: \(prestigeCount + 1) -> NEXT LEVEL: \(prestigeCount + 2)")
             prestigeButtonLevelLabelNode.numberOfLines = 2
             prestigeButtonLevelLabelNode.position = CGPoint(x: 25, y: -5)
             prestigeButtonLevelLabelNode.fontName = "LCD14"
@@ -248,7 +248,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
             prestigeButtonLevelLabelNode.verticalAlignmentMode = .top
             prestigeButtonLabelNode.addChild(prestigeButtonLevelLabelNode)
             
-            prestigeButtonDescriptionLabelNode = SKLabelNode(text: "YOU CAN PRESTIGE NOW.\nBALLS WILL COLLECT \(ballPointValue + prestigeValue)X MORE POINTS.")
+            prestigeButtonDescriptionLabelNode = SKLabelNode(text: "YOU CAN PRESTIGE NOW.\nBALLS WILL COLLECT \(ballPointValue + prestigeValue)X POINTS.")
             prestigeButtonDescriptionLabelNode.position = CGPoint(x: 25, y: -35)
             prestigeButtonDescriptionLabelNode.fontName = "LCD14"
             prestigeButtonDescriptionLabelNode.numberOfLines = 2
@@ -374,8 +374,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                 if backButtonNode.contains(touch.location(in: self)) {
                     print("<- ab zum Hauptmenü <-")
                     if fxOn == true {
-                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        backButtonNode.run(pling)
+                        self.run(pling)
                     }
                     if vibrationOn == true {
                         mediumVibration.impactOccurred()
@@ -400,8 +399,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                 // MUSIC BUTTON
                 if musicButtonLabelNode.contains(touch.location(in: self)) {
                     if fxOn == true {
-                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        backButtonNode.run(pling)
+                        self.run(pling)
                     }
                     if vibrationOn == true {
                         mediumVibration.impactOccurred()
@@ -435,8 +433,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                         fxOn = true
                     }
                     if fxOn == true {
-                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        backButtonNode.run(pling)
+                        self.run(pling)
                     }
                     if vibrationOn == true {
                         mediumVibration.impactOccurred()
@@ -457,8 +454,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                         vibrationOn = true
                     }
                     if fxOn == true {
-                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        backButtonNode.run(pling)
+                        self.run(pling)
                     }
                     if vibrationOn == true {
                         mediumVibration.impactOccurred()
@@ -479,8 +475,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                         startScreenOn = true
                     }
                     if fxOn == true {
-                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        backButtonNode.run(pling)
+                        self.run(pling)
                     }
                     if vibrationOn == true {
                         mediumVibration.impactOccurred()
@@ -501,8 +496,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                         tutorialShown = true
                     }
                     if fxOn == true {
-                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        backButtonNode.run(pling)
+                        self.run(pling)
                     }
                     if vibrationOn == true {
                         mediumVibration.impactOccurred()
@@ -529,8 +523,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                     UserDefaults.standard.synchronize()
                     
                     if fxOn == true {
-                        let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
-                        backButtonNode.run(pling)
+                        self.run(pling)
                     }
                     if vibrationOn == true {
                         mediumVibration.impactOccurred()
