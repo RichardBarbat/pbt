@@ -6,11 +6,8 @@
 //  Copyright © 2019 me. All rights reserved.
 //
 
-import SpriteKit
-import UIKit
-import AVFoundation
-import EFCountingLabel
 import GameKit
+import EFCountingLabel
 
 //MARK:--- STRUCT FOR PHYSICSBODYS ---
 struct ColliderType {
@@ -33,6 +30,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
 //MARK:--- VARS & INSTANCES ---
+    
     //MARK: __ LEVEL __
     let playerName = UserDefaults.standard.string(forKey: "playerName")
     let effectNode = SKEffectNode()
@@ -42,10 +40,12 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     let backButtonNode = SKSpriteNode(imageNamed: "back-button4")
     var boxes = [SKShapeNode()]
     var boxesCollected = [false, false, false, false, false, false] // TODO: WTF? WHY 6 ?
+    
     //MARK: __ COUNTER __
     var ballCounterLabelNode = SKLabelNode()
     var multiplyers = [Int()]
     var totalPointsCollected = 0
+    
     //MARK: __ BALLS __
     var ballsAdded = [SKShapeNode]()
     var ball = SKShapeNode()
@@ -55,19 +55,17 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     var totalBallsDropped = 0
     var ballsAreGhosted = false
     var ballPrepared = false
+    
     //MARK: __ COLLECTIBLES __
     let allCollectibles = CollectiblesData().allCollectibles()
     var currentCollectible = Collectible(name: "", texture: SKTexture(), description: "", points: 0, multi: 0, seconds: 0, miniLabelText: "", freeAtPrestigeLevel: 0, color: .clear, action: SKAction())
     var collectibleNode = SKSpriteNode()
+    
     //MARK: __ ACTIONS __
     let fadeoutAction05s = SKAction.fadeAlpha(to: 0, duration: 0.5)
-    
     var endscreenIsCounting = false
-
     let restartLabelNode = SKLabelNode(text: "TAP ANYWHERE TO RESTART")
-
     var endscreenPointsCountingLabel = EFCountingLabel(frame: CGRect(x: 0, y: Screen.height * 0.56, width: Screen.width, height: 50))
-
     var endscreenMultiplyerLabelNode = EFCountingLabel(frame: CGRect(x: 0, y: Screen.height * 0.71, width: Screen.width, height: 50))
     
     
@@ -144,7 +142,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     func showTutorial() {
         self.view?.isUserInteractionEnabled = false
         self.isUserInteractionEnabled = false
-//        self.effectNode.isUserInteractionEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
             
             let backgroundNode = SKShapeNode(rectOf: CGSize(width: Screen.width, height: Screen.height))
@@ -162,11 +159,11 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             fingerNode.position = CGPoint(x: Screen.width * 2, y: Screen.height * 0.4)
             self.effectNode.addChild(fingerNode)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75, execute: {
-                let rushInAction = SKAction.move(to: CGPoint(x: Screen.width * 0.575, y: Screen.height * 0.4), duration: 0.4, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                let rushInAction = SKAction.move(to: CGPoint(x: Screen.width * 0.575, y: Screen.height * 0.4), duration: 0.4)
                 fingerNode.run(rushInAction)
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.45, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75, execute: {
                     let tapAction = SKAction.setTexture(SKTexture(imageNamed: "tutorial-finger-tap-on"))
                     fingerNode.run(tapAction)
                     
@@ -195,7 +192,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                                     tutorialShown = true
                                     self.view?.isUserInteractionEnabled = true
                                     self.isUserInteractionEnabled = true
-//                                    self.effectNode.isUserInteractionEnabled = true
                                 })
                             })
                         })
@@ -261,11 +257,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     func addBackButtonNode() {
         let backButtonAspectRatio = backButtonNode.size.width/backButtonNode.size.height
-        if DeviceType.isiPad || DeviceType.isiPadPro {
-            backButtonNode.size = CGSize(width: Screen.width * 0.08, height: Screen.width * 0.08 / backButtonAspectRatio)
-        } else {
-            backButtonNode.size = CGSize(width: Screen.width * 0.1, height: Screen.width * 0.1 / backButtonAspectRatio)
-        }
+        backButtonNode.size = CGSize(width: Screen.width * 0.1, height: Screen.width * 0.1 / backButtonAspectRatio)
         backButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         backButtonNode.position = CGPoint(x: Screen.width * 0.1, y: Screen.height * 0.95)
         backButtonNode.alpha = 0.7
@@ -274,11 +266,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     func addMenuButtonNode() {
         let menuButtonAspectRatio = miniMenuButtonNode.size.width/miniMenuButtonNode.size.height
-        if DeviceType.isiPad || DeviceType.isiPadPro {
-            miniMenuButtonNode.size = CGSize(width: Screen.width * 0.08, height: Screen.width * 0.08 / menuButtonAspectRatio)
-        } else {
-            miniMenuButtonNode.size = CGSize(width: Screen.width * 0.10, height: Screen.width * 0.10 / menuButtonAspectRatio)
-        }
+        miniMenuButtonNode.size = CGSize(width: Screen.width * 0.1, height: Screen.width * 0.1 / menuButtonAspectRatio)
         miniMenuButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         miniMenuButtonNode.position = CGPoint(x: Screen.width * 0.9, y: Screen.height * 0.95)
         miniMenuButtonNode.alpha = 0.7
@@ -414,6 +402,9 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     func addBoxes(count: Int) {
         let boxWidth = Screen.width / CGFloat(count)
         for boxNumber in 0...count - 1 {
+            if boxNumber == 0 {
+                boxes.removeAll()
+            }
             let box = SKShapeNode(rectOf: CGSize(width: boxWidth, height: Screen.height * 0.1))
             box.position = CGPoint(x: boxWidth * (CGFloat(boxNumber + 1) - 0.5), y: Screen.height * 0.05)
             box.fillColor = UIColor(hexFromString: "0099ff").withAlphaComponent(0.3)
@@ -427,11 +418,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             box.physicsBody!.categoryBitMask = ColliderType.Box             // Who am i ?
             //box.physicsBody!.collisionBitMask = ColliderType.Ball         // Who do i want to collide with?
             box.physicsBody!.contactTestBitMask = ColliderType.Ball         // Test and tell "didBeginContact()" that "ColliderType.Box" has contact with "ColliderType.Ball"
-            effectNode.addChild(box)
-            if boxNumber == 0 {
-                boxes.removeAll()
-            }
-            boxes.append(box)
             multiplyers = [1,2,3,2,1]
             let multiplierLabelNode = SKLabelNode(text: "X\(multiplyers[boxNumber])")
             multiplierLabelNode.fontName = "LCD14"
@@ -439,6 +425,9 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             multiplierLabelNode.fontColor = Color.yellow
             multiplierLabelNode.name = "multiplierLabelNode"
             box.addChild(multiplierLabelNode)
+            
+            boxes.append(box)
+            effectNode.addChild(box)
         }
         for line in 1...count - 1 {
             let linePath = CGMutablePath()
@@ -585,15 +574,9 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         ballGlow.strokeColor = Color.yellow.withAlphaComponent(0.6)
         ballGlow.lineWidth = 0.1
         ballGlow.glowWidth = 12
+        ballGlow.zPosition = ball.zPosition - 10
         ballGlow.name = "glow\(ballsAdded.count)"
         ball.addChild(ballGlow)
-        for child in ball.children {
-            if let name = child.name {
-                if name.lowercased().contains("glow") {
-                    child.zPosition = -10
-                }
-            }
-        }
         ball.setScale(0)
         effectNode.addChild(ball)
         ball.run(SKAction.scale(to: 1, duration: 0.4))
@@ -760,6 +743,12 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         collidedSpriteNode.physicsBody = nil
         collidedSpriteNode.zPosition = 1000000
+        for child in collidedSpriteNode.children {
+            let childName = child.name
+            if (childName?.contains("glow"))! {
+                child.removeFromParent()
+            }
+        }
         
         let miniPointsLabelNode = SKLabelNode(text: currentCollectible.miniLabelText)
         miniPointsLabelNode.fontColor = currentCollectible.color
@@ -811,7 +800,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             if touch == touches.first {
-                if backButtonNode.contains(touch.location(in: self)) {
+                if backButtonNode.contains(touch.location(in: self)) && !gameOver {
                     if fxOn {
                         DispatchQueue.main.async {
                             self.run(pling)
@@ -906,7 +895,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                             }
                         }
                     }
-                } else if miniMenuButtonNode.contains(touch.location(in: self)) && miniMenuButtonNode.isUserInteractionEnabled == false {
+                } else if miniMenuButtonNode.contains(touch.location(in: self)) && !gameOver {
                     if vibrationOn {
                         mediumVibration.impactOccurred()
                     }
@@ -958,14 +947,14 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             
             self.removeAllChildren()
             
-            let restartLabelNode = SKLabelNode(text: "RESTARTING")
-            restartLabelNode.fontSize = 40
-            restartLabelNode.fontName = "LCD14"
-            restartLabelNode.fontColor = .green
-            restartLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.65)
-            restartLabelNode.alpha = 1
-            restartLabelNode.zPosition = 10100
-            self.addChild(restartLabelNode)
+            let restartingLabelNode = SKLabelNode(text: "RESTARTING")
+            restartingLabelNode.fontSize = 40
+            restartingLabelNode.fontName = "LCD14"
+            restartingLabelNode.fontColor = .green
+            restartingLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.65)
+            restartingLabelNode.alpha = 1
+            restartingLabelNode.zPosition = 10100
+            self.addChild(restartingLabelNode)
             
             for subview in self.view!.subviews {
                 if subview.tag == 1 || subview.tag == 2 {
@@ -1188,31 +1177,26 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         if contactBetween == ColliderType.Ball | ColliderType.Ball {
             
-            var ball1Node: SKNode
-            var ball2Node: SKNode
+            var ball1Node: SKShapeNode
+            var ball2Node: SKShapeNode
             
             if (contact.bodyA.node?.name!.lowercased().contains("ball"))! {
-                ball1Node = contact.bodyB.node!
-                ball2Node = contact.bodyA.node!
+                ball1Node = contact.bodyB.node! as! SKShapeNode
+                ball2Node = contact.bodyA.node! as! SKShapeNode
             } else {
-                ball1Node = contact.bodyA.node!
-                ball2Node = contact.bodyB.node!
+                ball1Node = contact.bodyA.node! as! SKShapeNode
+                ball2Node = contact.bodyB.node! as! SKShapeNode
             }
             
-            if ball1Node.isDown {
-                ball2Node.isDown = true
-                (ball2Node as! SKShapeNode).strokeColor = .red
-                (ball2Node as! SKShapeNode).removeAllChildren()
-            } else if ball2Node.isDown {
-                ball1Node.isDown = true
-                (ball1Node as! SKShapeNode).strokeColor = .red
-                (ball1Node as! SKShapeNode).removeAllChildren()
+            if ball1Node.strokeColor == .red {
+                ball2Node.strokeColor = .red
+                ball2Node.removeAllChildren()
+            } else if ball2Node.strokeColor == .red {
+                ball1Node.strokeColor = .red
+                ball1Node.removeAllChildren()
             }
             
         } else if contactBetween == ColliderType.Ball | ColliderType.Obstacle {
-            
-            print("collision between ColliderType.Ball and ColliderType.Obstacle")
-            print("Thats a hit! o_-")
             
             var obstacleNode: SKNode
             
@@ -1248,15 +1232,8 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             
             
         } else if contactBetween == ColliderType.Ball | ColliderType.Collectible {
-            print("contact between ColliderType.Ball and ColliderType.Extra")
-            print("EXTRA-PARTEEEEEEEYYYYYYY WHOUP WHOUP :D")
             
             let collidedCollectible = contact.bodyA.categoryBitMask == ColliderType.Collectible ? contact.bodyA.node! : contact.bodyB.node!
-            
-            
-            if fxOn == true {
-                self.run(pling)
-            }
             
             //TODO: REPLACE THIS CODEPART vvvvvvvvv WITH SOMETHING LIKE: collectibleNode.run(currentCollectible.action(with: XY some: YX parameters:YX))
             
@@ -1274,9 +1251,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
 
                 ghostAllBalls(seconds: currentCollectible.seconds)
             }
-            
-            
-            
             
             if pointsCount >= lastHighscore {
                 lastHighscore = pointsCount
@@ -1299,9 +1273,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 highscoreLabelNode.fontName = "LCD14"
                 pointsLabelNode.alpha = 1
             }
-            
-            
-            
             
             if ((collidedCollectible.name != nil) && (collidedCollectible.name!.contains("heart"))) {
                 
@@ -1348,12 +1319,11 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             } else {
                 
                 animateCollectibleOnCollision(collidedSpriteNode: collectibleNode)
-                DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 2...20)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 6...20)) {
                     self.addRandomCollectible()
                 }
                 
             }
-            
             
         } else if contactBetween == ColliderType.Ball | ColliderType.Box {
             
@@ -1365,7 +1335,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 for box in boxes {
                     if box.contains(ballNode.position) && (ballNode as! SKShapeNode).strokeColor != UIColor.red {
                         boxNode = box
-                        ballNode.isDown = true
                         (ballNode as! SKShapeNode).strokeColor = .red
                         (ballNode as! SKShapeNode).removeAllChildren()
                     }
@@ -1375,7 +1344,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 for box in boxes {
                     if box.contains(ballNode.position) && (ballNode as! SKShapeNode).strokeColor != UIColor.red {
                         boxNode = box
-                        ballNode.isDown = true
                         (ballNode as! SKShapeNode).strokeColor = .red
                         (ballNode as! SKShapeNode).removeAllChildren()
                     }
@@ -1425,7 +1393,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 for index in 0...ballsAdded.count - 1 {
                     if ballsAdded[index].position.y <= Screen.height * 0.09 {
                         ballsDown[index] = true
-                        ballsAdded[index].isDown = true
                         if !ballsDown.contains(false) && gameOver == false {
                             if menuOpen == true {
                                 closeMenu()
@@ -1433,7 +1400,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                             }
                             self.view?.isUserInteractionEnabled = false
                             self.isUserInteractionEnabled = false
-//                            self.effectNode.isUserInteractionEnabled = false
                             gameOver = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                                 self.showEndScreen()
@@ -1444,12 +1410,14 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             }
         }
         
-        // on the other hand we make here some other stuff we do on every contact
-        
-        if contact.collisionImpulse >= 1.4 {
+        if contact.collisionImpulse >= 1.2 {
             if vibrationOn {
                 lightVibration.impactOccurred()
             }
+        }
+
+        if fxOn == true {
+            self.run(pling)
         }
     }
     
@@ -1458,7 +1426,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     //MARK:--- ENDSCREEN ---
     func showEndScreen() {
-        
         
         let backgroundLayer = SKShapeNode(rectOf: CGSize(width: Screen.width, height: Screen.height))
         backgroundLayer.fillColor = UIColor(hexFromString: "140032")
@@ -1520,7 +1487,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         effectNode.addChild(gameLabelNode)
         effectNode.addChild(overLabelNode)
         effectNode.addChild(pointsTitleLabelNode)
-        self.view!.addSubview(endscreenPointsCountingLabel) // WTF???
+        self.view!.addSubview(endscreenPointsCountingLabel)
         effectNode.addChild(restartLabelNode)
         self.view!.addSubview(endscreenMultiplyerLabelNode)
         
@@ -1530,10 +1497,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             gameLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
             overLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
         })
-
-        
-//        var pointsCountingLabelView: EFCountingLabel = EFCountingLabel()
-//        var multiplyerCountingLabelView: EFCountingLabel = EFCountingLabel()
         
         for subview in self.view!.subviews {
             if subview.tag == 1 {
@@ -1543,12 +1506,10 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             }
         }
         
-
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
             
             self.view?.isUserInteractionEnabled = true
             self.isUserInteractionEnabled = true
-//            self.effectNode.isUserInteractionEnabled = true
             self.endscreenIsCounting = true
             self.endscreenPointsCountingLabel.countFrom(CGFloat(pointsCount), to: CGFloat(pointsCount * multiplyerCount), withDuration: 3)
             self.endscreenMultiplyerLabelNode.countFrom(CGFloat(multiplyerCount), to: 0, withDuration: 3)
@@ -1625,7 +1586,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 
                 self.view?.isUserInteractionEnabled = true
                 self.isUserInteractionEnabled = true
-//                self.effectNode.isUserInteractionEnabled = true
                 
             })
         })

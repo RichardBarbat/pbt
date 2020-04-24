@@ -6,8 +6,7 @@
 //  Copyright © 2019 me. All rights reserved.
 //
 
-import UIKit
-import SpriteKit
+import GameKit
 import AVFoundation
 
 var backgroundMusicPlayer: AVAudioPlayer?

@@ -6,9 +6,6 @@
 //  Copyright © 2020 me. All rights reserved.
 //
 
-import SpriteKit
-import UIKit
-import AVFoundation
 import GameKit
 
 // MARK: - Beginn der Klasse

@@ -6,8 +6,7 @@
 //  Copyright © 2020 me. All rights reserved.
 //
 
-import Foundation
-import SpriteKit
+import GameKit
 
 //MARK: STRUCTS
 struct Collectible {

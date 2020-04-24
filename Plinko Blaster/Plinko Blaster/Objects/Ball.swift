@@ -6,15 +6,9 @@
 //  Copyright © 2019 me. All rights reserved.
 //
 
-import Foundation
-import SpriteKit
+import GameKit
 
 class Ball: SKShapeNode {
-    
-    
-    //    var label: SKLabelNode
-        
-    var down: Bool = false
     
     func create() -> SKShapeNode {
         
@@ -30,8 +24,6 @@ class Ball: SKShapeNode {
         ballNode.physicsBody?.categoryBitMask = ColliderType.Ball
         ballNode.physicsBody?.collisionBitMask = ColliderType.Ball | ColliderType.Obstacle | ColliderType.Scene | ColliderType.Line | ColliderType.BottomLine
         ballNode.physicsBody?.contactTestBitMask = ColliderType.Ball | ColliderType.Obstacle | ColliderType.BottomLine | ColliderType.Box | ColliderType.Collectible
-//        shapeNode.fillColor = UIColor.black.withAlphaComponent(0.5)
-//        shapeNode.fillColor = UIColor.yellow.withAlphaComponent(0.5)
         ballNode.zPosition = 300
         
         let lable = SKLabelNode(fontNamed: "LCD14")
@@ -46,9 +38,5 @@ class Ball: SKShapeNode {
         
         return ballNode
     }
-    
-    
-        
-    
     
 }

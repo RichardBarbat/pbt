@@ -5,9 +5,7 @@
 //  Created by Richard Barbat on 15.03.19.
 //  Copyright © 2019 me. All rights reserved.
 //
-
-import UIKit
-import SpriteKit
+import GameKit
 
 enum UIUserInterfaceIdiom: Int {
     case undefined
@@ -81,17 +79,7 @@ extension UIColor {
     }
 }
 
-protocol Down {
-     var isDown: Bool { get set }
-}
-extension SKNode: Down {
-    
-    var isDown: Bool {
-        get {
-            return false
-        }
-        set {}
-    }
+extension SKNode {
     
     func addGlow(radius:CGFloat=30) {
         let view = SKView()
@@ -103,6 +91,7 @@ extension SKNode: Down {
         effectNode.shouldCenterFilter = true
         effectNode.shouldEnableEffects = true
         effectNode.shouldRasterize = true
+        effectNode.name = "glow"
         addChild(effectNode)
         effectNode.addChild(SKSpriteNode(texture: texture))
     }

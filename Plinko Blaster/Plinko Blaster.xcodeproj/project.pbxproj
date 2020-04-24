@@ -23,7 +23,6 @@
 		1B606F03223C286100BD21C9 /* GameLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B606F02223C286100BD21C9 /* GameLevel.swift */; };
 		1B62FBCE223EE261004CC711 /* OptionsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B62FBCD223EE261004CC711 /* OptionsScene.swift */; };
 		1B69750F2423F46C0092C077 /* CollectiblesScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69750E2423F46C0092C077 /* CollectiblesScene.swift */; };
-		1B8B636F231F0FF500A33285 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B8B636E231F0FF500A33285 /* Default-568h@2x.png */; };
 		1B94A5902269F6A9007F5DC1 /* WelcomeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B94A58F2269F6A9007F5DC1 /* WelcomeScene.swift */; };
 		1B94B1F623F9DC500044A3E3 /* ambient.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B94B1F523F9DC500044A3E3 /* ambient.mp3 */; };
 		1B94B1FA23F9FBA80044A3E3 /* insertCoin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B94B1F923F9FBA80044A3E3 /* insertCoin.mp3 */; };
@@ -32,7 +31,6 @@
 		1BBAE2942259454600DDB2ED /* lcd.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1BBAE2932259430B00DDB2ED /* lcd.otf */; };
 		1BBAE2962259477B00DDB2ED /* lcd2.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1BBAE2952259470100DDB2ED /* lcd2.otf */; };
 		1BBFF7AD22498D3000EEB83C /* boing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1BBFF7AC22498D3000EEB83C /* boing.mp3 */; };
-		1BD6F62523E3543E00CC870A /* SpriteKit-Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD6F62423E3543E00CC870A /* SpriteKit-Spring.swift */; };
 		1BE3055222528F3F00ECAC21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BE3055122528F3F00ECAC21 /* Assets.xcassets */; };
 		1BE6E97D2415BE9A000ABD7F /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BE6E97C2415BE9A000ABD7F /* GameKit.framework */; };
 		1BF2C87122FF3A530026226B /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF2C87022FF3A530026226B /* Ball.swift */; };
@@ -59,7 +57,6 @@
 		1B606F02223C286100BD21C9 /* GameLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLevel.swift; sourceTree = "<group>"; };
 		1B62FBCD223EE261004CC711 /* OptionsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsScene.swift; sourceTree = "<group>"; };
 		1B69750E2423F46C0092C077 /* CollectiblesScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectiblesScene.swift; sourceTree = "<group>"; };
-		1B8B636E231F0FF500A33285 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		1B94A58F2269F6A9007F5DC1 /* WelcomeScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScene.swift; sourceTree = "<group>"; };
 		1B94B1F523F9DC500044A3E3 /* ambient.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ambient.mp3; sourceTree = "<group>"; };
 		1B94B1F923F9FBA80044A3E3 /* insertCoin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = insertCoin.mp3; sourceTree = "<group>"; };
@@ -68,7 +65,6 @@
 		1BBAE2932259430B00DDB2ED /* lcd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lcd.otf; sourceTree = "<group>"; };
 		1BBAE2952259470100DDB2ED /* lcd2.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lcd2.otf; sourceTree = "<group>"; };
 		1BBFF7AC22498D3000EEB83C /* boing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boing.mp3; sourceTree = "<group>"; };
-		1BD6F62423E3543E00CC870A /* SpriteKit-Spring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SpriteKit-Spring.swift"; sourceTree = "<group>"; };
 		1BE3055122528F3F00ECAC21 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1BE6E97C2415BE9A000ABD7F /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		1BF2C87022FF3A530026226B /* Ball.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
@@ -94,7 +90,6 @@
 		1B606EDC223C101100BD21C9 = {
 			isa = PBXGroup;
 			children = (
-				1B8B636E231F0FF500A33285 /* Default-568h@2x.png */,
 				1B606EE7223C101100BD21C9 /* Plinko Blaster */,
 				1B606EE6223C101100BD21C9 /* Products */,
 				61BD056E6C98D2C12EE1F6A1 /* Pods */,
@@ -116,7 +111,6 @@
 				1B606EF4223C101300BD21C9 /* Info.plist */,
 				1B606EE8223C101100BD21C9 /* AppDelegate.swift */,
 				1B606EFC223C15AE00BD21C9 /* Extensions.swift */,
-				1BD6F62423E3543E00CC870A /* SpriteKit-Spring.swift */,
 				1B606EFA223C117300BD21C9 /* GameViewController.swift */,
 				1B606F00223C24BD00BD21C9 /* SceneManager.swift */,
 				1B8B636A231F090600A33285 /* Scenes */,
@@ -261,7 +255,6 @@
 				1B606EF3223C101300BD21C9 /* LaunchScreen.storyboard in Resources */,
 				1B500AFD225184EF0044B020 /* boing2.mp3 in Resources */,
 				1B56E6F72245923D00EDEF9C /* klick.wav in Resources */,
-				1B8B636F231F0FF500A33285 /* Default-568h@2x.png in Resources */,
 				1B56E6F52242EB5300EDEF9C /* background-music2.mp3 in Resources */,
 				6F9A1309243D19C100255E40 /* neonOut.wav in Resources */,
 				1BBFF7AD22498D3000EEB83C /* boing.mp3 in Resources */,
@@ -331,7 +324,6 @@
 				1BAE80F42426F552004D9D35 /* AllCollectibles.swift in Sources */,
 				1B606EFB223C117300BD21C9 /* GameViewController.swift in Sources */,
 				1B567C082263AEB500CCADD1 /* OverviewScene.swift in Sources */,
-				1BD6F62523E3543E00CC870A /* SpriteKit-Spring.swift in Sources */,
 				1B19ADC023F3603500D9EB5F /* StartScene.swift in Sources */,
 				1B94A5902269F6A9007F5DC1 /* WelcomeScene.swift in Sources */,
 				1B606EE9223C101100BD21C9 /* AppDelegate.swift in Sources */,

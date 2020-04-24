@@ -6,7 +6,6 @@
 //  Copyright © 2019 me. All rights reserved.
 //
 
-import SpriteKit
 import GameKit
 
 class OptionsScene: SKScene, GKGameCenterControllerDelegate {

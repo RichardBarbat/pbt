@@ -6,8 +6,7 @@
 //  Copyright © 2020 me. All rights reserved.
 //
 
-import SpriteKit
-import UIKit
+import GameKit
 
 class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
