@@ -376,7 +376,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                         self.run(pling)
                     }
                     if vibrationOn == true {
-                        mediumVibration.impactOccurred()
+                        runHaptic()
                     }
                     SceneManager.shared.transition(self, toScene: .MainMenu, transition: SKTransition.fade(withDuration: 0.5))
                 }
@@ -385,10 +385,10 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                 if gameCenterButtonNode.contains(touch.location(in: self)) {
                     print("OPEN GAME CENTER !!!")
                     if vibrationOn == true {
-                        mediumVibration.impactOccurred()
+                        runHaptic()
                     }
                     
-                    let currentViewController:UIViewController=UIApplication.shared.keyWindow!.rootViewController!
+                    let currentViewController: UIViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first!.rootViewController!
                     let gameCenterViewController = GKGameCenterViewController()
                     gameCenterViewController.gameCenterDelegate = self
                     currentViewController.present(gameCenterViewController, animated: true, completion: nil)
@@ -401,7 +401,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                         self.run(pling)
                     }
                     if vibrationOn == true {
-                        mediumVibration.impactOccurred()
+                        runHaptic()
                     }
                     if backgroundMusicPlayerStatus == true {
                         musicButtonLabelNode.text = "- MUSIC: OFF"
@@ -435,7 +435,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                         self.run(pling)
                     }
                     if vibrationOn == true {
-                        mediumVibration.impactOccurred()
+                        runHaptic()
                     }
                 }
                 
@@ -456,7 +456,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                         self.run(pling)
                     }
                     if vibrationOn == true {
-                        mediumVibration.impactOccurred()
+                        runHaptic()
                     }
                 }
                 
@@ -477,7 +477,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                         self.run(pling)
                     }
                     if vibrationOn == true {
-                        mediumVibration.impactOccurred()
+                        runHaptic()
                     }
                 }
                 
@@ -498,7 +498,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                         self.run(pling)
                     }
                     if vibrationOn == true {
-                        mediumVibration.impactOccurred()
+                        runHaptic()
                     }
                 }
                 
@@ -525,7 +525,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                         self.run(pling)
                     }
                     if vibrationOn == true {
-                        mediumVibration.impactOccurred()
+                        runHaptic()
                     }
                 }
             }

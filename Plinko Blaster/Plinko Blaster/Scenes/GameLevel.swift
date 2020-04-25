@@ -113,7 +113,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         self.scene!.anchorPoint = CGPoint(x: 0, y: 0)
         self.scene!.physicsBody!.categoryBitMask = ColliderType.Scene       // Who am i ?
         self.scene!.physicsBody!.collisionBitMask = ColliderType.Ball       // Who do i want to collide with?
-        //self.scene!.physicsBody!.contactTestBitMask = ColliderType.Ball   // Test and tell "didBeginContact()" that "ColliderType.Scene" has contact with "ColliderType.Ball"                                             // !!! BUT BE AWARE !!! THIS TEST COSTS PERFORMANCE !!!
+        self.scene!.physicsBody!.contactTestBitMask = ColliderType.Ball   // Test and tell "didBeginContact()" that "ColliderType.Scene" has contact with "ColliderType.Ball"                                             // !!! BUT BE AWARE !!! THIS TEST COSTS PERFORMANCE !!!
     }
     
 //    func addFilterToScreen() {
@@ -802,12 +802,10 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             if touch == touches.first {
                 if backButtonNode.contains(touch.location(in: self)) && !gameOver {
                     if fxOn {
-                        DispatchQueue.main.async {
-                            self.run(pling)
-                        }
+                        self.run(pling)
                     }
                     if vibrationOn {
-                        mediumVibration.impactOccurred()
+                        runHaptic()
                     }
                     if menuOpen {
                         closeMenu()
@@ -817,7 +815,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     SceneManager.shared.transition(self, toScene: .MainMenu, transition: SKTransition.fade(withDuration: 0.5))
                 } else if miniMenu.contains(touch.location(in: self)) && menuOpen {
                     if vibrationOn {
-                        mediumVibration.impactOccurred()
+                        runHaptic()
                     }
                     for button in miniMenu.children {
                         if button.name != nil && button.name != "" {
@@ -889,7 +887,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                                     vibrationOn = true
                                     UserDefaults.standard.set(true, forKey: "vibrationOn")
                                     if vibrationOn {
-                                        mediumVibration.impactOccurred()
+                                        runHaptic()
                                     }
                                 }
                             }
@@ -897,7 +895,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     }
                 } else if miniMenuButtonNode.contains(touch.location(in: self)) && !gameOver {
                     if vibrationOn {
-                        mediumVibration.impactOccurred()
+                        runHaptic()
                     }
                     if menuOpen == false {
                         openMenu()
@@ -1188,6 +1186,12 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 ball2Node = contact.bodyB.node! as! SKShapeNode
             }
             
+            if !(ball1Node.strokeColor == .red && ball2Node.strokeColor == .red) && !(ball1Node.strokeColor == .yellow && ball2Node.strokeColor == .yellow) {
+                if vibrationOn {
+                    runHaptic(intensity: 1, sharpness: 0)
+                }
+            }
+            
             if ball1Node.strokeColor == .red {
                 ball2Node.strokeColor = .red
                 ball2Node.removeAllChildren()
@@ -1233,8 +1237,11 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             
         } else if contactBetween == ColliderType.Ball | ColliderType.Collectible {
             
-            let collidedCollectible = contact.bodyA.categoryBitMask == ColliderType.Collectible ? contact.bodyA.node! : contact.bodyB.node!
+            if vibrationOn {
+                runHaptic(intensity: 1, sharpness: 0)
+            }
             
+            let collidedCollectible = contact.bodyA.categoryBitMask == ColliderType.Collectible ? contact.bodyA.node! : contact.bodyB.node!
             //TODO: REPLACE THIS CODEPART vvvvvvvvv WITH SOMETHING LIKE: collectibleNode.run(currentCollectible.action(with: XY some: YX parameters:YX))
             
             if (collectibleNode.name?.lowercased().contains("triangle"))! {
@@ -1337,6 +1344,9 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                         boxNode = box
                         (ballNode as! SKShapeNode).strokeColor = .red
                         (ballNode as! SKShapeNode).removeAllChildren()
+                        if vibrationOn {
+                            runHaptic(intensity: 1, sharpness: 0)
+                        }
                     }
                 }
             } else if (contact.bodyB.node?.name!.lowercased().contains("ball"))! {
@@ -1346,6 +1356,9 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                         boxNode = box
                         (ballNode as! SKShapeNode).strokeColor = .red
                         (ballNode as! SKShapeNode).removeAllChildren()
+                        if vibrationOn {
+                            runHaptic(intensity: 1, sharpness: 0)
+                        }
                     }
                 }
             }
@@ -1410,10 +1423,12 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             }
         }
         
-        if contact.collisionImpulse >= 1.2 {
-            if vibrationOn {
-                lightVibration.impactOccurred()
-            }
+        if vibrationOn && contact.collisionImpulse < 0.5 {
+            runHaptic(intensity: Float(contact.collisionImpulse), sharpness: 1)
+        } else if vibrationOn && contact.collisionImpulse <= 1 && contact.collisionImpulse >= 0.5 {
+            runHaptic(intensity: Float(contact.collisionImpulse), sharpness: Float(contact.collisionImpulse))
+        } else if vibrationOn && contact.collisionImpulse > 1 {
+            runHaptic(intensity: 1, sharpness: 1)
         }
 
         if fxOn == true {

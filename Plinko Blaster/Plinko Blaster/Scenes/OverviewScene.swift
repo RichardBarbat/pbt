@@ -35,7 +35,7 @@ class OverviewScene: SKScene, UITextFieldDelegate {
                     print("<- ab zum Hauptmenü <-")
                     
                     if vibrationOn {
-                        mediumVibration.impactOccurred()
+                        runHaptic()
                     }
                     
                     if self.scene?.view!.subviews.count != 0 {

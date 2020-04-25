@@ -43,7 +43,7 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
                     print("<- ab zum Hauptmenü <-")
                     
                     if vibrationOn {
-                        mediumVibration.impactOccurred()
+                        runHaptic()
                     }
                     
                     if self.scene?.view!.subviews.count != 0 {

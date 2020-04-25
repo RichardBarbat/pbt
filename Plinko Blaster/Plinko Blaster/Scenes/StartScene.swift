@@ -62,7 +62,7 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
             
             if view != nil {
                                 
-                let currentViewController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!
+                let currentViewController: UIViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first!.rootViewController!
                 currentViewController.present(view!, animated: true, completion: nil)
             }
         }
@@ -107,7 +107,7 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 self.logoNode.alpha = 0.5
                 self.run(self.neonOutSoundAction)
-                lightVibration.impactOccurred()
+                runHaptic(intensity: 0.6, sharpness: 1)
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                     self.logoNode.alpha = 1
@@ -115,7 +115,7 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
                         self.logoNode.alpha = 0.5
                         self.run(self.neonOutSoundAction)
-                        lightVibration.impactOccurred()
+                        runHaptic(intensity: 1, sharpness: 0.8)
 
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                             self.logoNode.alpha = 1
@@ -123,7 +123,7 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                 self.logoNode.alpha = 0.5
                                 self.run(self.neonOutSoundAction)
-                                lightVibration.impactOccurred()
+                                runHaptic(intensity: 1, sharpness: 1)
 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                                     self.logoNode.alpha = 1
@@ -144,7 +144,7 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 spriteNode.alpha = 0.5
                 self.run(self.neonOutSoundAction)
-                lightVibration.impactOccurred()
+                runHaptic(intensity: .random(in: 0.6...1), sharpness: 1)
                 DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 0.01...0.1)) {
                     spriteNode.alpha = 1
                 }
@@ -198,7 +198,7 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
                 self.childNode(withName: "coin")!.position = coinPosition
                 hasCoin = true
                 self.run(pickUpCoinSoundAction)
-                mediumVibration.impactOccurred()
+                runHaptic(intensity: 1, sharpness: 0.7)
             } else {
                 hasCoin = false
             }
@@ -230,7 +230,7 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
                         if !isCoinInSlot {
                             let setPositionAnimation = SKAction.move(to: CGPoint(x: Screen.center.x, y: (self.childNode(withName: "automatNode")?.position.y)! + 85), duration: 0)
                             coinNode.run(setPositionAnimation)
-                            mediumVibration.impactOccurred()
+                            runHaptic(intensity: 1, sharpness: 0)
                             isCoinInSlot = true
                         }
                     } else {
@@ -253,14 +253,18 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
         if !hasCoin {return}
         else if hasCoin && !isCoinInSlot {
             self.childNode(withName: "coin")!.position = (touches.first?.location(in: self))!
-            mediumVibration.impactOccurred()
+            runHaptic(intensity: 1, sharpness: 0.7)
             hasCoin = false
             return
         } else if hasCoin && isCoinInSlot {
-            mediumVibration.impactOccurred()
+            runHaptic(intensity: 1, sharpness: 0)
+            runHaptic(intensity: 1, sharpness: 0.5)
+            runHaptic(intensity: 1, sharpness: 1)
             self.coinNode.run(self.fadeOutAnimation) {
                 self.run(SKAction.playSoundFileNamed("insertCoin.mp3", waitForCompletion: false))
-                heavyVibration.impactOccurred()
+                runHaptic(intensity: 1, sharpness: 0)
+                runHaptic(intensity: 1, sharpness: 0.5)
+                runHaptic(intensity: 1, sharpness: 1)
                 if launchedBefore == true {
                     print("Not first launch.")
                     

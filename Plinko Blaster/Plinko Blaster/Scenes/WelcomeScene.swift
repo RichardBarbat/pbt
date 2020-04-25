@@ -16,9 +16,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
     
     // MARK: - Variablen & Instanzen
     
-    let generator = UIImpactFeedbackGenerator(style: .medium)
     let starFieldNode = SKShapeNode()
-    
     var newNameTextField: UITextField!
     
     
@@ -520,7 +518,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
                 
                 if self.childNode(withName: "musicButton") != nil && self.childNode(withName: "musicButton")!.contains(touch.location(in: self)) {
                     
-                    generator.impactOccurred()
+                    runHaptic()
                     
                     if backgroundMusicPlayerStatus == true {
                         
@@ -558,7 +556,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
                     newNameTextField.isHidden = false
                     newNameTextField.becomeFirstResponder()
                     
-                    generator.impactOccurred()
+                    runHaptic()
                     
                 } else if self.childNode(withName: "yesButtonNode") != nil && self.childNode(withName: "yesButtonNode")!.contains(touch.location(in: self)) {
                     print("SAVE PLAYER")
@@ -568,7 +566,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
                         self.removeAllActions()
                         SceneManager.shared.transition(self, toScene: .MainMenu, transition: SKTransition.fade(withDuration: 0.5))
                     })
-                    generator.impactOccurred()
+                    runHaptic()
                     
                 } else if self.childNode(withName: "noButtonNode") != nil && self.childNode(withName: "noButtonNode")!.contains(touch.location(in: self)) {
                     print("EDIT PLAYER")
@@ -579,7 +577,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
                     self.childNode(withName: "addPlayerButton")?.isHidden = true
                     self.childNode(withName: "addPlayerButton")?.isUserInteractionEnabled = true
                     
-                    generator.impactOccurred()
+                    runHaptic()
                 }
                 
             }

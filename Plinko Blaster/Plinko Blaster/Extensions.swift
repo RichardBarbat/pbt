@@ -6,6 +6,7 @@
 //  Copyright © 2019 me. All rights reserved.
 //
 import GameKit
+import CoreHaptics
 
 enum UIUserInterfaceIdiom: Int {
     case undefined
@@ -36,18 +37,49 @@ struct DeviceType {
     static let isiPadPro = UIDevice.current.userInterfaceIdiom == .pad && Screen.maxHeight == 1366.0
 }
 
+func prepareHaptics() {
+    guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+
+    do {
+        hapticEngine = try CHHapticEngine()
+        try hapticEngine?.start()
+    } catch {
+        print("There was an error creating the engine: \(error.localizedDescription)")
+    }
+}
+
+func runHaptic(intensity: Float = 1, sharpness: Float = 1) {
+    
+    guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+    var events = [CHHapticEvent]()
+
+    let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: intensity)
+    let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: sharpness)
+    let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
+    events.append(event)
+
+    do {
+        let pattern = try CHHapticPattern(events: events, parameters: [])
+        let player = try hapticEngine?.makePlayer(with: pattern)
+        try player?.start(atTime: 0)
+    } catch {
+        print("Failed to play pattern: \(error.localizedDescription).")
+    }
+}
+
+
 extension UIColor {
     
     convenience init(hexFromString:String, alpha:CGFloat = 1.0) {
         var cString:String = hexFromString.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        var rgbValue:UInt32 = 10066329 //color #999999 if string has wrong format
+        var rgbValue:UInt64 = 10066329 //color #999999 if string has wrong format
         
         if (cString.hasPrefix("#")) {
             cString.remove(at: cString.startIndex)
         }
         
         if ((cString.count) == 6) {
-            Scanner(string: cString).scanHexInt32(&rgbValue)
+            Scanner(string: cString).scanHexInt64(&rgbValue)
         }
         
         self.init(

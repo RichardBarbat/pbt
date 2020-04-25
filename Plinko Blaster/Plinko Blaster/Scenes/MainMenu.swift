@@ -7,6 +7,7 @@
 //
 
 import GameKit
+import CoreHaptics
 
 
 // MARK: - globale Variablen
@@ -38,10 +39,13 @@ var pulseActionSequence = SKAction.sequence([SKAction.fadeAlpha(to: 0, duration:
 var rotateActionSequence = SKAction.sequence([SKAction.rotate(toAngle: .pi / 15, duration: 1), SKAction.rotate(toAngle: .pi / -15, duration: 1)])
 var scalePlusPointsActionSequence = SKAction.sequence([])
 
-let lightVibration = UIImpactFeedbackGenerator(style: .light)
-let mediumVibration = UIImpactFeedbackGenerator(style: .medium)
-let heavyVibration = UIImpactFeedbackGenerator(style: .heavy)
+//let lightVibration = UIImpactFeedbackGenerator(style: .light)
+//let mediumVibration = UIImpactFeedbackGenerator(style: .medium)
+//let heavyVibration = UIImpactFeedbackGenerator(style: .heavy)
+
 var gameOver = false
+
+var hapticEngine: CHHapticEngine?
 
 
 // MARK: - Beginn der Klasse
@@ -51,11 +55,9 @@ class MainMenu: SKScene {
     
     // MARK: - Variablen & Instanzen
     
-    let generator = UIImpactFeedbackGenerator(style: .medium)
     let starFieldNode = SKShapeNode()
     let menuItems = ["PLAY", "COLLECTIBLES", "OVERVIEW", "OPTIONS", "MUSIC: ON "]
     let playerName = UserDefaults.standard.string(forKey: "playerName")!
-    
     
     // MARK: - Beginn der Funktionen
     
@@ -64,7 +66,7 @@ class MainMenu: SKScene {
         print("- Im Hauptmenü -")
         
         authenticatePlayer()
-        
+                
         self.backgroundColor = UIColor.init(hexFromString: "140032")
         
         if !UserDefaults.standard.bool(forKey: "mainMenuStartedBefore") {
@@ -93,6 +95,9 @@ class MainMenu: SKScene {
         
     }
     
+    
+    
+    
     func authenticatePlayer() {
         let localPlayer = GKLocalPlayer.local
         
@@ -101,7 +106,7 @@ class MainMenu: SKScene {
             
             if view != nil {
                                 
-                let currentViewController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!
+                let currentViewController: UIViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first!.rootViewController!
                 currentViewController.present(view!, animated: true, completion: nil)
             }
         }
@@ -454,13 +459,22 @@ class MainMenu: SKScene {
                         self.run(pling)
                     }
                     
+                    // VIBRATION/HAPTIC-LOOP
+                    for i in stride(from: 0, to: 1, by: 0.01) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + i) {
+                            runHaptic(intensity: 1, sharpness: 0)
+                        }
+                    }
+                    
+                    
+
                 } else if self.childNode(withName: "PLAY-Button")!.contains(touch.location(in: self)) {
                     
                     print("-> ab zum Spiel ->")
                     
                     DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                         if vibrationOn == true {
-                            self.generator.impactOccurred()
+                            runHaptic()
                         }
                         if fxOn == true {
                             
@@ -481,7 +495,7 @@ class MainMenu: SKScene {
                     
                     DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                         if vibrationOn == true {
-                            self.generator.impactOccurred()
+                            runHaptic(intensity: 1, sharpness: 0)
                         }
                         if fxOn == true {
                             self.run(pling)
@@ -501,7 +515,7 @@ class MainMenu: SKScene {
 
                     DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                        if vibrationOn == true {
-                           self.generator.impactOccurred()
+                           runHaptic(intensity: 1, sharpness: 0)
                        }
                        if fxOn == true {
                            self.run(pling)
@@ -519,7 +533,7 @@ class MainMenu: SKScene {
                     
                     DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                         if vibrationOn == true {
-                            self.generator.impactOccurred()
+                            runHaptic(intensity: 1, sharpness: 0)
                         }
                         if fxOn == true {
                             self.run(pling)
@@ -536,7 +550,7 @@ class MainMenu: SKScene {
                 } else if self.childNode(withName: "MUSIC: ON -Button") != nil && self.childNode(withName: "MUSIC: ON -Button")!.contains(touch.location(in: self)) {
                     
                     if vibrationOn == true {
-                        self.generator.impactOccurred()
+                        runHaptic(intensity: 1, sharpness: 0)
                     }
                     if fxOn == true {
                         self.run(pling)
