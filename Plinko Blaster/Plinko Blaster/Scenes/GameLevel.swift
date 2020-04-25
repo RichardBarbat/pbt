@@ -964,6 +964,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             }
         } else if gameOver && endscreenIsCounting {
             
+            
             self.endscreenPointsCountingLabel.counter.stopCountAtCurrentValue()
             self.endscreenPointsCountingLabel.counter.countFromCurrentValueTo(CGFloat(pointsCount * multiplyerCount), withDuration: 0.1)
             self.endscreenMultiplyerLabelNode.counter.stopCountAtCurrentValue()
@@ -971,6 +972,9 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             self.restartLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+
+                hapticEngine?.stop()
+                prepareHaptics()
                 
                 self.endscreenIsCounting = false
             }
