@@ -67,6 +67,34 @@ func runHaptic(intensity: Float = 1, sharpness: Float = 1) {
     }
 }
 
+func runCountHaptic() {
+    
+    guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+    var events = [CHHapticEvent]()
+
+    for i in stride(from: 0, to: 1.5, by: 0.05) {
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: Float(i / 1.5))
+        let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
+        let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: i)
+        events.append(event)
+    }
+
+    for i in stride(from: 0, to: 1.5, by: 0.05) {
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: Float(1 - i / 1.5))
+        let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
+        let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 1.5 + i)
+        events.append(event)
+    }
+
+    do {
+        let pattern = try CHHapticPattern(events: events, parameters: [])
+        let player = try hapticEngine?.makePlayer(with: pattern)
+        try player?.start(atTime: 0)
+    } catch {
+        print("Failed to play pattern: \(error.localizedDescription).")
+    }
+}
+
 
 extension UIColor {
     
