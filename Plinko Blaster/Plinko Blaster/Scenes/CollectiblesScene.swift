@@ -81,7 +81,7 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         
         let collectiblesLableNode = SKLabelNode(text: "COLLECTIBLES")
         collectiblesLableNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.9)
-        collectiblesLableNode.fontName = "LCD14"
+        collectiblesLableNode.fontName = "PixelSplitter"
         collectiblesLableNode.fontColor = .green
         collectiblesLableNode.fontSize = 28
         collectiblesLableNode.horizontalAlignmentMode = .center
@@ -89,7 +89,7 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         
         let overviewLableNode = SKLabelNode(text: "-OVERVIEW-")
         overviewLableNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.85)
-        overviewLableNode.fontName = "LCD14"
+        overviewLableNode.fontName = "PixelSplitter"
         overviewLableNode.fontColor = .green
         overviewLableNode.fontSize = 28
         overviewLableNode.horizontalAlignmentMode = .center
@@ -131,7 +131,7 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         view.backgroundColor = UIColor.init(hexFromString: "242d24")
         
         let titleLable = UILabel(frame: view.frame)
-        titleLable.font = UIFont(name: "LCD14", size: 30)
+        titleLable.font = UIFont(name: "PixelSplitter", size: 30)
         titleLable.textColor = .green
         
         titleLable.text = "???"
@@ -172,7 +172,7 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         
         cell.textLabel?.text = "???"
         cell.textLabel?.textColor = .red
-        cell.textLabel?.font = UIFont(name: "LCD14", size: 20)
+        cell.textLabel?.font = UIFont(name: "PixelSplitter", size: 20)
         
         cell.detailTextLabel?.text = "Free at prestige level: \(allCollectibles[indexPath.section].collectibles[indexPath.row].freeAtPrestigeLevel)\nYour prestige level: \(prestigeCount + 1)".uppercased()
         cell.detailTextLabel?.textColor = .white

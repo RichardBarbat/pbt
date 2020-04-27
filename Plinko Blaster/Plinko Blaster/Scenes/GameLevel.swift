@@ -54,7 +54,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     var controlBallBool = false
     var totalBallsDropped = 0
     var ballsAreGhosted = false
-    var ballPrepared = false
+//    var ballPrepared = false
     
     //MARK: __ COLLECTIBLES __
     let allCollectibles = CollectiblesData().allCollectibles()
@@ -76,7 +76,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         physicsWorld.contactDelegate = self
         
-        self.backgroundColor = UIColor.init(hexFromString: "140032")
+        self.backgroundColor = UIColor(hexFromString: "140032")
         
         self.addChild(effectNode)
         
@@ -211,7 +211,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         addBallCounterNode()
         
-        addMultiplyerNode()
+        addMultiplyerCounterNode()
         
         addPointsLabelNode()
         
@@ -260,7 +260,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         backButtonNode.size = CGSize(width: Screen.width * 0.1, height: Screen.width * 0.1 / backButtonAspectRatio)
         backButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         backButtonNode.position = CGPoint(x: Screen.width * 0.1, y: Screen.height * 0.95)
-        backButtonNode.alpha = 0.7
+        backButtonNode.alpha = 0.9
         effectNode.addChild(backButtonNode)
     }
     
@@ -269,7 +269,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         miniMenuButtonNode.size = CGSize(width: Screen.width * 0.1, height: Screen.width * 0.1 / menuButtonAspectRatio)
         miniMenuButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         miniMenuButtonNode.position = CGPoint(x: Screen.width * 0.9, y: Screen.height * 0.95)
-        miniMenuButtonNode.alpha = 0.7
+        miniMenuButtonNode.alpha = 0.9
         effectNode.addChild(miniMenuButtonNode)
     }
     
@@ -278,7 +278,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         pointsLabelNode.text = "POINTS: \(pointsCount)"
         pointsLabelNode.fontSize = 28
         pointsLabelNode.alpha = 1
-        pointsLabelNode.fontName = "LCD14"
+        pointsLabelNode.fontName = "PixelSplitter"
         pointsLabelNode.horizontalAlignmentMode = .center
         pointsLabelNode.preferredMaxLayoutWidth = Screen.width * 0.7
         pointsLabelNode.fontColor = UIColor(hexFromString: "0099ff")
@@ -297,7 +297,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         if ballCount == 0 {
             ballCounterLabelNode.fontColor = .red
         }
-        ballCounterLabelNode.fontName = "LCD14"
+        ballCounterLabelNode.fontName = "PixelSplitter"
         ballCounterLabelNode.setScale(0.35)
         ballCounterLabelNode.position = CGPoint(x: Screen.width * 0.02, y: Screen.height * 0.83)
         ballCounterLabelNode.horizontalAlignmentMode = .left
@@ -305,15 +305,15 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         effectNode.addChild(ballCounterLabelNode)
     }
     
-    func addMultiplyerNode() {
+    func addMultiplyerCounterNode() {
         multiplyerLabelNode = SKLabelNode()
         multiplyerCount = 0
         multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
-        multiplyerLabelNode.fontName = "LCD14"
+        multiplyerLabelNode.fontName = "PixelSplitter"
         multiplyerLabelNode.setScale(0.35)
         multiplyerLabelNode.horizontalAlignmentMode = .right
         multiplyerLabelNode.position = CGPoint(x: Screen.width * 0.979, y: Screen.height * 0.83)
-        multiplyerLabelNode.fontColor = Color.yellow
+        multiplyerLabelNode.fontColor = UIColor(hexFromString: "d800ff")
         multiplyerLabelNode.alpha = 1
         effectNode.addChild(multiplyerLabelNode)
     }
@@ -420,7 +420,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             box.physicsBody!.contactTestBitMask = ColliderType.Ball         // Test and tell "didBeginContact()" that "ColliderType.Box" has contact with "ColliderType.Ball"
             multiplyers = [1,2,3,2,1]
             let multiplierLabelNode = SKLabelNode(text: "X\(multiplyers[boxNumber])")
-            multiplierLabelNode.fontName = "LCD14"
+            multiplierLabelNode.fontName = "PixelSplitter"
             multiplierLabelNode.fontSize = 24
             multiplierLabelNode.fontColor = Color.yellow
             multiplierLabelNode.name = "multiplierLabelNode"
@@ -547,7 +547,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         highscoreLabelNode.fontColor = Color.yellow
         highscoreLabelNode.text = "HIGHSCORE: \(lastHighscore)"
         highscoreLabelNode.fontSize = 13
-        highscoreLabelNode.fontName = "LCD14"
+        highscoreLabelNode.fontName = "PixelSplitter"
         highscoreLabelNode.alpha = 1
         highscoreLabelNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.935)
         if delayed == true {
@@ -559,31 +559,50 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         }
     }
     
-    func prepareBall() {
+    func prepareBall(duration:Double = 5) {
+        var totalDuration = duration
         ball = Ball().create()
+        ball.zPosition = 10
+        ball.alpha = 0.65
         ball.position = CGPoint(x: Screen.width / 2 + 0.1, y: Screen.height * 0.78)
-        ballsAdded.append(ball)
-        ballsDown.append(false)
         ball.name = "ball\(ballsAdded.count)"
-        ball.strokeColor = .yellow
-        ball.lineWidth = Screen.width * 0.008
-        if ballsAreGhosted {
-            ball.alpha = 0.1
-        }
-        let ballGlow = SKShapeNode(circleOfRadius: ball.frame.size.width / 2.5)
-        ballGlow.strokeColor = Color.yellow.withAlphaComponent(0.6)
-        ballGlow.lineWidth = 0.1
-        ballGlow.glowWidth = 12
-        ballGlow.zPosition = ball.zPosition - 10
-        ballGlow.name = "glow\(ballsAdded.count)"
-        ball.addChild(ballGlow)
-        ball.setScale(0)
+        ball.strokeColor = .red
+        (ball.children.first as! SKLabelNode).fontColor = .red
+        
+        ball.setScale(0.01)
         effectNode.addChild(ball)
-        ball.run(SKAction.scale(to: 1, duration: 0.4))
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+        if ballsAdded.count == 0 {
+            totalDuration = 0
+        }
+        
+        ball.run(SKAction.scale(to: 1, duration: TimeInterval(totalDuration)))
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + totalDuration + 0.01, execute: {
+            print("self.ballsAdded.count = \(self.ballsAdded.count)")
+            
+            self.ball.zPosition = 300
+            self.ball.alpha = 1
+            self.ball.strokeColor = .yellow
+            (self.ball.children.first as! SKLabelNode).fontColor = .yellow
+            self.ball.addGlow(radius: 5)
+            self.ball.addGlow(radius: 10, alpha: 0.25)
+            self.ball.addGlow(radius: 15, alpha: 0.25)
+
+            self.ball.physicsBody = SKPhysicsBody(circleOfRadius: Screen.width * 0.038 )
+            self.ball.physicsBody?.isDynamic = false
+            self.ball.physicsBody?.friction = 0
+            self.ball.physicsBody?.restitution = 0.45
+            self.ball.physicsBody?.categoryBitMask = ColliderType.Ball
+            self.ball.physicsBody?.collisionBitMask = ColliderType.Ball | ColliderType.Obstacle | ColliderType.Scene | ColliderType.Line | ColliderType.BottomLine
+            self.ball.physicsBody?.contactTestBitMask = ColliderType.Ball | ColliderType.Obstacle | ColliderType.BottomLine | ColliderType.Box | ColliderType.Collectible
+            
+            self.ballsAdded.append(self.ball)
+            self.ballsDown.append(false)
+            
             self.controlBallBool = true
         })
-        ballPrepared = true
+        
+
     }
     
     func addDownArrows(count: Int) {
@@ -639,7 +658,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         let extraBallNode = SKSpriteNode(imageNamed: "heart")
         extraBallNode.size = CGSize(width: 29, height: 29)
         extraBallNode.name = "heart"
-        extraBallNode.addGlow(radius: 10)
+        extraBallNode.addGlow()
         extraBallNode.position = CGPoint(x: CGFloat.random(in: 60...Screen.width-60), y: availableRows.randomElement()!)
         extraBallNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: -10, duration: 0.3)))
         extraBallNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: 10, duration: 0.3)))
@@ -672,7 +691,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         collectibleNode = SKSpriteNode(texture: currentCollectible.texture)
         collectibleNode.size = CGSize(width: 29, height: 29)
         collectibleNode.name = currentCollectible.name
-        collectibleNode.addGlow(radius: 10)
+        collectibleNode.addGlow()
         
         print("newCollectibleNode.name = \(String(describing: currentCollectible.name))")
         
@@ -706,9 +725,10 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             ballPointValue = ballPointValue * 2
             for ball in self.ballsAdded {
                 if let label = ball.children.first as! SKLabelNode? {
-                    label.text = "X\(ballPointValue)"
+                    if ball.physicsBody?.isDynamic == true {
+                        label.text = "X\(ballPointValue)"
+                    }
                 }
-                
             }
         })
 
@@ -723,20 +743,16 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         let fadeOutAction = SKAction.fadeAlpha(to: 0.1, duration: 0.5)
         let waitAction = SKAction.wait(forDuration: TimeInterval(seconds))
-        let turnAllBallsOn = SKAction.run {
-            for ball in self.ballsAdded {
-                ball.run(SKAction.fadeIn(withDuration: 1))
-                if ball == self.ballsAdded.last {
-                    self.ballsAreGhosted = false
-                }
-            }
-        }
+        let turnAllBallsOn = SKAction.fadeIn(withDuration: 0.5)
+        
         let ghostSequence = SKAction.sequence([fadeOutAction, waitAction, turnAllBallsOn])
+        
         for ball in ballsAdded {
-            if ball.strokeColor != UIColor.red {
+            if ball.alpha == 1 {
                 ball.run(ghostSequence)
             }
         }
+        
     }
     
     func animateCollectibleOnCollision(collidedSpriteNode: SKNode) {
@@ -753,8 +769,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         let miniPointsLabelNode = SKLabelNode(text: currentCollectible.miniLabelText)
         miniPointsLabelNode.fontColor = currentCollectible.color
         miniPointsLabelNode.fontSize = 30
-        miniPointsLabelNode.alpha = 0.8
-        miniPointsLabelNode.fontName = "LCD14"
+        miniPointsLabelNode.fontName = "PixelSplitter"
         miniPointsLabelNode.horizontalAlignmentMode = .center
         miniPointsLabelNode.zPosition = 1000000
         
@@ -768,26 +783,26 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         miniPointsLabelSpriteNode.setScale(0.1)
         effectNode.addChild(miniPointsLabelSpriteNode)
         
-        miniPointsLabelSpriteNode.run(SKAction.scale(to: 1.2, duration: 0.5))
-        miniPointsLabelSpriteNode.run(SKAction.move(to: CGPoint(x: Screen.width / 2, y: Screen.height * 0.71), duration: 0.5))
+        miniPointsLabelSpriteNode.run(SKAction.scale(to: 1.4, duration: 0.4))
+        miniPointsLabelSpriteNode.run(SKAction.move(to: CGPoint(x: Screen.width / 2, y: Screen.height * 0.71), duration: 0.2))
         
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.8, execute: {
             miniPointsLabelSpriteNode.removeFromParent()
         })
         
         let inflate = SKAction.resize(toWidth: 150, height: 150, duration: 0.2)
-        let explode = SKAction.resize(toWidth: 250, height: 250, duration: 0.4)
-        let moveToCenter = SKAction.move(to: CGPoint(x: Screen.width / 2, y: Screen.height / 2), duration: 0.5)
+        let explode = SKAction.resize(toWidth: 250, height: 250, duration: 0.2)
+        let moveToCenter = SKAction.move(to: CGPoint(x: Screen.width / 2, y: Screen.height / 2), duration: 0.2)
         let fadeOut = SKAction.fadeOut(withDuration: 0.4)
         let animationSequence = SKAction.sequence([inflate, explode])
         collidedSpriteNode.run(moveToCenter)
         collidedSpriteNode.run(animationSequence)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.4, execute: {
             collidedSpriteNode.run(fadeOut)
         })
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
             collidedSpriteNode.physicsBody = nil
             collidedSpriteNode.removeFromParent()
         })
@@ -925,8 +940,12 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         if touches.first!.location(in: self).y <= Screen.height * 0.8 {
             if controlBallBool && ballCount > 0 {
                 controlBallBool = false
-                ballPrepared = false
+//                ballPrepared = false
                 ballsAdded.last!.physicsBody!.isDynamic = true
+                
+                if let label = ball.children.first as! SKLabelNode? {
+                    label.text = "X\(ballPointValue)"
+                }
                 ballCount = ballCount - 1
                 ballCounterLabelNode.text = "BALLS: \(ballCount)"
                 if ballCount == 0 {
@@ -947,7 +966,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             
             let restartingLabelNode = SKLabelNode(text: "RESTARTING")
             restartingLabelNode.fontSize = 40
-            restartingLabelNode.fontName = "LCD14"
+            restartingLabelNode.fontName = "PixelSplitter"
             restartingLabelNode.fontColor = .green
             restartingLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.65)
             restartingLabelNode.alpha = 1
@@ -1014,7 +1033,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         let buttonBackgroundMusicLabelNode = SKLabelNode()
         buttonBackgroundMusicLabelNode.name = "musicButtonLabel"
-        buttonBackgroundMusicLabelNode.fontName = "LCD14"
+        buttonBackgroundMusicLabelNode.fontName = "PixelSplitter"
         buttonBackgroundMusicLabelNode.fontSize = 10
         if backgroundMusicPlayerStatus == true {
             buttonBackgroundMusicLabelNode.text = "MUSIC: ON"
@@ -1040,7 +1059,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         let buttonFXLabelNode = SKLabelNode()
         buttonFXLabelNode.name = "fxButtonLabel"
-        buttonFXLabelNode.fontName = "LCD14"
+        buttonFXLabelNode.fontName = "PixelSplitter"
         buttonFXLabelNode.fontSize = 10
         if fxOn == true {
             buttonFXLabelNode.text = "SOUND-FX: ON"
@@ -1065,7 +1084,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         let buttonVibrationLabelNode = SKLabelNode()
         buttonVibrationLabelNode.name = "vibrationButtonLabel"
-        buttonVibrationLabelNode.fontName = "LCD14"
+        buttonVibrationLabelNode.fontName = "PixelSplitter"
         buttonVibrationLabelNode.fontSize = 10
         if vibrationOn == true {
             buttonVibrationLabelNode.text = "VIBRATION: ON"
@@ -1135,13 +1154,13 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 highscoreLabelNode.run(SKAction.moveBy(x: 0, y: Screen.height * -0.05, duration: 0.5))
                 highscoreLabelIsInFront = true
                 highscoreLabelNode.fontSize = 26
-                highscoreLabelNode.fontName = "LCD14"
+                highscoreLabelNode.fontName = "PixelSplitter"
                 highscoreLabelNode.alpha = 1
                 pointsLabelNode.alpha = 0
             }
         } else {
             highscoreLabelNode.fontSize = 13
-            highscoreLabelNode.fontName = "LCD14"
+            highscoreLabelNode.fontName = "PixelSplitter"
             pointsLabelNode.alpha = 1
         }
     }
@@ -1210,11 +1229,15 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             
             
             if ball1Node.strokeColor == .red {
-                ball2Node.strokeColor = .red
                 ball2Node.removeAllChildren()
+                ball2Node.removeAllActions()
+                ball2Node.strokeColor = .red
+                ball2Node.alpha = 0.3
             } else if ball2Node.strokeColor == .red {
-                ball1Node.strokeColor = .red
                 ball1Node.removeAllChildren()
+                ball1Node.removeAllActions()
+                ball1Node.strokeColor = .red
+                ball1Node.alpha = 0.3
             }
             
             
@@ -1244,7 +1267,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             let miniPointsLabelNode = SKLabelNode(text: "+\(ballPointValue)")
             miniPointsLabelNode.fontSize = 13
             miniPointsLabelNode.alpha = 1
-            miniPointsLabelNode.fontName = "LCD14"
+            miniPointsLabelNode.fontName = "PixelSplitter"
             miniPointsLabelNode.horizontalAlignmentMode = .center
             miniPointsLabelNode.fontColor = UIColor(hexFromString: "0099ff")
             
@@ -1304,7 +1327,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     highscoreLabelNode.run(SKAction.moveBy(x: 0, y: Screen.height * -0.05, duration: 0.5))
                     highscoreLabelIsInFront = true
                     highscoreLabelNode.fontSize = 26
-                    highscoreLabelNode.fontName = "LCD14"
+                    highscoreLabelNode.fontName = "PixelSplitter"
                     highscoreLabelNode.alpha = 1
                     pointsLabelNode.alpha = 0
                 }
@@ -1312,7 +1335,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             } else {
                 
                 highscoreLabelNode.fontSize = 13
-                highscoreLabelNode.fontName = "LCD14"
+                highscoreLabelNode.fontName = "PixelSplitter"
                 pointsLabelNode.alpha = 1
             }
             
@@ -1323,7 +1346,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 ballCounterLabelNode.fontColor = .yellow
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                    if self.ballPrepared == false {
+                    if self.ballsAdded.last!.physicsBody!.isDynamic == true {
                         self.prepareBall()
                     }
                 }
@@ -1416,8 +1439,10 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 if box.contains(ballNode.position) && (ballNode ).strokeColor != UIColor.red {
                     
                     boxNode = box
-                    ballNode.strokeColor = .red
                     ballNode.removeAllChildren()
+                    ballNode.removeAllActions()
+                    ballNode.strokeColor = .red
+                    ballNode.alpha = 0.3
                 }
             }
             
@@ -1446,14 +1471,14 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                                 highscoreLabelNode.run(SKAction.moveBy(x: 0, y: Screen.height * -0.05, duration: 0.5))
                                 highscoreLabelIsInFront = true
                                 highscoreLabelNode.fontSize = 26
-                                highscoreLabelNode.fontName = "LCD14"
+                                highscoreLabelNode.fontName = "PixelSplitter"
                                 highscoreLabelNode.alpha = 1
                                 pointsLabelNode.alpha = 0
                                 
                             }
                         } else {
                             highscoreLabelNode.fontSize = 13
-                            highscoreLabelNode.fontName = "LCD14"
+                            highscoreLabelNode.fontName = "PixelSplitter"
                             pointsLabelNode.alpha = 1
                         }
                         boxesCollected[index] = true
@@ -1483,7 +1508,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                             
                             for i in stride(from: 0, to: 1, by: 0.01) {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + i) {
-                                    runHaptic(intensity: 1, sharpness: Float(i))
+                                    runHaptic(intensity: Float(1 - i), sharpness: 0)
                                 }
                             }
                             
@@ -1512,7 +1537,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         let gameLabelNode = SKLabelNode(text: "GAME")
         gameLabelNode.fontSize = 100
-        gameLabelNode.fontName = "LCD14"
+        gameLabelNode.fontName = "PixelSplitter"
         gameLabelNode.fontColor = UIColor(hexFromString: "d800ff")
         gameLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.80)
         gameLabelNode.alpha = 1
@@ -1520,7 +1545,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         let overLabelNode = SKLabelNode(text: "OVER")
         overLabelNode.fontSize = 100
-        overLabelNode.fontName = "LCD14"
+        overLabelNode.fontName = "PixelSplitter"
         overLabelNode.fontColor = UIColor(hexFromString: "d800ff")
         overLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.68)
         overLabelNode.alpha = 1
@@ -1529,14 +1554,14 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         let pointsTitleLabelNode = SKLabelNode(text: "POINTS: ")
         pointsTitleLabelNode.horizontalAlignmentMode = .center
         pointsTitleLabelNode.fontSize = 40
-        pointsTitleLabelNode.fontName = "LCD14"
+        pointsTitleLabelNode.fontName = "PixelSplitter"
         pointsTitleLabelNode.fontColor = UIColor(hexFromString: "0099ff")
         pointsTitleLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.45)
         pointsTitleLabelNode.alpha = 1
         pointsTitleLabelNode.zPosition = 10100
         
         endscreenPointsCountingLabel.counter.timingFunction = EFTimingFunction.easeInOut(easingRate: 3)
-        endscreenPointsCountingLabel.font = UIFont(name: "LCD14", size: 50)
+        endscreenPointsCountingLabel.font = UIFont(name: "PixelSplitter", size: 50)
         endscreenPointsCountingLabel.textColor = UIColor(hexFromString: "0099ff")
         endscreenPointsCountingLabel.textAlignment = .center
         endscreenPointsCountingLabel.text = "\(pointsCount)"
@@ -1544,7 +1569,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         endscreenPointsCountingLabel.tag = 1
         
         endscreenMultiplyerLabelNode.counter.timingFunction = EFTimingFunction.linear
-        endscreenMultiplyerLabelNode.font = UIFont(name: "LCD14", size: 30)
+        endscreenMultiplyerLabelNode.font = UIFont(name: "PixelSplitter", size: 30)
         endscreenMultiplyerLabelNode.textColor = UIColor.yellow
         endscreenMultiplyerLabelNode.textAlignment = .center
         endscreenMultiplyerLabelNode.alpha = 1
@@ -1553,7 +1578,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         restartLabelNode.preferredMaxLayoutWidth = Screen.width * 0.9
         restartLabelNode.fontSize = 20
-        restartLabelNode.fontName = "LCD14"
+        restartLabelNode.fontName = "PixelSplitter"
         restartLabelNode.fontColor = UIColor.green
         restartLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.14)
         restartLabelNode.alpha = 0
@@ -1605,7 +1630,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     paragraphStyle.alignment = .center
                     let range = NSRange(location: 0, length: newHighscoreString.count)
                     attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: range)
-                    attrString.addAttributes([NSAttributedString.Key.foregroundColor : UIColor.yellow, NSAttributedString.Key.font : UIFont.init(name: "LCD14", size: 45)!], range: range)
+                    attrString.addAttributes([NSAttributedString.Key.foregroundColor : UIColor.yellow, NSAttributedString.Key.font : UIFont.init(name: "PixelSplitter", size: 45)!], range: range)
                     pointsTitleLabelNode.attributedText = attrString
                     pointsTitleLabelNode.numberOfLines = 2
                     pointsTitleLabelNode.position.y = Screen.height * 0.47
@@ -1634,7 +1659,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     paragraphStyle.alignment = .center
                     let range = NSRange(location: 0, length: newHighscoreString.count)
                     attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: range)
-                    attrString.addAttributes([NSAttributedString.Key.foregroundColor : UIColor.yellow, NSAttributedString.Key.font : UIFont.init(name: "LCD14", size: 45)!], range: range)
+                    attrString.addAttributes([NSAttributedString.Key.foregroundColor : UIColor.yellow, NSAttributedString.Key.font : UIFont.init(name: "PixelSplitter", size: 45)!], range: range)
                     pointsTitleLabelNode.attributedText = attrString
                     pointsTitleLabelNode.numberOfLines = 2
                     pointsTitleLabelNode.position.y = Screen.height * 0.47

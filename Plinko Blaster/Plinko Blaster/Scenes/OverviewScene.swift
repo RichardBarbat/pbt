@@ -74,7 +74,7 @@ class OverviewScene: SKScene, UITextFieldDelegate {
         let titleNode = SKLabelNode(text: "PLAYER-OVERVIEW")
         titleNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.85)
         titleNode.alpha = 1
-        titleNode.fontName = "LCD14"
+        titleNode.fontName = "PixelSplitter"
         titleNode.fontColor = .green
         titleNode.fontSize = 28
         addChild(titleNode)
@@ -82,7 +82,7 @@ class OverviewScene: SKScene, UITextFieldDelegate {
         let highscoreLableNode = SKLabelNode(text: "- HIGHSCORE:\n"+"  \(UserDefaults.standard.integer(forKey: "highscore"))")
         highscoreLableNode.position = CGPoint(x: 30, y: Screen.height * 0.7)
         highscoreLableNode.alpha = 1
-        highscoreLableNode.fontName = "LCD14"
+        highscoreLableNode.fontName = "PixelSplitter"
         highscoreLableNode.fontColor = .green
         highscoreLableNode.fontSize = 18
         highscoreLableNode.numberOfLines = 2
@@ -92,7 +92,7 @@ class OverviewScene: SKScene, UITextFieldDelegate {
         let totalPointsLableNode = SKLabelNode(text: "- TOTAL POINTS COLLECTED:\n"+"  \(UserDefaults.standard.integer(forKey: "totalPointsCollected"))")
         totalPointsLableNode.position = CGPoint(x: 30, y: Screen.height * 0.6)
         totalPointsLableNode.alpha = 1
-        totalPointsLableNode.fontName = "LCD14"
+        totalPointsLableNode.fontName = "PixelSplitter"
         totalPointsLableNode.fontColor = .green
         totalPointsLableNode.fontSize = 18
         totalPointsLableNode.numberOfLines = 2
@@ -102,7 +102,7 @@ class OverviewScene: SKScene, UITextFieldDelegate {
         let totalBallsLableNode = SKLabelNode(text: "- TOTAL BALLS DROPPED:\n"+"  \(UserDefaults.standard.integer(forKey: "totalBallsDropped"))")
         totalBallsLableNode.position = CGPoint(x: 30, y: Screen.height * 0.5)
         totalBallsLableNode.alpha = 1
-        totalBallsLableNode.fontName = "LCD14"
+        totalBallsLableNode.fontName = "PixelSplitter"
         totalBallsLableNode.fontColor = .green
         totalBallsLableNode.fontSize = 18
         totalBallsLableNode.numberOfLines = 2

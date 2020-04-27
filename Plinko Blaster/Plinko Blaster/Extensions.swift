@@ -73,14 +73,14 @@ func runCountHaptic() {
     var events = [CHHapticEvent]()
 
     for i in stride(from: 0, to: 1.5, by: 0.05) {
-        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: Float(i / 1.5))
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: Float(i / 1.5) + 0.4)
         let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
         let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: i)
         events.append(event)
     }
 
     for i in stride(from: 0, to: 1.5, by: 0.05) {
-        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: Float(1 - i / 1.5))
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: Float(1.5 - i / 1.5) - 0.4)
         let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
         let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 1.5 + i)
         events.append(event)
@@ -139,20 +139,52 @@ extension UIColor {
     }
 }
 
+extension String {
+    
+    func heightWithConstrainedWidth(width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        
+        return boundingBox.height
+    }
+    
+}
+
 extension SKNode {
     
-    func addGlow(radius:CGFloat=30) {
+    func addGlow(radius:CGFloat = 30, alpha:CGFloat = 1) {
         let view = SKView()
         let effectNode = SKEffectNode()
-        let texture = view.texture(from: self)
+        
+        var texture = view.texture(from: self)
+        let alphaCache = self.alpha
+        if self.alpha < 1 || alpha != 1 {
+            self.alpha = alpha
+            texture = view.texture(from: self)
+            self.alpha = alphaCache
+        }
+        
         effectNode.filter = CIFilter(name: "CIGaussianBlur",parameters: ["inputRadius":radius])
-        effectNode.blendMode = .add
-        effectNode.position = CGPoint(x: self.position.x, y: self.position.y )
+//        effectNode.blendMode = .add
+        effectNode.position = CGPoint(x: self.position.x, y: self.position.y)
         effectNode.shouldCenterFilter = true
         effectNode.shouldEnableEffects = true
         effectNode.shouldRasterize = true
         effectNode.name = "glow"
+        effectNode.zPosition =  -10
         addChild(effectNode)
+        
+        if parent != nil && parent?.position == CGPoint(x: 0, y: 0) {
+
+            effectNode.position = CGPoint(x: 0, y: 0)
+        }
+        
+//        print("effectNode.zPosition = \(effectNode.zPosition)")
+//        print("self.zPosition = \(self.zPosition)")
+//        
+//        print("parent = \(String(describing: parent))")
+        
         effectNode.addChild(SKSpriteNode(texture: texture))
     }
     
@@ -219,10 +251,83 @@ public extension Int {
         return milliseconds
     }
     
+    func toUIColor() -> UIColor {
+        return UIColor(
+            red: CGFloat((self & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((self & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(self & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+    
+    func toCGColor() -> CGColor {
+        return self.toUIColor().cgColor
+    }
+    
+}
+
+extension UInt {
+    
+    func toUIColor() -> UIColor {
+        return UIColor(
+            red: CGFloat((self & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((self & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(self & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+    
+    func toCGColor() -> CGColor {
+        return self.toUIColor().cgColor
+    }
 }
 
 public extension DispatchTimeInterval {
     var fromNow: DispatchTime {
         return DispatchTime.now() + self
+    }
+}
+
+
+extension UIAlertController {
+    
+    func setBackgroundColor(color: UIColor) {
+        if let bgView = self.view.subviews.first, let groupView = bgView.subviews.first, let contentView = groupView.subviews.first {
+            contentView.backgroundColor = color
+        }
+    }
+    
+    func setCustomTitleFont(font: UIFont?, color: UIColor?) {
+        guard let title = self.title else { return }
+        let attributeString = NSMutableAttributedString(string: title)
+        if let titleFont = font {
+            attributeString.addAttributes([NSAttributedString.Key.font : titleFont],
+                                          range: NSMakeRange(0, title.utf8.count))
+        }
+        
+        if let titleColor = color {
+            attributeString.addAttributes([NSAttributedString.Key.foregroundColor : titleColor],
+                                          range: NSMakeRange(0, title.utf8.count))
+        }
+        self.setValue(attributeString, forKey: "attributedTitle")
+    }
+    
+    func setCustomMessageFont(font: UIFont?, color: UIColor?) {
+        guard let message = self.message else { return }
+        let attributeString = NSMutableAttributedString(string: message)
+        if let messageFont = font {
+            attributeString.addAttributes([NSAttributedString.Key.font : messageFont],
+                                          range: NSMakeRange(0, message.utf8.count))
+        }
+        
+        if let messageColorColor = color {
+            attributeString.addAttributes([NSAttributedString.Key.foregroundColor : messageColorColor],
+                                          range: NSMakeRange(0, message.utf8.count))
+        }
+        self.setValue(attributeString, forKey: "attributedMessage")
+    }
+    
+    func setTint(color: UIColor) {
+        self.view.tintColor = color
     }
 }

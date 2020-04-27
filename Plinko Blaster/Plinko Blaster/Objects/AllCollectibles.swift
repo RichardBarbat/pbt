@@ -91,7 +91,7 @@ class CollectiblesData {
                     seconds: 0,
                     miniLabelText: "+\(ballPointValue * 10)00 POINTS",
                     freeAtPrestigeLevel: 8,
-                    color: .white,
+                    color: .orange,
                     action: SKAction()
         )
     
@@ -155,7 +155,7 @@ class CollectiblesData {
                     seconds: 0,
                     miniLabelText: "+\(ballPointValue * 10)00 POINTS",
                     freeAtPrestigeLevel: 8,
-                    color: .white,
+                    color: .green,
                     action: SKAction()
         )
     

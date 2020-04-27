@@ -8,5 +8,6 @@ target 'Plinko Blaster' do
   # Pods for Plinko Blaster
 
   pod 'EFCountingLabel'
+  pod 'SCLAlertView'
 
 end

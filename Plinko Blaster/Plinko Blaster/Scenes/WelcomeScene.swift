@@ -288,12 +288,12 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
     func addWelcomeText() {
         let welcome = SKLabelNode(text: "WELCOME TO")
         welcome.fontColor = UIColor.yellow
-        welcome.fontName = "LCD14"
+        welcome.fontName = "PixelSplitter"
         welcome.fontSize = 40
         welcome.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.875)
         welcome.alpha = 1
         welcome.removeAllChildren()
-        welcome.addGlow(radius: 7)
+        welcome.addGlow()
         welcome.children.first?.position = CGPoint(x: 0, y: welcome.frame.size.height / 2)
         self.addChild(welcome)
         
@@ -301,11 +301,11 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         newPlayerLabelNode.name = "newPlayerLabelNode"
         newPlayerLabelNode.preferredMaxLayoutWidth = Screen.width * 0.9
         newPlayerLabelNode.fontColor = UIColor.green
-        newPlayerLabelNode.fontName = "LCD14"
+        newPlayerLabelNode.fontName = "PixelSplitter"
         newPlayerLabelNode.fontSize = 22
         newPlayerLabelNode.position = CGPoint(x: 0, y: -newPlayerLabelNode.frame.size.height / 2)
         newPlayerLabelNode.alpha = 1
-        newPlayerLabelNode.addGlow(radius: 7)
+        newPlayerLabelNode.addGlow()
         newPlayerLabelNode.children.first?.position = CGPoint(x: 0, y: newPlayerLabelNode.frame.size.height / 2)
         
         let addPlayerLabelOutlineNode = SKShapeNode(rectOf: CGSize(width: newPlayerLabelNode.frame.size.width * 1.2, height: newPlayerLabelNode.frame.size.height * 2), cornerRadius: 6)
@@ -314,7 +314,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         addPlayerLabelOutlineNode.strokeColor = .green
         addPlayerLabelOutlineNode.lineWidth = 3
         addPlayerLabelOutlineNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.56)
-        addPlayerLabelOutlineNode.addGlow(radius: 7)
+        addPlayerLabelOutlineNode.addGlow()
         addPlayerLabelOutlineNode.children.first?.position = CGPoint(x: 0, y: 0)
         addPlayerLabelOutlineNode.addChild(newPlayerLabelNode)
         addChild(addPlayerLabelOutlineNode)
@@ -325,12 +325,12 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         pleaseLabelNode.preferredMaxLayoutWidth = Screen.width * 0.8
         pleaseLabelNode.fontColor = UIColor.init(hexFromString: "0099ff")
         pleaseLabelNode.numberOfLines = 6
-        pleaseLabelNode.fontName = "LCD14"
+        pleaseLabelNode.fontName = "PixelSplitter"
         pleaseLabelNode.fontSize = 17
         pleaseLabelNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.2)
         pleaseLabelNode.alpha = 1
         pleaseLabelNode.removeAllChildren()
-        pleaseLabelNode.addGlow(radius: 7)
+        pleaseLabelNode.addGlow()
         pleaseLabelNode.children.first?.position = CGPoint(x: 0, y: pleaseLabelNode.frame.size.height / 2)
         self.addChild(pleaseLabelNode)
         
@@ -359,7 +359,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         let musicButton = SKLabelNode()
         
         musicButton.name = "musicButton"
-        musicButton.fontName = "LCD14"
+        musicButton.fontName = "PixelSplitter"
         musicButton.fontSize = 45
         musicButton.fontColor = UIColor(hexFromString: "0099ff")
         
@@ -370,7 +370,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
             musicButton.position = CGPoint(x: Screen.width / 2, y: 50)
             musicButton.alpha = 1
             musicButton.removeAllChildren()
-            musicButton.addGlow(radius: 7)
+            musicButton.addGlow()
             musicButton.children.first?.position = CGPoint(x: 0, y: musicButton.frame.size.height / 2)
             self.addChild(musicButton)
             backgroundMusicPlayer?.stop()
@@ -382,7 +382,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
             musicButton.position = CGPoint(x: Screen.width / 2, y: 50)
             musicButton.alpha = 1
             musicButton.removeAllChildren()
-            musicButton.addGlow(radius: 7)
+            musicButton.addGlow()
             musicButton.children.first?.position = CGPoint(x: 0, y: musicButton.frame.size.height / 2)
             self.addChild(musicButton)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -405,7 +405,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         newNameTextField.adjustsFontSizeToFitWidth = true
         newNameTextField.borderStyle = .none
         newNameTextField.textColor = .green
-        newNameTextField.font = UIFont.init(name: "LCD14", size: 40)
+        newNameTextField.font = UIFont.init(name: "PixelSplitter", size: 40)
         newNameTextField.tag = 3
         newNameTextField.autocapitalizationType = .allCharacters
         self.view?.addSubview(newNameTextField)
@@ -429,7 +429,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
             let nameLabelNode = addPlayerButton!.childNode(withName: "newPlayerLabelNode") as! SKLabelNode
             nameLabelNode.removeAllChildren()
             nameLabelNode.text = textField.text
-            nameLabelNode.addGlow(radius: 7)
+            nameLabelNode.addGlow()
             nameLabelNode.children.first?.position = CGPoint(x: 0, y: nameLabelNode.frame.size.height / 2)
             addPlayerButton!.isHidden = false
             addPlayerButton!.isUserInteractionEnabled = false
@@ -456,47 +456,47 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
             readyLabelNode.name = "readyLabelNode"
             readyLabelNode.preferredMaxLayoutWidth = Screen.width * 0.8
             readyLabelNode.fontColor = UIColor.green
-            readyLabelNode.fontName = "LCD14"
+            readyLabelNode.fontName = "PixelSplitter"
             readyLabelNode.fontSize = 26
             readyLabelNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.45)
             readyLabelNode.alpha = 1
             readyLabelNode.removeAllChildren()
-            readyLabelNode.addGlow(radius: 7)
+            readyLabelNode.addGlow()
             readyLabelNode.children.first?.position = CGPoint(x: 0, y: readyLabelNode.frame.size.height / 2)
             self.addChild(readyLabelNode)
             
             let yesButton = SKLabelNode(text: "YES")
             yesButton.name = "yesButtonNode"
             yesButton.fontColor = UIColor.green
-            yesButton.fontName = "LCD14"
+            yesButton.fontName = "PixelSplitter"
             yesButton.fontSize = 40
             yesButton.position = CGPoint(x: (Screen.width / 3) - (yesButton.frame.size.width / 2), y: Screen.height * 0.3)
             yesButton.alpha = 1
             yesButton.removeAllChildren()
-            yesButton.addGlow(radius: 7)
+            yesButton.addGlow()
             yesButton.children.first?.position = CGPoint(x: 0, y: yesButton.frame.size.height / 2)
             addChild(yesButton)
             
             let placeholder = SKLabelNode(text: "/")
             placeholder.fontColor = UIColor.green
-            placeholder.fontName = "LCD14"
+            placeholder.fontName = "PixelSplitter"
             placeholder.fontSize = 40
             placeholder.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.3)
             placeholder.alpha = 1
             placeholder.removeAllChildren()
-            placeholder.addGlow(radius: 7)
+            placeholder.addGlow()
             placeholder.children.first?.position = CGPoint(x: 0, y: yesButton.frame.size.height / 2)
             addChild(placeholder)
             
             let noButton = SKLabelNode(text: "NO")
             noButton.name = "noButtonNode"
             noButton.fontColor = UIColor.green
-            noButton.fontName = "LCD14"
+            noButton.fontName = "PixelSplitter"
             noButton.fontSize = 40
             noButton.position = CGPoint(x: ((Screen.width / 3) * 2) + (noButton.frame.size.width / 2), y: Screen.height * 0.3)
             noButton.alpha = 1
             noButton.removeAllChildren()
-            noButton.addGlow(radius: 7)
+            noButton.addGlow()
             noButton.children.first?.position = CGPoint(x: 0, y: noButton.frame.size.height / 2)
             addChild(noButton)
         }
@@ -527,7 +527,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
                         button.text = "MUSIC: OFF "
                         button.fontColor = UIColor.red
                         button.removeAllChildren()
-                        button.addGlow(radius: 7)
+                        button.addGlow()
                         button.children.first?.position = CGPoint(x: 0, y: button.frame.size.height / 2)
                         backgroundMusicPlayerStatus = false
                         UserDefaults.standard.set(false, forKey: "backgroundMusicPlayerStatus")
@@ -539,7 +539,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
                         button.text = "MUSIC: ON "
                         button.fontColor = UIColor.green
                         button.removeAllChildren()
-                        button.addGlow(radius: 7)
+                        button.addGlow()
                         button.children.first?.position = CGPoint(x: 0, y: button.frame.size.height / 2)
                         backgroundMusicPlayerStatus = true
                         UserDefaults.standard.set(true, forKey: "backgroundMusicPlayerStatus")

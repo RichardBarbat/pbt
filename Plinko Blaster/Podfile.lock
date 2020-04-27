@@ -1,16 +1,20 @@
 PODS:
   - EFCountingLabel (5.1.1)
+  - SCLAlertView (0.8)
 
 DEPENDENCIES:
   - EFCountingLabel
+  - SCLAlertView
 
 SPEC REPOS:
   trunk:
     - EFCountingLabel
+    - SCLAlertView
 
 SPEC CHECKSUMS:
   EFCountingLabel: 605358591a67a3c92feb7ec32486bfab4a30e2c9
+  SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
 
-PODFILE CHECKSUM: dff3d812d4a92378eec4a759714e3f035a825c43
+PODFILE CHECKSUM: e538f219a6576088eb5cc957fca563bc1f2be884
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.8.3

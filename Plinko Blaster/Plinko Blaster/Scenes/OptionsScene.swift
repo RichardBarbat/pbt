@@ -92,7 +92,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         
         optionsTitleLabelNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.88)
         optionsTitleLabelNode.alpha = 1
-        optionsTitleLabelNode.fontName = "LCD14"
+        optionsTitleLabelNode.fontName = "PixelSplitter"
         optionsTitleLabelNode.fontColor = .green
         optionsTitleLabelNode.fontSize = 28
         addChild(optionsTitleLabelNode)
@@ -111,7 +111,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         
         musicButtonLabelNode.position = CGPoint(x: 30, y: optionsTitleLabelNode.position.y - 50)
         musicButtonLabelNode.alpha = 1
-        musicButtonLabelNode.fontName = "LCD14"
+        musicButtonLabelNode.fontName = "PixelSplitter"
         musicButtonLabelNode.fontSize = 18
         musicButtonLabelNode.horizontalAlignmentMode = .left
         addChild(musicButtonLabelNode)
@@ -129,7 +129,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         
         sfxButtonLabelNode.position = CGPoint(x: 30, y: musicButtonLabelNode.position.y - 33)
         sfxButtonLabelNode.alpha = 1
-        sfxButtonLabelNode.fontName = "LCD14"
+        sfxButtonLabelNode.fontName = "PixelSplitter"
         sfxButtonLabelNode.fontSize = 18
         sfxButtonLabelNode.horizontalAlignmentMode = .left
         addChild(sfxButtonLabelNode)
@@ -147,7 +147,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         
         vibrationButtonLabelNode.position = CGPoint(x: 30, y: sfxButtonLabelNode.position.y - 33)
         vibrationButtonLabelNode.alpha = 1
-        vibrationButtonLabelNode.fontName = "LCD14"
+        vibrationButtonLabelNode.fontName = "PixelSplitter"
         vibrationButtonLabelNode.fontSize = 18
         vibrationButtonLabelNode.horizontalAlignmentMode = .left
         addChild(vibrationButtonLabelNode)
@@ -165,7 +165,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         
         startScreenButtonLabelNode.position = CGPoint(x: 30, y: vibrationButtonLabelNode.position.y - 33)
         startScreenButtonLabelNode.alpha = 1
-        startScreenButtonLabelNode.fontName = "LCD14"
+        startScreenButtonLabelNode.fontName = "PixelSplitter"
         startScreenButtonLabelNode.fontSize = 18
         startScreenButtonLabelNode.horizontalAlignmentMode = .left
         addChild(startScreenButtonLabelNode)
@@ -183,7 +183,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         
         tutorialButtonLabelNode.position = CGPoint(x: 30, y: startScreenButtonLabelNode.position.y - 33)
         tutorialButtonLabelNode.alpha = 1
-        tutorialButtonLabelNode.fontName = "LCD14"
+        tutorialButtonLabelNode.fontName = "PixelSplitter"
         tutorialButtonLabelNode.fontSize = 18
         tutorialButtonLabelNode.horizontalAlignmentMode = .left
         addChild(tutorialButtonLabelNode)
@@ -203,7 +203,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         print("ballsToCollectForNextPrestige = \(ballsToCollectForNextPrestige)")
         
         prestigeButtonLabelNode.position = CGPoint(x: 30, y: tutorialButtonLabelNode.position.y - 50)
-        prestigeButtonLabelNode.fontName = "LCD14"
+        prestigeButtonLabelNode.fontName = "PixelSplitter"
         prestigeButtonLabelNode.fontSize = 18
         prestigeButtonLabelNode.horizontalAlignmentMode = .left
         addChild(prestigeButtonLabelNode)
@@ -216,7 +216,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
 
             prestigeButtonLevelLabelNode = SKLabelNode(text: "YOUR PRESTIGE LEVEL: \(prestigeCount + 1)")
             prestigeButtonLevelLabelNode.position = CGPoint(x: 25, y: -5)
-            prestigeButtonLevelLabelNode.fontName = "LCD14"
+            prestigeButtonLevelLabelNode.fontName = "PixelSplitter"
             prestigeButtonLevelLabelNode.fontColor = .green
             prestigeButtonLevelLabelNode.fontSize = 10
             prestigeButtonLevelLabelNode.horizontalAlignmentMode = .left
@@ -225,7 +225,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
             
             prestigeButtonDescriptionLabelNode = SKLabelNode(text: "DROP \(ballsToCollectForNextPrestige) MORE BALLS FOR NEXT PRESTIGE.")
             prestigeButtonDescriptionLabelNode.position = CGPoint(x: 25, y: -20)
-            prestigeButtonDescriptionLabelNode.fontName = "LCD14"
+            prestigeButtonDescriptionLabelNode.fontName = "PixelSplitter"
             prestigeButtonDescriptionLabelNode.fontSize = 10
             prestigeButtonDescriptionLabelNode.fontColor = .green
             prestigeButtonDescriptionLabelNode.horizontalAlignmentMode = .left
@@ -240,7 +240,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
             prestigeButtonLevelLabelNode = SKLabelNode(text: "YOUR PRESTIGE LEVEL: \(prestigeCount + 1) -> NEXT LEVEL: \(prestigeCount + 2)")
             prestigeButtonLevelLabelNode.numberOfLines = 2
             prestigeButtonLevelLabelNode.position = CGPoint(x: 25, y: -5)
-            prestigeButtonLevelLabelNode.fontName = "LCD14"
+            prestigeButtonLevelLabelNode.fontName = "PixelSplitter"
             prestigeButtonLevelLabelNode.fontColor = .green
             prestigeButtonLevelLabelNode.fontSize = 10
             prestigeButtonLevelLabelNode.horizontalAlignmentMode = .left
@@ -249,7 +249,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
             
             prestigeButtonDescriptionLabelNode = SKLabelNode(text: "YOU CAN PRESTIGE NOW.\nBALLS WILL COLLECT \(ballPointValue + prestigeValue)X POINTS.")
             prestigeButtonDescriptionLabelNode.position = CGPoint(x: 25, y: -35)
-            prestigeButtonDescriptionLabelNode.fontName = "LCD14"
+            prestigeButtonDescriptionLabelNode.fontName = "PixelSplitter"
             prestigeButtonDescriptionLabelNode.numberOfLines = 2
             prestigeButtonDescriptionLabelNode.preferredMaxLayoutWidth = Screen.width * 0.75
             prestigeButtonDescriptionLabelNode.fontSize = 10
@@ -265,7 +265,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         
         extrasTitleLabelNode.position = CGPoint(x: Screen.width / 2, y: prestigeButtonLabelNode.position.y - 110)
         extrasTitleLabelNode.alpha = 1
-        extrasTitleLabelNode.fontName = "LCD14"
+        extrasTitleLabelNode.fontName = "PixelSplitter"
         extrasTitleLabelNode.fontColor = .green
         extrasTitleLabelNode.fontSize = 26
         extrasTitleLabelNode.horizontalAlignmentMode = .center
@@ -283,7 +283,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
 
         let extraTitleDescriptionLabel = SKLabelNode(text: "BOOST YOUR HIGHSCORE WITH THESE AWESOME EXTRAS:")
         extraTitleDescriptionLabel.alpha = 1
-        extraTitleDescriptionLabel.fontName = "LCD14"
+        extraTitleDescriptionLabel.fontName = "PixelSplitter"
         extraTitleDescriptionLabel.fontColor = .green
         extraTitleDescriptionLabel.fontSize = 14
         extraTitleDescriptionLabel.horizontalAlignmentMode = .center
@@ -305,7 +305,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         firstExtraFrame.addChild(firstExtraFrameImageRect)
         
         let firstExtraFramePriceLabel = SKLabelNode(text: "0,79€")
-        firstExtraFramePriceLabel.fontName = "LCD14"
+        firstExtraFramePriceLabel.fontName = "PixelSplitter"
         firstExtraFramePriceLabel.fontColor = .green
         firstExtraFramePriceLabel.fontSize = 16
         firstExtraFramePriceLabel.horizontalAlignmentMode = .center
@@ -327,7 +327,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         secondExtraFrame.addChild(secondExtraFrameImageRect)
         
         let secondExtraFramePriceLabel = SKLabelNode(text: "1,99€")
-        secondExtraFramePriceLabel.fontName = "LCD14"
+        secondExtraFramePriceLabel.fontName = "PixelSplitter"
         secondExtraFramePriceLabel.fontColor = .green
         secondExtraFramePriceLabel.fontSize = 16
         secondExtraFramePriceLabel.horizontalAlignmentMode = .center
@@ -348,7 +348,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         thirdExtraFrame.addChild(thirdExtraFrameImageRect)
         
         let thirdExtraFramePriceLabel = SKLabelNode(text: "4,99€")
-        thirdExtraFramePriceLabel.fontName = "LCD14"
+        thirdExtraFramePriceLabel.fontName = "PixelSplitter"
         thirdExtraFramePriceLabel.fontColor = .green
         thirdExtraFramePriceLabel.fontSize = 16
         thirdExtraFramePriceLabel.horizontalAlignmentMode = .center

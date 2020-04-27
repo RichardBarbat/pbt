@@ -8,6 +8,7 @@
 
 import GameKit
 import CoreHaptics
+import SCLAlertView
 
 
 // MARK: - globale Variablen
@@ -359,17 +360,11 @@ class MainMenu: SKScene {
     func addLogo() {
         let logoNode = SKSpriteNode(imageNamed: "plinko-blaster-logo3")
         let logoAspectRatio = logoNode.size.width/logoNode.size.height
-        if DeviceType.isiPad || DeviceType.isiPadPro {
-            logoNode.size = CGSize(width: Screen.width * 0.6, height: Screen.width * 0.6 / logoAspectRatio)
-        } else {
-            //            print("is not iPad")
-            logoNode.size = CGSize(width: Screen.width * 1.0, height: Screen.width * 1.0 / logoAspectRatio)
-        }
+        logoNode.size = CGSize(width: Screen.width * 1.0, height: Screen.width * 1.0 / logoAspectRatio)
         
         logoNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         logoNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.83)
         logoNode.name = "logo"
-        //        logoNode.run(endlessAction3) für Logo eine eigene Action erstellen
         
         addChild(logoNode)
     }
@@ -378,12 +373,12 @@ class MainMenu: SKScene {
         
         let welcome = SKLabelNode(text: "WELCOME \(playerName)")
         welcome.fontColor = UIColor.yellow
-        welcome.fontName = "LCD14"
+        welcome.fontName = "PixelSplitter"
         welcome.fontSize = 28
         welcome.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.65)
         welcome.alpha = 1
         welcome.removeAllChildren()
-        welcome.addGlow(radius: 7)
+        welcome.addGlow()
         welcome.children.first?.position = CGPoint(x: 0, y: welcome.frame.size.height / 2)
         self.addChild(welcome)
         
@@ -394,7 +389,7 @@ class MainMenu: SKScene {
         for i in 0...menuItems.count - 1 {
             
             let item = SKLabelNode(text: "\(self.menuItems[i])")
-            item.fontName = "LCD14"
+            item.fontName = "PixelSplitter"
             item.name = "\(self.menuItems[i])-Button"
             item.fontColor = .green
             
@@ -402,7 +397,7 @@ class MainMenu: SKScene {
                 
                 item.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.45 - (CGFloat(i) * (item.frame.size.height + 50)))
                 item.fontSize = 60
-                item.addGlow(radius: 10)
+                item.addGlow()
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
                 
             } else if item.text == "COLLECTIBLES" {
@@ -410,21 +405,21 @@ class MainMenu: SKScene {
                 item.position = CGPoint(x: Screen.width / 2, y: 220)
                 item.fontSize = 28
                 item.fontColor = UIColor(hexFromString: "0099ff")
-                item.addGlow(radius: 7)
+                item.addGlow()
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
                
             } else if item.text == "OPTIONS" {
                 
                 item.position = CGPoint(x: Screen.width / 2, y: 150)
                 item.fontSize = 25
-                item.addGlow(radius: 7)
+                item.addGlow()
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
 
             } else if item.text == "OVERVIEW" {
                 
                 item.position = CGPoint(x: Screen.width / 2, y: 100)
                 item.fontSize = 25
-                item.addGlow(radius: 7)
+                item.addGlow()
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
 
             } else if item.text == "MUSIC: ON " {
@@ -443,7 +438,7 @@ class MainMenu: SKScene {
                     }
                 }
                 item.removeAllChildren()
-                item.addGlow(radius: 7)
+                item.addGlow()
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
             }
             self.addChild(item)
@@ -460,13 +455,13 @@ class MainMenu: SKScene {
                     }
                     
                     // VIBRATION/HAPTIC-LOOP
-                    for i in stride(from: 0, to: 1, by: 0.01) {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + i) {
-                            runHaptic(intensity: 1, sharpness: 0)
-                        }
-                    }
+//                    for i in stride(from: 0, to: 1, by: 0.1) {
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + i) {
+                    runHaptic(intensity: 1, sharpness: 0)
+//                        }
+//                    }
                     
-                    
+                    showMessage(title: "Hello", text: "Hi \(playerName) nice to meet you. My name is rob. Beacuse i am a rob-ot ... you know? Hahaha!", closeButton: "Hi Rob.")
 
                 } else if self.childNode(withName: "PLAY-Button")!.contains(touch.location(in: self)) {
                     
@@ -495,7 +490,7 @@ class MainMenu: SKScene {
                     
                     DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                         if vibrationOn == true {
-                            runHaptic(intensity: 1, sharpness: 0)
+                            runHaptic()
                         }
                         if fxOn == true {
                             self.run(pling)
@@ -515,7 +510,7 @@ class MainMenu: SKScene {
 
                     DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                        if vibrationOn == true {
-                           runHaptic(intensity: 1, sharpness: 0)
+                           runHaptic()
                        }
                        if fxOn == true {
                            self.run(pling)
@@ -533,7 +528,7 @@ class MainMenu: SKScene {
                     
                     DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                         if vibrationOn == true {
-                            runHaptic(intensity: 1, sharpness: 0)
+                            runHaptic()
                         }
                         if fxOn == true {
                             self.run(pling)
@@ -550,7 +545,7 @@ class MainMenu: SKScene {
                 } else if self.childNode(withName: "MUSIC: ON -Button") != nil && self.childNode(withName: "MUSIC: ON -Button")!.contains(touch.location(in: self)) {
                     
                     if vibrationOn == true {
-                        runHaptic(intensity: 1, sharpness: 0)
+                        runHaptic()
                     }
                     if fxOn == true {
                         self.run(pling)
@@ -563,7 +558,7 @@ class MainMenu: SKScene {
                         button.text = "MUSIC: OFF "
                         button.fontColor = UIColor.red
                         button.removeAllChildren()
-                        button.addGlow(radius: 7)
+                        button.addGlow()
                         button.children.first?.position = CGPoint(x: 0, y: button.frame.size.height / 2)
                         backgroundMusicPlayerStatus = false
                         UserDefaults.standard.set(false, forKey: "backgroundMusicPlayerStatus")
@@ -575,7 +570,7 @@ class MainMenu: SKScene {
                         button.text = "MUSIC: ON "
                         button.fontColor = UIColor.green
                         button.removeAllChildren()
-                        button.addGlow(radius: 7)
+                        button.addGlow()
                         button.children.first?.position = CGPoint(x: 0, y: button.frame.size.height / 2)
                         backgroundMusicPlayerStatus = true
                         UserDefaults.standard.set(true, forKey: "backgroundMusicPlayerStatus")

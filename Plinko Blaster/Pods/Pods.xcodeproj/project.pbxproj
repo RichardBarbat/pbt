@@ -3,62 +3,91 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0CC468D5BDEC9EAA4783B2833844C16C /* EFCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA9E154A4787E84444FB3EF2D903404 /* EFCount.swift */; };
-		2A2AC199E504660604EDA6DAB86EBF9E /* EFCountingLabel-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A3F7B644EE4412D4D22510FFE220166 /* EFCountingLabel-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		31013970413CFB314BF90B7BA457F147 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
-		40CB6DFB0E7A55EFADBFA6B9CCA8601D /* Pods-Plinko Blaster-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 35417BDA1E57A267B1F8D93A57D7D6BE /* Pods-Plinko Blaster-dummy.m */; };
+		0CC468D5BDEC9EAA4783B2833844C16C /* EFCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EC950044AC15E1BA03334FF5E6AB5C /* EFCount.swift */; };
+		298E4F1A7F3DFD1F512EF7561C18CD20 /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD425FE38581252958553548DA67DB5 /* SCLAlertView.swift */; };
+		2A2AC199E504660604EDA6DAB86EBF9E /* EFCountingLabel-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BF5CAD07A854DE9C0CCAE321A5CC95C /* EFCountingLabel-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC54E51ECD6D08BC366578BA4E7982A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
-		4F334D216196E032FB47C2E3A5872704 /* EFCountingLabel-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EEED7F3BF8B090A9C9095C910A57B27F /* EFCountingLabel-dummy.m */; };
-		80D80F83B6B48AC874579ECAB0AF470A /* EFTimingMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7BD81A0396D803B3D37672BA3E98B4 /* EFTimingMethod.swift */; };
-		B0B01BF9248C17F961CFD2AA033A6CBD /* EFCountAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574FA85E9FD90E41F66A747D8B3F3AF9 /* EFCountAdapter.swift */; };
-		E71418667569CC9915473D2942E2FBED /* Pods-Plinko Blaster-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 05CDE27A13BD5C5ED980DA5D452D8D8F /* Pods-Plinko Blaster-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4F334D216196E032FB47C2E3A5872704 /* EFCountingLabel-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B63CF1F97AC8AA3C7BCCE743768CAAC7 /* EFCountingLabel-dummy.m */; };
+		5394C4DCB14CD55B19D088F07382AE14 /* SCLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C171D1B7C14C2694F8B795B2DE4577 /* SCLExtensions.swift */; };
+		57DF7BAF57E5EF5769A4172429EDFCAA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+		5E669CCC285DC8350B26D7D10B1CC32B /* Pods-Plinko Blaster-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 05CDE27A13BD5C5ED980DA5D452D8D8F /* Pods-Plinko Blaster-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69437A6AA2866A54AACCCEA857664F47 /* SCLAlertView-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C239DF5880F2FBE6A5D715C5AEE6D423 /* SCLAlertView-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		80D80F83B6B48AC874579ECAB0AF470A /* EFTimingMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BE4DEE8BAE6125F6F73EB6424B48FB /* EFTimingMethod.swift */; };
+		8AE28B9C7CB5981C85EB684AC148ABFC /* Pods-Plinko Blaster-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 35417BDA1E57A267B1F8D93A57D7D6BE /* Pods-Plinko Blaster-dummy.m */; };
+		A00531195294693CDDE72B9C9523CA66 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+		B0B01BF9248C17F961CFD2AA033A6CBD /* EFCountAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674D3CE7DCE1265DC13A7FB0159AD2A5 /* EFCountAdapter.swift */; };
+		B98733C303FFBD5D956071ED6940935F /* SCLAlertView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CD926FE63C4350F70C7251FFB3D00AA9 /* SCLAlertView-dummy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		08D9FCF370212826E9F098E9D6931580 /* PBXContainerItemProxy */ = {
+		81747DE8DDFBECFEE8DA4135A2745A9C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8D87E5A9FC1F8F56498963BEA9EDFE7A;
 			remoteInfo = EFCountingLabel;
 		};
+		951D682F9E97C668AF93DE4E9F4B67D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E0152970E5467A11DF89E7D22C63B47C;
+			remoteInfo = SCLAlertView;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04FE942C14E12848C234552822CC8735 /* SCLAlertView-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SCLAlertView-Info.plist"; sourceTree = "<group>"; };
 		05CDE27A13BD5C5ED980DA5D452D8D8F /* Pods-Plinko Blaster-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Plinko Blaster-umbrella.h"; sourceTree = "<group>"; };
-		1A3F7B644EE4412D4D22510FFE220166 /* EFCountingLabel-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EFCountingLabel-umbrella.h"; sourceTree = "<group>"; };
-		1B23CDE223D829364C3876BAF71E2118 /* Pods_Plinko_Blaster.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Plinko_Blaster.framework; path = "Pods-Plinko Blaster.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BF5CAD07A854DE9C0CCAE321A5CC95C /* EFCountingLabel-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EFCountingLabel-umbrella.h"; sourceTree = "<group>"; };
+		1B23CDE223D829364C3876BAF71E2118 /* Pods_Plinko_Blaster.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plinko_Blaster.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3050D8233BF5DAE77040D7A20FAD935D /* EFCountingLabel.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = EFCountingLabel.xcconfig; sourceTree = "<group>"; };
 		3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		35417BDA1E57A267B1F8D93A57D7D6BE /* Pods-Plinko Blaster-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Plinko Blaster-dummy.m"; sourceTree = "<group>"; };
+		362378B23BC941513E477E5374424133 /* EFCountingLabel-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EFCountingLabel-prefix.pch"; sourceTree = "<group>"; };
+		3A9F7019439457135EAC3D717A03C82B /* EFCountingLabel-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "EFCountingLabel-Info.plist"; sourceTree = "<group>"; };
 		3D34D9DB9EC248261DE95A1FCDD3805E /* Pods-Plinko Blaster.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Plinko Blaster.release.xcconfig"; sourceTree = "<group>"; };
-		41B10F51CC35EE475F8E187C0F0C4F4B /* EFCountingLabel.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = EFCountingLabel.xcconfig; sourceTree = "<group>"; };
+		3DD425FE38581252958553548DA67DB5 /* SCLAlertView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SCLAlertView.swift; path = SCLAlertView/SCLAlertView.swift; sourceTree = "<group>"; };
 		53874D89AFE0A8C7F0C175880DC525C6 /* Pods-Plinko Blaster-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Plinko Blaster-acknowledgements.plist"; sourceTree = "<group>"; };
-		552069E25B8ECFF9253BDB7E7C8BF515 /* EFCountingLabel.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = EFCountingLabel.modulemap; sourceTree = "<group>"; };
-		574FA85E9FD90E41F66A747D8B3F3AF9 /* EFCountAdapter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EFCountAdapter.swift; path = EFCountingLabel/EFCountAdapter.swift; sourceTree = "<group>"; };
-		5EBFFBCF9E56DA4AF71E6A1981521E28 /* EFCountingLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = EFCountingLabel.framework; path = EFCountingLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BAECB6A762CAFCB588B62366AA5FC87 /* SCLAlertView.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SCLAlertView.modulemap; sourceTree = "<group>"; };
+		5EBFFBCF9E56DA4AF71E6A1981521E28 /* EFCountingLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EFCountingLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		601E118489377C4E117BCB798835720C /* SCLAlertView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SCLAlertView.xcconfig; sourceTree = "<group>"; };
+		674D3CE7DCE1265DC13A7FB0159AD2A5 /* EFCountAdapter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EFCountAdapter.swift; path = EFCountingLabel/EFCountAdapter.swift; sourceTree = "<group>"; };
 		6A50463AD44A545E5DE2003B57CD1ECB /* Pods-Plinko Blaster-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Plinko Blaster-frameworks.sh"; sourceTree = "<group>"; };
 		71DD1C5F728138CB1DDD29E734A6C34F /* Pods-Plinko Blaster-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Plinko Blaster-acknowledgements.markdown"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A21E63F43AD2FADB1ABFAF0A53899616 /* EFCountingLabel-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EFCountingLabel-prefix.pch"; sourceTree = "<group>"; };
-		BBBAC2CAF2746A029578FA699BF1ED2B /* EFCountingLabel-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "EFCountingLabel-Info.plist"; sourceTree = "<group>"; };
-		CA7BD81A0396D803B3D37672BA3E98B4 /* EFTimingMethod.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EFTimingMethod.swift; path = EFCountingLabel/EFTimingMethod.swift; sourceTree = "<group>"; };
+		962A4B1F73A781D3BB906D0525BD2A8A /* SCLAlertView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SCLAlertView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A6BE4DEE8BAE6125F6F73EB6424B48FB /* EFTimingMethod.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EFTimingMethod.swift; path = EFCountingLabel/EFTimingMethod.swift; sourceTree = "<group>"; };
+		B3EC950044AC15E1BA03334FF5E6AB5C /* EFCount.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EFCount.swift; path = EFCountingLabel/EFCount.swift; sourceTree = "<group>"; };
+		B63CF1F97AC8AA3C7BCCE743768CAAC7 /* EFCountingLabel-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EFCountingLabel-dummy.m"; sourceTree = "<group>"; };
+		BC8465F03DD82DDF958A2E0F3330B7B5 /* EFCountingLabel.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = EFCountingLabel.modulemap; sourceTree = "<group>"; };
+		C239DF5880F2FBE6A5D715C5AEE6D423 /* SCLAlertView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SCLAlertView-umbrella.h"; sourceTree = "<group>"; };
+		C2C171D1B7C14C2694F8B795B2DE4577 /* SCLExtensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SCLExtensions.swift; path = SCLAlertView/SCLExtensions.swift; sourceTree = "<group>"; };
+		CD926FE63C4350F70C7251FFB3D00AA9 /* SCLAlertView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SCLAlertView-dummy.m"; sourceTree = "<group>"; };
 		CFAAB7DAC070BB9D6B9AF6842811690F /* Pods-Plinko Blaster.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Plinko Blaster.modulemap"; sourceTree = "<group>"; };
 		E43DFB1AC54E9D8CADF6D6AC1B21A0DD /* Pods-Plinko Blaster-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Plinko Blaster-Info.plist"; sourceTree = "<group>"; };
-		EEED7F3BF8B090A9C9095C910A57B27F /* EFCountingLabel-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EFCountingLabel-dummy.m"; sourceTree = "<group>"; };
-		EFA9E154A4787E84444FB3EF2D903404 /* EFCount.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EFCount.swift; path = EFCountingLabel/EFCount.swift; sourceTree = "<group>"; };
+		F7AB2446705FCD7A3F9F438BFC40CA8A /* SCLAlertView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SCLAlertView-prefix.pch"; sourceTree = "<group>"; };
 		FA3D57FC88B920971B23F82541245A37 /* Pods-Plinko Blaster.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Plinko Blaster.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		05237B51BB9D87F274845F114C25E1F9 /* Frameworks */ = {
+		03B5D362B75E1F27D5669A43D702BC8A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				31013970413CFB314BF90B7BA457F147 /* Foundation.framework in Frameworks */,
+				A00531195294693CDDE72B9C9523CA66 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3057A8D8CAD2543FD84CD9291ACB1305 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57DF7BAF57E5EF5769A4172429EDFCAA /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,33 +102,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		31C60F1AF7300C26A6AC3FAC84DBB1BB /* EFCountingLabel */ = {
+		42BF86B60B77CE7102336FF69F4B34DC /* SCLAlertView */ = {
 			isa = PBXGroup;
 			children = (
-				EFA9E154A4787E84444FB3EF2D903404 /* EFCount.swift */,
-				574FA85E9FD90E41F66A747D8B3F3AF9 /* EFCountAdapter.swift */,
-				CA7BD81A0396D803B3D37672BA3E98B4 /* EFTimingMethod.swift */,
-				F5C168259D3326DE99FA06821CEBD128 /* Support Files */,
+				3DD425FE38581252958553548DA67DB5 /* SCLAlertView.swift */,
+				C2C171D1B7C14C2694F8B795B2DE4577 /* SCLExtensions.swift */,
+				504F0BCA751A264F194C2FB4AB412DB2 /* Support Files */,
 			);
-			name = EFCountingLabel;
+			path = SCLAlertView;
+			sourceTree = "<group>";
+		};
+		504F0BCA751A264F194C2FB4AB412DB2 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				5BAECB6A762CAFCB588B62366AA5FC87 /* SCLAlertView.modulemap */,
+				601E118489377C4E117BCB798835720C /* SCLAlertView.xcconfig */,
+				CD926FE63C4350F70C7251FFB3D00AA9 /* SCLAlertView-dummy.m */,
+				04FE942C14E12848C234552822CC8735 /* SCLAlertView-Info.plist */,
+				F7AB2446705FCD7A3F9F438BFC40CA8A /* SCLAlertView-prefix.pch */,
+				C239DF5880F2FBE6A5D715C5AEE6D423 /* SCLAlertView-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/SCLAlertView";
+			sourceTree = "<group>";
+		};
+		59E8104B97561B1616A2A7CAB1AACDCD /* EFCountingLabel */ = {
+			isa = PBXGroup;
+			children = (
+				B3EC950044AC15E1BA03334FF5E6AB5C /* EFCount.swift */,
+				674D3CE7DCE1265DC13A7FB0159AD2A5 /* EFCountAdapter.swift */,
+				A6BE4DEE8BAE6125F6F73EB6424B48FB /* EFTimingMethod.swift */,
+				F19DB42BAA3504696AB19D4FF429EF4F /* Support Files */,
+			);
 			path = EFCountingLabel;
 			sourceTree = "<group>";
 		};
-		4242566F95ED6F0E1C01EFC0EA0B466B /* Products */ = {
+		6FBF44F62CE23B48009A5F44A133C2C9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				5EBFFBCF9E56DA4AF71E6A1981521E28 /* EFCountingLabel.framework */,
 				1B23CDE223D829364C3876BAF71E2118 /* Pods_Plinko_Blaster.framework */,
+				962A4B1F73A781D3BB906D0525BD2A8A /* SCLAlertView.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		465B2AE181E3D8C7DB22ED57BDA5FADA /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				31C60F1AF7300C26A6AC3FAC84DBB1BB /* EFCountingLabel */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		7E24BE6E3598E1D16E6839C0D21046A7 /* Pods-Plinko Blaster */ = {
@@ -127,6 +172,15 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
+		8AC1148BB8104EB2AC2DA5D22DAA04E4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				59E8104B97561B1616A2A7CAB1AACDCD /* EFCountingLabel */,
+				42BF86B60B77CE7102336FF69F4B34DC /* SCLAlertView */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		C0834CEBB1379A84116EF29F93051C60 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,8 +194,8 @@
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
-				465B2AE181E3D8C7DB22ED57BDA5FADA /* Pods */,
-				4242566F95ED6F0E1C01EFC0EA0B466B /* Products */,
+				8AC1148BB8104EB2AC2DA5D22DAA04E4 /* Pods */,
+				6FBF44F62CE23B48009A5F44A133C2C9 /* Products */,
 				8956F3860E9AE42A5265A6789E7EC33E /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
@@ -154,15 +208,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F5C168259D3326DE99FA06821CEBD128 /* Support Files */ = {
+		F19DB42BAA3504696AB19D4FF429EF4F /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				552069E25B8ECFF9253BDB7E7C8BF515 /* EFCountingLabel.modulemap */,
-				41B10F51CC35EE475F8E187C0F0C4F4B /* EFCountingLabel.xcconfig */,
-				EEED7F3BF8B090A9C9095C910A57B27F /* EFCountingLabel-dummy.m */,
-				BBBAC2CAF2746A029578FA699BF1ED2B /* EFCountingLabel-Info.plist */,
-				A21E63F43AD2FADB1ABFAF0A53899616 /* EFCountingLabel-prefix.pch */,
-				1A3F7B644EE4412D4D22510FFE220166 /* EFCountingLabel-umbrella.h */,
+				BC8465F03DD82DDF958A2E0F3330B7B5 /* EFCountingLabel.modulemap */,
+				3050D8233BF5DAE77040D7A20FAD935D /* EFCountingLabel.xcconfig */,
+				B63CF1F97AC8AA3C7BCCE743768CAAC7 /* EFCountingLabel-dummy.m */,
+				3A9F7019439457135EAC3D717A03C82B /* EFCountingLabel-Info.plist */,
+				362378B23BC941513E477E5374424133 /* EFCountingLabel-prefix.pch */,
+				0BF5CAD07A854DE9C0CCAE321A5CC95C /* EFCountingLabel-umbrella.h */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/EFCountingLabel";
@@ -171,6 +225,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		1C6A379DB30147BC13AE7DE6BBF19A06 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5E669CCC285DC8350B26D7D10B1CC32B /* Pods-Plinko Blaster-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1C6B97ECFE5D5D28BBC9542CEBA9D902 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -179,11 +241,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F956FD8074308C5BD22872E17D865A93 /* Headers */ = {
+		2568FC6A790CFA387B96DBED7E0BC776 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E71418667569CC9915473D2942E2FBED /* Pods-Plinko Blaster-umbrella.h in Headers */,
+				69437A6AA2866A54AACCCEA857664F47 /* SCLAlertView-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,21 +272,40 @@
 		};
 		B3CA0F3B25ED24E331F5E1D4D9811BA9 /* Pods-Plinko Blaster */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 48757A4984E81A55CF129E5B392F941D /* Build configuration list for PBXNativeTarget "Pods-Plinko Blaster" */;
+			buildConfigurationList = A4F96AF43D3F5F58C10466E67315143A /* Build configuration list for PBXNativeTarget "Pods-Plinko Blaster" */;
 			buildPhases = (
-				F956FD8074308C5BD22872E17D865A93 /* Headers */,
-				2DFA98509DF40AB099FA79A1D059B978 /* Sources */,
-				05237B51BB9D87F274845F114C25E1F9 /* Frameworks */,
-				B82E3B43FC36A5A74F729D201C4F81BD /* Resources */,
+				1C6A379DB30147BC13AE7DE6BBF19A06 /* Headers */,
+				0C5F73991ED2EFA6C6442C8D90F7B74E /* Sources */,
+				3057A8D8CAD2543FD84CD9291ACB1305 /* Frameworks */,
+				F9A4F6B2402F19DA76128935C76FAE99 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				A14F8289C6B54160BC69B4B99D3F313D /* PBXTargetDependency */,
+				F5A46BFB8A5FE136059DF53723764185 /* PBXTargetDependency */,
+				C05D583041AFCB4917E5D52ADE6A2B84 /* PBXTargetDependency */,
 			);
 			name = "Pods-Plinko Blaster";
 			productName = "Pods-Plinko Blaster";
 			productReference = 1B23CDE223D829364C3876BAF71E2118 /* Pods_Plinko_Blaster.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		E0152970E5467A11DF89E7D22C63B47C /* SCLAlertView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EBBBD336E2C1CE47CB387CBD269D6E58 /* Build configuration list for PBXNativeTarget "SCLAlertView" */;
+			buildPhases = (
+				2568FC6A790CFA387B96DBED7E0BC776 /* Headers */,
+				C62043287224DE5DD6688B165F41EA2E /* Sources */,
+				03B5D362B75E1F27D5669A43D702BC8A /* Frameworks */,
+				ECF5EFE0E25156C527D3ED02193610A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SCLAlertView;
+			productName = SCLAlertView;
+			productReference = 962A4B1F73A781D3BB906D0525BD2A8A /* SCLAlertView.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -235,22 +316,27 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
 				LastUpgradeCheck = 1100;
+				TargetAttributes = {
+					E0152970E5467A11DF89E7D22C63B47C = {
+						LastSwiftMigration = 1140;
+					};
+				};
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = 4242566F95ED6F0E1C01EFC0EA0B466B /* Products */;
+			productRefGroup = 6FBF44F62CE23B48009A5F44A133C2C9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8D87E5A9FC1F8F56498963BEA9EDFE7A /* EFCountingLabel */,
 				B3CA0F3B25ED24E331F5E1D4D9811BA9 /* Pods-Plinko Blaster */,
+				E0152970E5467A11DF89E7D22C63B47C /* SCLAlertView */,
 			);
 		};
 /* End PBXProject section */
@@ -263,7 +349,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B82E3B43FC36A5A74F729D201C4F81BD /* Resources */ = {
+		ECF5EFE0E25156C527D3ED02193610A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9A4F6B2402F19DA76128935C76FAE99 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -273,11 +366,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2DFA98509DF40AB099FA79A1D059B978 /* Sources */ = {
+		0C5F73991ED2EFA6C6442C8D90F7B74E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40CB6DFB0E7A55EFADBFA6B9CCA8601D /* Pods-Plinko Blaster-dummy.m in Sources */,
+				8AE28B9C7CB5981C85EB684AC148ABFC /* Pods-Plinko Blaster-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C62043287224DE5DD6688B165F41EA2E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B98733C303FFBD5D956071ED6940935F /* SCLAlertView-dummy.m in Sources */,
+				298E4F1A7F3DFD1F512EF7561C18CD20 /* SCLAlertView.swift in Sources */,
+				5394C4DCB14CD55B19D088F07382AE14 /* SCLExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,11 +398,17 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A14F8289C6B54160BC69B4B99D3F313D /* PBXTargetDependency */ = {
+		C05D583041AFCB4917E5D52ADE6A2B84 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SCLAlertView;
+			target = E0152970E5467A11DF89E7D22C63B47C /* SCLAlertView */;
+			targetProxy = 951D682F9E97C668AF93DE4E9F4B67D2 /* PBXContainerItemProxy */;
+		};
+		F5A46BFB8A5FE136059DF53723764185 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = EFCountingLabel;
 			target = 8D87E5A9FC1F8F56498963BEA9EDFE7A /* EFCountingLabel */;
-			targetProxy = 08D9FCF370212826E9F098E9D6931580 /* PBXContainerItemProxy */;
+			targetProxy = 81747DE8DDFBECFEE8DA4135A2745A9C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -368,7 +477,42 @@
 			};
 			name = Debug;
 		};
-		71E9D47C65239FB356B54D3D31B4FDCA /* Debug */ = {
+		1C84D9AA6638F950F99D7901D6179582 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 601E118489377C4E117BCB798835720C /* SCLAlertView.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/SCLAlertView/SCLAlertView-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SCLAlertView/SCLAlertView-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/SCLAlertView/SCLAlertView.modulemap";
+				PRODUCT_MODULE_NAME = SCLAlertView;
+				PRODUCT_NAME = SCLAlertView;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		59F0C18219D6EFDD5D81E01703978622 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FA3D57FC88B920971B23F82541245A37 /* Pods-Plinko Blaster.debug.xcconfig */;
 			buildSettings = {
@@ -408,7 +552,7 @@
 		};
 		7D91F06BB64DE78C4ECDB94ED32F1DF9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 41B10F51CC35EE475F8E187C0F0C4F4B /* EFCountingLabel.xcconfig */;
+			baseConfigurationReference = 3050D8233BF5DAE77040D7A20FAD935D /* EFCountingLabel.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -442,12 +586,10 @@
 			};
 			name = Release;
 		};
-		8F436DD9C0D73983F9BD812998FBC024 /* Release */ = {
+		A6E3B17BFFE1D37408081ED2F9739642 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3D34D9DB9EC248261DE95A1FCDD3805E /* Pods-Plinko Blaster.release.xcconfig */;
+			baseConfigurationReference = 601E118489377C4E117BCB798835720C /* SCLAlertView.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -457,23 +599,22 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-Plinko Blaster/Pods-Plinko Blaster-Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/SCLAlertView/SCLAlertView-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SCLAlertView/SCLAlertView-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Plinko Blaster/Pods-Plinko Blaster.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				MODULEMAP_FILE = "Target Support Files/SCLAlertView/SCLAlertView.modulemap";
+				PRODUCT_MODULE_NAME = SCLAlertView;
+				PRODUCT_NAME = SCLAlertView;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -483,7 +624,7 @@
 		};
 		E1855C02B62E07FAD9C2F20A5EE66EA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 41B10F51CC35EE475F8E187C0F0C4F4B /* EFCountingLabel.xcconfig */;
+			baseConfigurationReference = 3050D8233BF5DAE77040D7A20FAD935D /* EFCountingLabel.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -576,6 +717,45 @@
 			};
 			name = Release;
 		};
+		FD200909F469C650267B6B5FAE96851E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D34D9DB9EC248261DE95A1FCDD3805E /* Pods-Plinko Blaster.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-Plinko Blaster/Pods-Plinko Blaster-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Plinko Blaster/Pods-Plinko Blaster.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -597,11 +777,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		48757A4984E81A55CF129E5B392F941D /* Build configuration list for PBXNativeTarget "Pods-Plinko Blaster" */ = {
+		A4F96AF43D3F5F58C10466E67315143A /* Build configuration list for PBXNativeTarget "Pods-Plinko Blaster" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				71E9D47C65239FB356B54D3D31B4FDCA /* Debug */,
-				8F436DD9C0D73983F9BD812998FBC024 /* Release */,
+				59F0C18219D6EFDD5D81E01703978622 /* Debug */,
+				FD200909F469C650267B6B5FAE96851E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EBBBD336E2C1CE47CB387CBD269D6E58 /* Build configuration list for PBXNativeTarget "SCLAlertView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C84D9AA6638F950F99D7901D6179582 /* Debug */,
+				A6E3B17BFFE1D37408081ED2F9739642 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
