@@ -578,7 +578,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         ball.run(SKAction.scale(to: 1, duration: TimeInterval(totalDuration)))
         
         DispatchQueue.main.asyncAfter(deadline: .now() + totalDuration + 0.01, execute: {
-            print("self.ballsAdded.count = \(self.ballsAdded.count)")
+//            print("self.ballsAdded.count = \(self.ballsAdded.count)")
             
             self.ball.zPosition = 300
             self.ball.alpha = 1
@@ -783,7 +783,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         miniPointsLabelSpriteNode.setScale(0.1)
         effectNode.addChild(miniPointsLabelSpriteNode)
         
-        miniPointsLabelSpriteNode.run(SKAction.scale(to: 1.4, duration: 0.4))
+        miniPointsLabelSpriteNode.run(SKAction.scale(to: 1.2, duration: 0.4))
         miniPointsLabelSpriteNode.run(SKAction.move(to: CGPoint(x: Screen.width / 2, y: Screen.height * 0.71), duration: 0.2))
         
 
@@ -791,7 +791,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             miniPointsLabelSpriteNode.removeFromParent()
         })
         
-        let inflate = SKAction.resize(toWidth: 150, height: 150, duration: 0.2)
+        let inflate = SKAction.resize(toWidth: 100, height: 100, duration: 0.2)
         let explode = SKAction.resize(toWidth: 250, height: 250, duration: 0.2)
         let moveToCenter = SKAction.move(to: CGPoint(x: Screen.width / 2, y: Screen.height / 2), duration: 0.2)
         let fadeOut = SKAction.fadeOut(withDuration: 0.4)
@@ -802,7 +802,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.4, execute: {
             collidedSpriteNode.run(fadeOut)
         })
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
             collidedSpriteNode.physicsBody = nil
             collidedSpriteNode.removeFromParent()
         })
@@ -1346,9 +1346,22 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 ballCounterLabelNode.fontColor = .yellow
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                    if self.ballsAdded.last!.physicsBody!.isDynamic == true {
-                        self.prepareBall()
+                    var containsNonDynamicBall = false
+                    for ball in self.ballsAdded {
+                        
+                        if ball.physicsBody!.isDynamic == false {
+                            containsNonDynamicBall = true
+                        }
+                        
+                        if ball == self.ballsAdded.last && containsNonDynamicBall == false {
+                            
+                            self.prepareBall()
+                            
+                        }
                     }
+                    
+                    
+                    
                 }
                 
                 if (contact.bodyA.node?.name?.contains("heart"))! {
