@@ -8,6 +8,7 @@
 
 import GameKit
 import EFCountingLabel
+import RxSwift
 
 //MARK:--- STRUCT FOR PHYSICSBODYS ---
 struct ColliderType {
@@ -1359,9 +1360,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                             
                         }
                     }
-                    
-                    
-                    
                 }
                 
                 if (contact.bodyA.node?.name?.contains("heart"))! {

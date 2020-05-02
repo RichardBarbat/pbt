@@ -8,7 +8,6 @@
 
 import GameKit
 import CoreHaptics
-import SCLAlertView
 
 
 // MARK: - globale Variablen
@@ -461,7 +460,7 @@ class MainMenu: SKScene {
 //                        }
 //                    }
                     
-                    showMessage(title: "Hello", text: "Hi \(playerName) nice to meet you. My name is rob. Beacuse i am a rob-ot ... you know? Hahaha!", closeButton: "Hi Rob.")
+//                    showMessage(title: "Hello", text: "Hi \(playerName) nice to meet you. My name is rob. Beacuse i am a rob-ot ... you know? Hahaha!", closeButton: "Hi Rob.")
 
                 } else if self.childNode(withName: "PLAY-Button")!.contains(touch.location(in: self)) {
                     

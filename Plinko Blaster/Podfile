@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-  platform :ios, '12.0'
+#  platform :ios, '13.0'
 
 target 'Plinko Blaster' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -8,6 +8,7 @@ target 'Plinko Blaster' do
   # Pods for Plinko Blaster
 
   pod 'EFCountingLabel'
-  pod 'SCLAlertView'
+  pod 'RxSwift'
+  pod 'RxCocoa'
 
 end
