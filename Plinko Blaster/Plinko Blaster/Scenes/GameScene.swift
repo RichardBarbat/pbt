@@ -9,6 +9,8 @@
 import GameKit
 import EFCountingLabel
 import RxSwift
+import RxCocoa
+import RxSpriteKit
 
 //MARK:--- STRUCT FOR PHYSICSBODYS ---
 struct ColliderType {
@@ -27,8 +29,14 @@ struct ColliderType {
 //MARK:--- CLASS ---
 class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate {
     
+    override init(size: CGSize) {
+        super.init(size: size)
+    }
     
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
 //MARK:--- VARS & INSTANCES ---
     
@@ -36,11 +44,12 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     let playerName = UserDefaults.standard.string(forKey: "playerName")
     let effectNode = SKEffectNode()
     let starFieldNode = SKShapeNode()
-    let miniMenuButtonNode = SKSpriteNode(imageNamed: "settings-button5")
-    var menuOpen = false
+    let miniMenuButtonNode = BehaviorRelay(value: SKSpriteNode(imageNamed: "settings-button5"))
+    var menuOpen = BehaviorRelay(value: false)
     let backButtonNode = SKSpriteNode(imageNamed: "back-button4")
     var boxes = [SKShapeNode()]
     var boxesCollected = [false, false, false, false, false, false] // TODO: WTF? WHY 6 ?
+    let bag = DisposeBag()
     
     //MARK: __ COUNTER __
     var ballCounterLabelNode = SKLabelNode()
@@ -104,7 +113,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             showTutorial()
         }
         
-        if menuOpen == true {
+        if menuOpen.value == true {
             closeMenu()
         }
         
@@ -266,12 +275,21 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     }
     
     func addMenuButtonNode() {
-        let menuButtonAspectRatio = miniMenuButtonNode.size.width/miniMenuButtonNode.size.height
-        miniMenuButtonNode.size = CGSize(width: Screen.width * 0.1, height: Screen.width * 0.1 / menuButtonAspectRatio)
-        miniMenuButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        miniMenuButtonNode.position = CGPoint(x: Screen.width * 0.9, y: Screen.height * 0.95)
-        miniMenuButtonNode.alpha = 0.9
-        effectNode.addChild(miniMenuButtonNode)
+        
+        miniMenuButtonNode.asObservable()
+            .subscribe(onNext: { button in
+                if self.menuOpen.value == true {
+                    self.closeMenu()
+                } else {
+                    self.openMenu()
+                }
+            }).disposed(by: bag)
+        
+        miniMenuButtonNode.value.size = CGSize(width: Screen.width * 0.1, height: Screen.width * 0.1)
+        miniMenuButtonNode.value.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        miniMenuButtonNode.value.position = CGPoint(x: Screen.width * 0.9, y: Screen.height * 0.95)
+        miniMenuButtonNode.value.alpha = 0.9
+        effectNode.addChild(miniMenuButtonNode.value)
     }
     
     func addPointsLabelNode(delayed: Bool = false) {
@@ -823,13 +841,13 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     if vibrationOn {
                         runHaptic()
                     }
-                    if menuOpen {
+                    if menuOpen.value {
                         closeMenu()
                     }
                     self.effectNode.removeAllChildren()
                     self.removeAllChildren()
-                    SceneManager.shared.transition(self, toScene: .MainMenu, transition: SKTransition.fade(withDuration: 0.5))
-                } else if miniMenu.contains(touch.location(in: self)) && menuOpen {
+                    SceneManager.shared.transition(self, toScene: .MainScene, transition: SKTransition.fade(withDuration: 0.5))
+                } else if miniMenu.contains(touch.location(in: self)) && menuOpen.value {
                     if vibrationOn {
                         runHaptic()
                     }
@@ -909,11 +927,11 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                             }
                         }
                     }
-                } else if miniMenuButtonNode.contains(touch.location(in: self)) && !gameOver {
+                } else if miniMenuButtonNode.value.contains(touch.location(in: self)) && !gameOver {
                     if vibrationOn {
                         runHaptic()
                     }
-                    if menuOpen == false {
+                    if menuOpen.value == false {
                         openMenu()
                     } else {
                         closeMenu()
@@ -927,7 +945,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            if controlBallBool && !miniMenuButtonNode.contains(touches.first!.location(in: self)) && !miniMenu.contains(touch.location(in: self)) && touch.location(in: self).y <= Screen.height * 0.8 {
+            if controlBallBool && !miniMenuButtonNode.value.contains(touches.first!.location(in: self)) && !miniMenu.contains(touch.location(in: self)) && touch.location(in: self).y <= Screen.height * 0.8 {
                 ball.position.x = touch.location(in: self).x
             } else if touch.location(in: self).y > Screen.height * 0.8 {
                 ball.position.x = Screen.width / 2
@@ -1119,8 +1137,8 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         for node in nodesToBlendIn {
             node.isHidden = false
         }
-        miniMenuButtonNode.texture = SKTexture(imageNamed: "settings-button-close")
-        menuOpen = true
+        miniMenuButtonNode.value.texture = SKTexture(imageNamed: "settings-button-close")
+        menuOpen.accept(true)
     }
     
     func closeMenu() {
@@ -1132,8 +1150,8 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         for node in nodesToBlendIn {
             node.isHidden = false
         }
-        miniMenuButtonNode.texture = SKTexture(imageNamed: "settings-button5")
-        menuOpen = false
+        miniMenuButtonNode.value.texture = SKTexture(imageNamed: "settings-button5")
+        menuOpen.accept(false)
     }
     
     
@@ -1509,9 +1527,9 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     if ballsAdded[index].position.y <= Screen.height * 0.09 {
                         ballsDown[index] = true
                         if !ballsDown.contains(false) && gameOver == false {
-                            if menuOpen == true {
+                            if menuOpen.value == true {
                                 closeMenu()
-                                self.miniMenuButtonNode.isUserInteractionEnabled = false
+                                self.miniMenuButtonNode.value.isUserInteractionEnabled = false
                             }
                             self.view?.isUserInteractionEnabled = false
                             self.isUserInteractionEnabled = false

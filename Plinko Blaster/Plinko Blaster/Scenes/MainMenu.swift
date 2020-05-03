@@ -56,7 +56,7 @@ class MainMenu: SKScene {
     // MARK: - Variablen & Instanzen
     
     let starFieldNode = SKShapeNode()
-    let menuItems = ["PLAY", "COLLECTIBLES", "OVERVIEW", "OPTIONS", "MUSIC: ON "]
+    let menuItems = ["PLAY", "COLLECTIBLES", "PLAYER-STATS", "OPTIONS", "MUSIC: ON "]
     let playerName = UserDefaults.standard.string(forKey: "playerName")!
     
     // MARK: - Beginn der Funktionen
@@ -414,7 +414,7 @@ class MainMenu: SKScene {
                 item.addGlow()
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
 
-            } else if item.text == "OVERVIEW" {
+            } else if item.text == "PLAYER-STATS" {
                 
                 item.position = CGPoint(x: Screen.width / 2, y: 100)
                 item.fontSize = 25
@@ -478,7 +478,7 @@ class MainMenu: SKScene {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                         self.removeAllChildren()
                         self.removeAllActions()
-                        SceneManager.shared.transition(self, toScene: .GameLevel, transition: SKTransition.fade(withDuration: 0.5))
+                        SceneManager.shared.transition(self, toScene: .GameScene, transition: SKTransition.fade(withDuration: 0.5))
                     })
                     
                     
@@ -498,7 +498,7 @@ class MainMenu: SKScene {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                         self.removeAllChildren()
                         self.removeAllActions()
-                        SceneManager.shared.transition(self, toScene: .Options, transition: SKTransition.fade(withDuration: 0.5))
+                        SceneManager.shared.transition(self, toScene: .OptionsScene, transition: SKTransition.fade(withDuration: 0.5))
                     })
                     
                     
@@ -518,10 +518,10 @@ class MainMenu: SKScene {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                        self.removeAllChildren()
                        self.removeAllActions()
-                       SceneManager.shared.transition(self, toScene: .CollectiblesScene, transition: SKTransition.fade(withDuration: 0.5))
+                       SceneManager.shared.transition(self, toScene: .CollectiblesOverviewScene, transition: SKTransition.fade(withDuration: 0.5))
                     })
                     
-                } else if self.childNode(withName: "OVERVIEW-Button") != nil && self.childNode(withName: "OVERVIEW-Button")!.contains(touch.location(in: self)) {
+                } else if self.childNode(withName: "PLAYER-STATS-Button") != nil && self.childNode(withName: "PLAYER-STATS-Button")!.contains(touch.location(in: self)) {
                     
                     print("-> ab zur Spieler-Übersicht ->")
                     
@@ -536,7 +536,7 @@ class MainMenu: SKScene {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                         self.removeAllChildren()
                         self.removeAllActions()
-                        SceneManager.shared.transition(self, toScene: .OverviewScene, transition: SKTransition.fade(withDuration: 0.5))
+                        SceneManager.shared.transition(self, toScene: .StatsScene, transition: SKTransition.fade(withDuration: 0.5))
                     })
                     
                     

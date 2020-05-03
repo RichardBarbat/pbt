@@ -8,13 +8,13 @@
 
 import GameKit
 
-class OverviewScene: SKScene, UITextFieldDelegate {
+class StatsScene: SKScene, UITextFieldDelegate {
     
     let backButtonNode = SKSpriteNode(imageNamed: "back-button4")
 
     override func didMove(to view: SKView) {
         
-        print("OverviewScene")
+        print("StatsScene")
         
         self.view?.tintColor = .green
         
@@ -47,7 +47,7 @@ class OverviewScene: SKScene, UITextFieldDelegate {
                     self.removeAllChildren()
                     self.removeAllActions()
                     
-                    SceneManager.shared.transition(self, toScene: .MainMenu, transition: SKTransition.fade(withDuration: 0.5))
+                    SceneManager.shared.transition(self, toScene: .MainScene, transition: SKTransition.fade(withDuration: 0.5))
                     
                 }
             }
@@ -71,13 +71,21 @@ class OverviewScene: SKScene, UITextFieldDelegate {
     
     func addTitleNode() {
         
-        let titleNode = SKLabelNode(text: "PLAYER-OVERVIEW")
+        let titleNode = SKLabelNode(text: "PLAYER-STATS")
         titleNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.85)
         titleNode.alpha = 1
         titleNode.fontName = "PixelSplitter"
         titleNode.fontColor = .green
         titleNode.fontSize = 28
         addChild(titleNode)
+        
+        let subTitleNode = SKLabelNode(text: "from: \(UserDefaults.standard.string(forKey: "playerName")!)")
+        subTitleNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.82)
+        subTitleNode.alpha = 1
+        subTitleNode.fontName = "PixelSplitter"
+        subTitleNode.fontColor = .green
+        subTitleNode.fontSize = 20
+        addChild(subTitleNode)
         
         let highscoreLableNode = SKLabelNode(text: "- HIGHSCORE:\n"+"  \(UserDefaults.standard.integer(forKey: "highscore"))")
         highscoreLableNode.position = CGPoint(x: 30, y: Screen.height * 0.7)

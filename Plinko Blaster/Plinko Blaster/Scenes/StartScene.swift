@@ -268,7 +268,7 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
                 if launchedBefore == true {
                     print("Not first launch.")
                     
-                    self.nextScene = SceneManager.SceneType.MainMenu
+                    self.nextScene = SceneManager.SceneType.MainScene
                 } else {
                     print("First launch, setting UserDefaults.")
                     

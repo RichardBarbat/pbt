@@ -564,7 +564,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                         self.removeAllChildren()
                         self.removeAllActions()
-                        SceneManager.shared.transition(self, toScene: .MainMenu, transition: SKTransition.fade(withDuration: 0.5))
+                        SceneManager.shared.transition(self, toScene: .MainScene, transition: SKTransition.fade(withDuration: 0.5))
                     })
                     runHaptic()
                     

@@ -378,7 +378,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                     if vibrationOn == true {
                         runHaptic()
                     }
-                    SceneManager.shared.transition(self, toScene: .MainMenu, transition: SKTransition.fade(withDuration: 0.5))
+                    SceneManager.shared.transition(self, toScene: .MainScene, transition: SKTransition.fade(withDuration: 0.5))
                 }
                 
                 // GAME CENTER BUTTON

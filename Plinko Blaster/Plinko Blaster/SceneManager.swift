@@ -11,7 +11,7 @@ import GameKit
 class SceneManager {
     
     enum SceneType {
-        case StartScene, MainMenu, Options, GameLevel, OverviewScene, WelcomeScene, CollectiblesScene
+        case StartScene, MainScene, OptionsScene, GameScene, StatsScene, WelcomeScene, CollectiblesOverviewScene
     }
     
     private init() {}
@@ -22,16 +22,15 @@ class SceneManager {
         guard let scene = getScene(toScene) else { return }
         
         if let transition = transition {
-            scene.scaleMode = .resizeFill
             transition.pausesOutgoingScene = true
             fromScene.view?.presentScene(scene, transition: transition)
             fromScene.removeFromParent()
         } else {
-            scene.scaleMode = .resizeFill
             fromScene.view?.presentScene(scene)
             fromScene.removeFromParent()
         }
-        
+
+        scene.scaleMode = .resizeFill
         
     }
     
@@ -41,22 +40,22 @@ class SceneManager {
             case SceneType.WelcomeScene:
                 return WelcomeScene(size: CGSize(width: Screen.width, height: Screen.height))
                 
-            case SceneType.MainMenu:
+            case SceneType.MainScene:
                 return MainMenu(size: CGSize(width: Screen.width, height: Screen.height))
                 
-            case SceneType.Options:
+            case SceneType.OptionsScene:
                 return OptionsScene(size: CGSize(width: Screen.width, height: Screen.height))
                 
-            case SceneType.GameLevel:
+            case SceneType.GameScene:
                 return GameLevel(size: CGSize(width: Screen.width, height: Screen.height))
                 
-            case SceneType.OverviewScene:
-                return OverviewScene(size: CGSize(width: Screen.width, height: Screen.height))
+            case SceneType.StatsScene:
+                return StatsScene(size: CGSize(width: Screen.width, height: Screen.height))
                     
             case SceneType.StartScene:
                 return StartScene(size: CGSize(width: Screen.width, height: Screen.height))
                         
-            case SceneType.CollectiblesScene:
+            case SceneType.CollectiblesOverviewScene:
                 return CollectiblesScene(size: CGSize(width: Screen.width, height: Screen.height))
                 
             }

@@ -1,5 +1,5 @@
 //
-//  CollectiblesScene.swift
+//  CollectiblesOverviewScene.swift
 //  Plinko Blaster
 //
 //  Created by Richard Barbat on 19.03.20.
@@ -17,7 +17,7 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
 
     override func didMove(to view: SKView) {
         
-        print("CollectiblesScene")
+        print("CollectiblesOverviewScene")
         
         self.backgroundColor = UIColor.init(hexFromString: "242d24")
         
@@ -55,7 +55,7 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
                     self.removeAllChildren()
                     self.removeAllActions()
                     
-                    SceneManager.shared.transition(self, toScene: .MainMenu, transition: SKTransition.fade(withDuration: 0.5))
+                    SceneManager.shared.transition(self, toScene: .MainScene, transition: SKTransition.fade(withDuration: 0.5))
                     
                 }
             }
