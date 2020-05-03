@@ -2,30 +2,24 @@ PODS:
   - EFCountingLabel (5.1.1)
   - RxCocoa (4.5.0):
     - RxSwift (>= 4.4.2, ~> 4.4)
-  - RxSpriteKit (1.0.0):
-    - RxCocoa (~> 4.1)
-    - RxSwift (~> 4.1)
   - RxSwift (4.5.0)
 
 DEPENDENCIES:
   - EFCountingLabel
   - RxCocoa
-  - RxSpriteKit
   - RxSwift
 
 SPEC REPOS:
   trunk:
     - EFCountingLabel
     - RxCocoa
-    - RxSpriteKit
     - RxSwift
 
 SPEC CHECKSUMS:
   EFCountingLabel: 605358591a67a3c92feb7ec32486bfab4a30e2c9
   RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
-  RxSpriteKit: 7d9506adec3da63651fe9b5eb409b76de5c99224
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
 
-PODFILE CHECKSUM: 57324f9571cd98645f8793d2f4d5ad2515378b6d
+PODFILE CHECKSUM: 6f65ae248962e3b9028c9789f7e6d41ddced7ebb
 
 COCOAPODS: 1.8.3

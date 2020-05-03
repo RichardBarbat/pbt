@@ -10,7 +10,6 @@ import GameKit
 import EFCountingLabel
 import RxSwift
 import RxCocoa
-import RxSpriteKit
 
 //MARK:--- STRUCT FOR PHYSICSBODYS ---
 struct ColliderType {
