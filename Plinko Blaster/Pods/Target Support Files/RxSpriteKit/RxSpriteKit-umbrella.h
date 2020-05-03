@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double RxRelayVersionNumber;
-FOUNDATION_EXPORT const unsigned char RxRelayVersionString[];
+FOUNDATION_EXPORT double RxSpriteKitVersionNumber;
+FOUNDATION_EXPORT const unsigned char RxSpriteKitVersionString[];
 
