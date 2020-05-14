@@ -42,8 +42,13 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
                     
                     print("<- ab zum Hauptmenü <-")
                     
-                    if vibrationOn {
-                        runHaptic()
+                    background {
+                        if vibrationOn {
+                            runHaptic()
+                        }
+                        if fxOn == true {
+                            self.run(backButtonSound)
+                        }
                     }
                     
                     if self.scene?.view!.subviews.count != 0 {
@@ -51,9 +56,9 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
                             subView.removeFromSuperview()
                         }
                     }
-                    
-                    self.removeAllChildren()
-                    self.removeAllActions()
+//
+//                    self.removeAllChildren()
+//                    self.removeAllActions()
                     
                     SceneManager.shared.transition(self, toScene: .MainScene, transition: SKTransition.fade(withDuration: 0.5))
                     
@@ -66,11 +71,7 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
     func addBackButtonNode() {
         
         let backButtonAspectRatio = backButtonNode.size.width/backButtonNode.size.height
-        if DeviceType.isiPad || DeviceType.isiPadPro {
-            backButtonNode.size = CGSize(width: Screen.width * 0.08, height: Screen.width * 0.08 / backButtonAspectRatio)
-        } else {
-            backButtonNode.size = CGSize(width: Screen.width * 0.1, height: Screen.width * 0.1 / backButtonAspectRatio)
-        }
+        backButtonNode.size = CGSize(width: Screen.width * 0.1, height: Screen.width * 0.1 / backButtonAspectRatio)
         backButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         backButtonNode.position = CGPoint(x: Screen.width * 0.1, y: Screen.height * 0.95)
         backButtonNode.alpha = 0.7
@@ -138,7 +139,7 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         titleLable.layer.position = CGPoint(x: Screen.width / 2 + 10, y: 23)
         
         for collectible in allCollectibles[section].collectibles {
-            if collectible.freeAtPrestigeLevel <= prestigeCount + 1 {
+            if collectible.freeAtPrestigeLevel <= prestigeCount + 1 || DEBUGMODE == 1 {
                 titleLable.text = allCollectibles[section].name.uppercased()
             }
         }
@@ -175,10 +176,11 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         cell.textLabel?.font = UIFont(name: "PixelSplitter", size: 20)
         
         cell.detailTextLabel?.text = "Free at prestige level: \(allCollectibles[indexPath.section].collectibles[indexPath.row].freeAtPrestigeLevel)\nYour prestige level: \(prestigeCount + 1)".uppercased()
-        cell.detailTextLabel?.textColor = .white
+        cell.detailTextLabel?.textColor = .green
         cell.detailTextLabel?.numberOfLines = 3
+        cell.detailTextLabel?.font = UIFont(name: "PixelSplitter", size: 10)
         
-        if allCollectibles[indexPath.section].collectibles[indexPath.row].freeAtPrestigeLevel <= prestigeCount + 1 {
+        if allCollectibles[indexPath.section].collectibles[indexPath.row].freeAtPrestigeLevel <= prestigeCount + 1 || DEBUGMODE == 1 {
             cell.imageView?.image = UIImage(cgImage: allCollectibles[indexPath.section].collectibles[indexPath.row].texture.cgImage())
             
             cell.textLabel?.text = allCollectibles[indexPath.section].collectibles[indexPath.row].name.uppercased()
@@ -186,6 +188,11 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
             
             cell.detailTextLabel?.text = allCollectibles[indexPath.section].collectibles[indexPath.row].description.uppercased()
 //            cell.detailTextLabel?.textColor = allCollectibles[indexPath.section].collectibles[indexPath.row].color
+            
+            if allCollectibles[indexPath.section].name.lowercased().contains("aliens") {
+//                cell.textLabel?.textColor = .random()
+                cell.detailTextLabel?.textColor = .random()
+            }
         }
         
         return cell

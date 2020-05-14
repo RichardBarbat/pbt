@@ -25,9 +25,7 @@ class StatsScene: SKScene, UITextFieldDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        self.scene?.view!.endEditing(true)
-        
+                
         for touch in touches {
             if touch == touches.first {
                 if backButtonNode.contains(touch.location(in: self)) {
@@ -38,15 +36,10 @@ class StatsScene: SKScene, UITextFieldDelegate {
                         runHaptic()
                     }
                     
-                    if self.scene?.view!.subviews.count != 0 {
-                        for subView in (self.scene?.view!.subviews)! {
-                            subView.removeFromSuperview()
-                        }
+                    if fxOn == true {
+                        self.run(backButtonSound)
                     }
-                    
-                    self.removeAllChildren()
-                    self.removeAllActions()
-                    
+                                        
                     SceneManager.shared.transition(self, toScene: .MainScene, transition: SKTransition.fade(withDuration: 0.5))
                     
                 }
@@ -58,11 +51,7 @@ class StatsScene: SKScene, UITextFieldDelegate {
     func addBackButtonNode() {
         
         let backButtonAspectRatio = backButtonNode.size.width/backButtonNode.size.height
-        if DeviceType.isiPad || DeviceType.isiPadPro {
-            backButtonNode.size = CGSize(width: Screen.width * 0.08, height: Screen.width * 0.08 / backButtonAspectRatio)
-        } else {
-            backButtonNode.size = CGSize(width: Screen.width * 0.1, height: Screen.width * 0.1 / backButtonAspectRatio)
-        }
+        backButtonNode.size = CGSize(width: Screen.width * 0.1, height: Screen.width * 0.1 / backButtonAspectRatio)
         backButtonNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         backButtonNode.position = CGPoint(x: Screen.width * 0.1, y: Screen.height * 0.95)
         backButtonNode.alpha = 0.7

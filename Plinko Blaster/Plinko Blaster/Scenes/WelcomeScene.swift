@@ -507,9 +507,21 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         
         UserDefaults.standard.set(String(describing: newNameTextField.text!), forKey: "playerName")
         
+        UserDefaults.standard.set(true, forKey: "fxOn")
+        UserDefaults.standard.set(true, forKey: "vibrationOn")
+        UserDefaults.standard.set(false, forKey: "startScreenOn")
+        UserDefaults.standard.set(true, forKey: "backgroundMusicPlayerStatus")
+        UserDefaults.standard.set(false, forKey: "tutorialShown")
+        UserDefaults.standard.set(1, forKey: "ballPointValue")
+        UserDefaults.standard.set(1, forKey: "prestigeValue")
+        UserDefaults.standard.set(0, forKey: "ballsDroppedSincePrestige")
+        UserDefaults.standard.set(true, forKey: "launchedBefore")
+        UserDefaults.standard.synchronize()
+        
+        launchedBefore = true
+        
         print("SAVED PLAYER = \(String(describing: newNameTextField.text!))")
         
-        UserDefaults.standard.set(true, forKey: "launchedBefore")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

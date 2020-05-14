@@ -12,7 +12,12 @@ import CoreHaptics
 
 // MARK: - globale Variablen
 
-let pling = SKAction.playSoundFileNamed("boing2.mp3", waitForCompletion: false)
+let pling = SKAction.playSoundFileNamed("pling.mp3", waitForCompletion: false)
+let pling2 = SKAction.playSoundFileNamed("pling2.wav", waitForCompletion: false)
+let endScreenInSound = SKAction.playSoundFileNamed("endscreen_in.wav", waitForCompletion: false)
+let endScreenOutSound = SKAction.playSoundFileNamed("endscreen_out.wav", waitForCompletion: false)
+let backButtonSound = SKAction.playSoundFileNamed("backButton.wav", waitForCompletion: false)
+let standardButtonSound = SKAction.playSoundFileNamed("standardButton.wav", waitForCompletion: false)
 
 var tutorialShown = UserDefaults.standard.bool(forKey: "tutorialShown")
 
@@ -450,7 +455,7 @@ class MainMenu: SKScene {
                 if self.childNode(withName: "logo")!.contains(touch.location(in: self)) {
                     
                     if fxOn {
-                        self.run(pling)
+                        self.run(standardButtonSound)
                     }
                     
                     // VIBRATION/HAPTIC-LOOP
@@ -459,6 +464,14 @@ class MainMenu: SKScene {
                     runHaptic(intensity: 1, sharpness: 0)
 //                        }
 //                    }
+                    
+                    if let sparks = SKEmitterNode(fileNamed: "colissionSparks") {
+                        sparks.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.7)
+                        addChild(sparks)
+                        self.run(SKAction.wait(forDuration: 0.2)) {
+                            sparks.removeFromParent()
+                        }
+                    }
                     
 //                    showMessage(title: "Hello", text: "Hi \(playerName) nice to meet you. My name is rob. Beacuse i am a rob-ot ... you know? Hahaha!", closeButton: "Hi Rob.")
 
@@ -472,7 +485,7 @@ class MainMenu: SKScene {
                         }
                         if fxOn == true {
                             
-                            self.run(pling)
+                            self.run(endScreenOutSound)
                         }
                     })
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
@@ -492,7 +505,7 @@ class MainMenu: SKScene {
                             runHaptic()
                         }
                         if fxOn == true {
-                            self.run(pling)
+                            self.run(standardButtonSound)
                         }
                     })
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
@@ -512,7 +525,7 @@ class MainMenu: SKScene {
                            runHaptic()
                        }
                        if fxOn == true {
-                           self.run(pling)
+                           self.run(standardButtonSound)
                        }
                     })
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
@@ -530,7 +543,7 @@ class MainMenu: SKScene {
                             runHaptic()
                         }
                         if fxOn == true {
-                            self.run(pling)
+                            self.run(standardButtonSound)
                         }
                     })
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
@@ -546,13 +559,12 @@ class MainMenu: SKScene {
                     if vibrationOn == true {
                         runHaptic()
                     }
-                    if fxOn == true {
-                        self.run(pling)
-                    }
                     
                     if backgroundMusicPlayerStatus == true {
-                        
                         backgroundMusicPlayer?.stop()
+                        if fxOn == true {
+                            self.run(backButtonSound)
+                        }
                         let button = self.childNode(withName: "MUSIC: ON -Button") as! SKLabelNode
                         button.text = "MUSIC: OFF "
                         button.fontColor = UIColor.red
@@ -563,7 +575,9 @@ class MainMenu: SKScene {
                         UserDefaults.standard.set(false, forKey: "backgroundMusicPlayerStatus")
                         
                     } else {
-                        
+                        if fxOn == true {
+                            self.run(standardButtonSound)
+                        }
                         backgroundMusicPlayer?.play()
                         let button = self.childNode(withName: "MUSIC: ON -Button") as! SKLabelNode
                         button.text = "MUSIC: ON "

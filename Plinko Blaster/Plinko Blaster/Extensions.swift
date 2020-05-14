@@ -172,7 +172,7 @@ extension SKNode {
         effectNode.shouldEnableEffects = true
         effectNode.shouldRasterize = true
         effectNode.name = "glow"
-        effectNode.zPosition =  -10
+        effectNode.zPosition =  -5
         addChild(effectNode)
         
         if parent != nil && parent?.position == CGPoint(x: 0, y: 0) {

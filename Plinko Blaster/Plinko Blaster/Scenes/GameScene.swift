@@ -56,8 +56,8 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     var totalPointsCollected = 0
     
     //MARK: __ BALLS __
-    var ballsAdded = [SKShapeNode]()
-    var ball = SKShapeNode()
+    var ballsAdded = [Ball]()
+    var ball = Ball()
     var ballCount = 5
     var ballsDown:[Bool] = []
     var controlBallBool = false
@@ -104,9 +104,9 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 2...15)) {
             self.addRandomCollectible()
         }
-        Bool.random() ? nil : DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 30...250)) {
-            self.addExtraBallCollectible()
-        }
+//        Bool.random() ? nil : DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 30...250)) {
+//            self.addExtraBallCollectible()
+//        }
         
         if tutorialShown == false {
             showTutorial()
@@ -220,7 +220,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         addBallCounterNode()
         
-        addMultiplyerCounterNode()
+        addMultiplyerLabelNode()
         
         addPointsLabelNode()
         
@@ -323,7 +323,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         effectNode.addChild(ballCounterLabelNode)
     }
     
-    func addMultiplyerCounterNode() {
+    func addMultiplyerLabelNode() {
         multiplyerLabelNode = SKLabelNode()
         multiplyerCount = 0
         multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
@@ -577,53 +577,63 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         }
     }
     
-    func prepareBall(duration:Double = 5) {
-        var totalDuration = duration
-        ball = Ball().create()
-        ball.zPosition = 10
-        ball.alpha = 0.65
-        ball.position = CGPoint(x: Screen.width / 2 + 0.1, y: Screen.height * 0.78)
-        ball.name = "ball\(ballsAdded.count)"
-        ball.strokeColor = .red
-        (ball.children.first as! SKLabelNode).fontColor = .red
+    func prepareBall(duration: Double = 5) {
         
-        ball.setScale(0.01)
-        effectNode.addChild(ball)
+        var totalDuration = duration
+        
         if ballsAdded.count == 0 {
             totalDuration = 0
+        } else {
+            
+            let loadingCounter = EFCountingLabel(frame: CGRect(x: 0, y: Screen.height * 0.155, width: Screen.width, height: 50))
+            
+            loadingCounter.counter.timingFunction = EFTimingFunction.linear
+            loadingCounter.font = UIFont(name: "PixelSplitter", size: 18)
+            loadingCounter.textColor = .red
+            loadingCounter.textAlignment = .center
+            loadingCounter.alpha = 1
+            loadingCounter.text = "\(duration + 1)"
+            loadingCounter.tag = 3
+            
+            self.view!.addSubview(loadingCounter)
+            
+            loadingCounter.countFrom(CGFloat(duration + 1), to: 1, withDuration: duration)
+            loadingCounter.completionBlock = {
+                loadingCounter.removeFromSuperview()
+            }
+
+            
+            let loadingBar = SKSpriteNode(color: UIColor.red.withAlphaComponent(0.7), size: CGSize(width: Screen.width, height: 3))
+            loadingBar.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.78)
+            loadingBar.run(SKAction.resize(toWidth: 0, duration: totalDuration))
+            loadingBar.run(.fadeAlpha(to: 0.25, duration: totalDuration))
+
+            effectNode.addChild(loadingBar)
         }
         
-        ball.run(SKAction.scale(to: 1, duration: TimeInterval(totalDuration)))
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + totalDuration + 0.01, execute: {
-//            print("self.ballsAdded.count = \(self.ballsAdded.count)")
-            
-            self.ball.zPosition = 300
-            self.ball.alpha = 1
-            self.ball.strokeColor = .yellow
-            (self.ball.children.first as! SKLabelNode).fontColor = .yellow
-            self.ball.addGlow(radius: 5)
-            self.ball.addGlow(radius: 10, alpha: 0.25)
-            self.ball.addGlow(radius: 15, alpha: 0.25)
-
-            self.ball.physicsBody = SKPhysicsBody(circleOfRadius: Screen.width * 0.038 )
-            self.ball.physicsBody?.isDynamic = false
-            self.ball.physicsBody?.friction = 0
-            self.ball.physicsBody?.restitution = 0.45
-            self.ball.physicsBody?.categoryBitMask = ColliderType.Ball
-            self.ball.physicsBody?.collisionBitMask = ColliderType.Ball | ColliderType.Obstacle | ColliderType.Scene | ColliderType.Line | ColliderType.BottomLine
-            self.ball.physicsBody?.contactTestBitMask = ColliderType.Ball | ColliderType.Obstacle | ColliderType.BottomLine | ColliderType.Box | ColliderType.Collectible
-            
-            self.ballsAdded.append(self.ball)
-            self.ballsDown.append(false)
-            
+        ball = Ball(color: .red)
+        ball.setScale(0.01)
+        ball.zPosition = 300
+        ball.alpha = 0.25
+        ball.position = CGPoint(x: Screen.width / 2 + 0.1, y: Screen.height * 0.78)
+        ball.name = "ball\(ballsAdded.count)"
+        effectNode.addChild(ball)
+        
+        ball.run(SKAction.fadeAlpha(to: 1, duration: totalDuration))
+        ball.run(SKAction.scale(to: 1, duration: totalDuration)) {
+            self.ball.changeBallColor(color: .yellow)
+            self.ball.turnGlowOn()
             self.controlBallBool = true
-        })
+        }
         
-
+        self.ballsAdded.append(self.ball)
+        self.ballsDown.append(false)
+        
+        
     }
     
-    func addDownArrows(count: Int) {
+    func addDownArrows(count: Int) { // TODO: needs to be refined ... also get rid of DispatchQueueueueue-shit
         let gap = Screen.width / CGFloat(count)
         for row in 1...Int(count - 1) {
             let arrowPath = CGMutablePath()
@@ -737,27 +747,10 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         })
     }
     
-    func ghostAllBalls(seconds: Int) {
+    func ghostAllBalls(seconds: Double) {
         ballsAreGhosted = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            ballPointValue = ballPointValue * 2
-            for ball in self.ballsAdded {
-                if let label = ball.children.first as! SKLabelNode? {
-                    if ball.physicsBody?.isDynamic == true {
-                        label.text = "X\(ballPointValue)"
-                    }
-                }
-            }
-        })
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(seconds) + 0.5, execute: {
-            ballPointValue = ballPointValue / 2
-            for ball in self.ballsAdded {
-                if let label = ball.children.first as! SKLabelNode? {
-                    label.text = "X\(ballPointValue)"
-                }
-            }
-        })
+        
+        ball.changeValue(toValue: ballPointValue * 2, forSeconds: seconds)
         
         let fadeOutAction = SKAction.fadeAlpha(to: 0.1, duration: 0.5)
         let waitAction = SKAction.wait(forDuration: TimeInterval(seconds))
@@ -770,8 +763,8 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 ball.run(ghostSequence)
             }
         }
-        
     }
+    
     
     func animateCollectibleOnCollision(collidedSpriteNode: SKNode) {
         
@@ -834,8 +827,8 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         for touch in touches {
             if touch == touches.first {
                 if backButtonNode.contains(touch.location(in: self)) && !gameOver {
-                    if fxOn {
-                        self.run(pling)
+                    if fxOn == true {
+                        self.run(backButtonSound)
                     }
                     if vibrationOn {
                         runHaptic()
@@ -844,6 +837,9 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                         closeMenu()
                     }
                     self.effectNode.removeAllChildren()
+                    for subview in self.view!.subviews {
+                        subview.removeFromSuperview()
+                    }
                     self.removeAllChildren()
                     SceneManager.shared.transition(self, toScene: .MainScene, transition: SKTransition.fade(withDuration: 0.5))
                 } else if miniMenu.contains(touch.location(in: self)) && menuOpen.value {
@@ -958,9 +954,15 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         if touches.first!.location(in: self).y <= Screen.height * 0.8 {
             if controlBallBool && ballCount > 0 {
                 controlBallBool = false
-//                ballPrepared = false
-                ballsAdded.last!.physicsBody!.isDynamic = true
                 
+                
+//                self.ball.addEmitter(emitterName: "someSparks", forSeconds: 5) //TODO: fix positioning problem
+                
+                
+                self.ball.activatePhysicsBody()
+                ballsAdded.last!.physicsBody!.isDynamic = true
+                ballsAdded.last!.physicsBody!.allowsRotation = true
+
                 if let label = ball.children.first as! SKLabelNode? {
                     label.text = "X\(ballPointValue)"
                 }
@@ -996,6 +998,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     subview.removeFromSuperview()
                 }
             }
+            self.run(endScreenOutSound)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
                 SceneManager.shared.transition(self, toScene: .GameScene, transition: SKTransition.fade(withDuration: 0.01))
             }
@@ -1217,18 +1220,18 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         if contactBetween == ColliderType.Ball | ColliderType.Ball {
             
-            var ball1Node: SKShapeNode
-            var ball2Node: SKShapeNode
+            var ball1Node: Ball
+            var ball2Node: Ball
             
             if (contact.bodyA.node?.name!.lowercased().contains("ball"))! {
-                ball1Node = contact.bodyB.node! as! SKShapeNode
-                ball2Node = contact.bodyA.node! as! SKShapeNode
+                ball1Node = contact.bodyB.node! as! Ball
+                ball2Node = contact.bodyA.node! as! Ball
             } else {
-                ball1Node = contact.bodyA.node! as! SKShapeNode
-                ball2Node = contact.bodyB.node! as! SKShapeNode
+                ball1Node = contact.bodyA.node! as! Ball
+                ball2Node = contact.bodyB.node! as! Ball
             }
             
-            if ball1Node.strokeColor == .yellow && ball2Node.strokeColor == .yellow {
+            if ball1Node.active && ball2Node.active {
                 if vibrationOn {
                     runHaptic(intensity: Float(contact.collisionImpulse), sharpness: 0)
                 }
@@ -1246,16 +1249,20 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             
             
             
-            if ball1Node.strokeColor == .red {
-                ball2Node.removeAllChildren()
-                ball2Node.removeAllActions()
-                ball2Node.strokeColor = .red
+            if ball1Node.active == false || ball2Node.active == false  {
+                
+                ball2Node.turnGlowOff()
+                ball2Node.changeBallColor(color: .red)
                 ball2Node.alpha = 0.3
-            } else if ball2Node.strokeColor == .red {
-                ball1Node.removeAllChildren()
-                ball1Node.removeAllActions()
-                ball1Node.strokeColor = .red
+                ball2Node.active = false
+                ball2Node.removeAllActions()
+                
+                ball1Node.turnGlowOff()
+                ball1Node.changeBallColor(color: .red)
                 ball1Node.alpha = 0.3
+                ball1Node.active = false
+                ball1Node.removeAllActions()
+                
             }
             
             
@@ -1322,15 +1329,29 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             
             if (collectibleNode.name?.lowercased().contains("triangle"))! {
                 
-                pointsCount = pointsCount + ballPointValue * currentCollectible.points
+                pointsCount = pointsCount + (ballPointValue * currentCollectible.points)
                 pointsLabelNode.text = "POINTS: \(pointsCount)"
                 
             } else if (collectibleNode.name?.lowercased().contains("star"))! {
                 
-                pointsCount = pointsCount + ballPointValue * currentCollectible.points
+                pointsCount = pointsCount + (ballPointValue * currentCollectible.points)
                 pointsLabelNode.text = "POINTS: \(pointsCount)"
                 
-            } else if (collectibleNode.name?.lowercased().contains("ghost"))! {
+            } else if (collectibleNode.name?.lowercased().contains("square"))! {
+                
+                for ball in ballsAdded {
+                    if ball.active == true {
+                        ball.changePath(toPath: CGPath(roundedRect: CGRect(origin: CGPoint(x: -Screen.width * 0.035, y: -Screen.width * 0.035), size: CGSize(width: Screen.width * 0.07, height: Screen.width * 0.07)), cornerWidth: 2, cornerHeight: 2, transform: nil), forSeconds: currentCollectible.seconds, allowRotation: true)
+                        ball.turnGlowOn()
+                    }
+                }
+                
+//                multiplyerCount = multiplyerCount + currentCollectible.multi
+//                multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
+                
+//                transformShapeOfBalls(toPath: SKShapeNode(rectOf: CGSize(width: 30, height: 30), cornerRadius: 5).path!, forSeconds: currentCollectible.seconds)
+               
+           } else if (collectibleNode.name?.lowercased().contains("ghost"))! {
 
                 ghostAllBalls(seconds: currentCollectible.seconds)
             }
@@ -1385,29 +1406,28 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     animateCollectibleOnCollision(collidedSpriteNode: contact.bodyB.node!)
                 }
                 
-                Bool.random() ? nil : DispatchQueue.main.async {
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 60...250)) {
-                        if Bool.random() {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 45...250)) {
-                                self.addExtraBallCollectible()
-                            }
-                        } else if Bool.random() {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 30...250)) {
-                                self.addExtraBallCollectible()
-                            }
-                        } else if Bool.random() {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 30...250)) {
-                                self.addExtraBallCollectible()
-                            }
-                        } else {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 15...250)) {
-                                self.addExtraBallCollectible()
-                            }
-                        }
-                    }
-                    
-                }
+//                Bool.random() ? nil : DispatchQueue.main.async {
+//
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 60...250)) {
+//                        if Bool.random() {
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 45...250)) {
+//                                self.addExtraBallCollectible()
+//                            }
+//                        } else if Bool.random() {
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 30...250)) {
+//                                self.addExtraBallCollectible()
+//                            }
+//                        } else if Bool.random() {
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 30...250)) {
+//                                self.addExtraBallCollectible()
+//                            }
+//                        } else {
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 15...250)) {
+//                                self.addExtraBallCollectible()
+//                            }
+//                        }
+//                    }
+//                }
                 
             } else {
                 
@@ -1417,10 +1437,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 }
                 
             }
-            
-            
-            
-            
             
         } else if   contactBetween ==  ColliderType.Ball | ColliderType.Line ||
                     contactBetween ==  ColliderType.Ball | ColliderType.BottomLine ||
@@ -1454,23 +1470,25 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             
         } else if contactBetween == ColliderType.Ball | ColliderType.Box  {
             
-            var ballNode: SKShapeNode = SKShapeNode()
+            var ballNode: Ball
+            
             var boxNode: SKNode = SKNode()
             
             if (contact.bodyA.node?.name!.lowercased().contains("ball"))! {
-                ballNode = contact.bodyA.node! as! SKShapeNode
-            } else if (contact.bodyB.node?.name!.lowercased().contains("ball"))! {
-                ballNode = contact.bodyB.node! as! SKShapeNode
+                ballNode = contact.bodyA.node! as! Ball
+            } else {
+                ballNode = contact.bodyB.node! as! Ball
             }
             
             for box in boxes {
-                if box.contains(ballNode.position) && (ballNode ).strokeColor != UIColor.red {
+                if box.contains(ballNode.position) && ballNode.active {
                     
                     boxNode = box
-                    ballNode.removeAllChildren()
-                    ballNode.removeAllActions()
-                    ballNode.strokeColor = .red
+                    ballNode.turnGlowOff()
                     ballNode.alpha = 0.3
+                    ballNode.changeBallColor(color: .red)
+                    ballNode.active = false
+                    ballNode.removeAllActions()
                 }
             }
             
@@ -1491,24 +1509,6 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                         multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
                         multiplyerLabelNode.run(scaleByActionSequence)
                         
-                        if pointsCount >= lastHighscore {
-                            lastHighscore = pointsCount
-                            highscoreLabelNode.text = "HIGHSCORE: \(lastHighscore)"
-                            if !highscoreLabelIsInFront {
-                                
-                                highscoreLabelNode.run(SKAction.moveBy(x: 0, y: Screen.height * -0.05, duration: 0.5))
-                                highscoreLabelIsInFront = true
-                                highscoreLabelNode.fontSize = 26
-                                highscoreLabelNode.fontName = "PixelSplitter"
-                                highscoreLabelNode.alpha = 1
-                                pointsLabelNode.alpha = 0
-                                
-                            }
-                        } else {
-                            highscoreLabelNode.fontSize = 13
-                            highscoreLabelNode.fontName = "PixelSplitter"
-                            pointsLabelNode.alpha = 1
-                        }
                         boxesCollected[index] = true
                         let resizeAction = SKAction.resize(toWidth: 0.01, height: 0.01, duration: 0.25)
                         let alphaAction = SKAction.fadeAlpha(to: 0, duration: 0.25)
@@ -1556,11 +1556,12 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     //MARK:--- ENDSCREEN ---
     func showEndScreen() {
         
+        
         let backgroundLayer = SKShapeNode(rectOf: CGSize(width: Screen.width, height: Screen.height))
         backgroundLayer.fillColor = UIColor(hexFromString: "140032")
         backgroundLayer.strokeColor = UIColor(hexFromString: "140032")
         backgroundLayer.position = CGPoint(x: Screen.width / 2, y: Screen.height / 2)
-        backgroundLayer.alpha = 1
+        backgroundLayer.alpha = 0.9
         backgroundLayer.zPosition = 10000
         
         let gameLabelNode = SKLabelNode(text: "GAME")
@@ -1568,7 +1569,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         gameLabelNode.fontName = "PixelSplitter"
         gameLabelNode.fontColor = UIColor(hexFromString: "d800ff")
         gameLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.80)
-        gameLabelNode.alpha = 1
+        gameLabelNode.alpha = 0
         gameLabelNode.zPosition = 10100
         
         let overLabelNode = SKLabelNode(text: "OVER")
@@ -1576,7 +1577,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         overLabelNode.fontName = "PixelSplitter"
         overLabelNode.fontColor = UIColor(hexFromString: "d800ff")
         overLabelNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.68)
-        overLabelNode.alpha = 1
+        overLabelNode.alpha = 0
         overLabelNode.zPosition = 10100
                 
         let pointsTitleLabelNode = SKLabelNode(text: "POINTS: ")
@@ -1612,15 +1613,21 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         restartLabelNode.alpha = 0
         restartLabelNode.zPosition = 10100
         
-        effectNode.addChild(backgroundLayer)
-        effectNode.addChild(gameLabelNode)
-        effectNode.addChild(overLabelNode)
-        effectNode.addChild(pointsTitleLabelNode)
-        self.view!.addSubview(endscreenPointsCountingLabel)
-        effectNode.addChild(restartLabelNode)
-        self.view!.addSubview(endscreenMultiplyerLabelNode)
         
-        backgroundLayer.run(SKAction.fadeAlpha(to: 0.9, duration: 0.35))
+        if fxOn {
+            self.run(endScreenInSound)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+            self.effectNode.addChild(backgroundLayer)
+            self.effectNode.addChild(gameLabelNode)
+            self.effectNode.addChild(overLabelNode)
+            self.effectNode.addChild(pointsTitleLabelNode)
+            self.view!.addSubview(self.endscreenPointsCountingLabel)
+            self.effectNode.addChild(self.restartLabelNode)
+            self.view!.addSubview(self.endscreenMultiplyerLabelNode)
+            
+        })
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             gameLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
@@ -1730,6 +1737,10 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }
     
+    
+    
+    
     override func update(_ currentTime: TimeInterval) {
+                
     }
 }

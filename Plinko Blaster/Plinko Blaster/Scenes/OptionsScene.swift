@@ -39,7 +39,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         addMusicButtonLabelNode()
         addSFXButtonLabelNode()
         addVibrationButtonLabelNode()
-        addShowStartScreenButtonLabelNode()
+//        addShowStartScreenButtonLabelNode()
         addShowTutorialButtonLabelNode()
         addPrestigeButtonLabelNode()
         addExtrasSection()
@@ -181,7 +181,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
             tutorialButtonLabelNode.fontColor = .green
         }
         
-        tutorialButtonLabelNode.position = CGPoint(x: 30, y: startScreenButtonLabelNode.position.y - 33)
+        tutorialButtonLabelNode.position = CGPoint(x: 30, y: vibrationButtonLabelNode.position.y - 33)
         tutorialButtonLabelNode.alpha = 1
         tutorialButtonLabelNode.fontName = "PixelSplitter"
         tutorialButtonLabelNode.fontSize = 18
@@ -215,7 +215,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
             prestigeButtonLabelNode.fontColor = .red
 
             prestigeButtonLevelLabelNode = SKLabelNode(text: "YOUR PRESTIGE LEVEL: \(prestigeCount + 1)")
-            prestigeButtonLevelLabelNode.position = CGPoint(x: 25, y: -5)
+            prestigeButtonLevelLabelNode.position = CGPoint(x: 30, y: -10)
             prestigeButtonLevelLabelNode.fontName = "PixelSplitter"
             prestigeButtonLevelLabelNode.fontColor = .green
             prestigeButtonLevelLabelNode.fontSize = 10
@@ -224,7 +224,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
             prestigeButtonLabelNode.addChild(prestigeButtonLevelLabelNode)
             
             prestigeButtonDescriptionLabelNode = SKLabelNode(text: "DROP \(ballsToCollectForNextPrestige) MORE BALLS FOR NEXT PRESTIGE.")
-            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 25, y: -20)
+            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 30, y: -25)
             prestigeButtonDescriptionLabelNode.fontName = "PixelSplitter"
             prestigeButtonDescriptionLabelNode.fontSize = 10
             prestigeButtonDescriptionLabelNode.fontColor = .green
@@ -239,7 +239,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
 
             prestigeButtonLevelLabelNode = SKLabelNode(text: "YOUR PRESTIGE LEVEL: \(prestigeCount + 1) -> NEXT LEVEL: \(prestigeCount + 2)")
             prestigeButtonLevelLabelNode.numberOfLines = 2
-            prestigeButtonLevelLabelNode.position = CGPoint(x: 25, y: -5)
+            prestigeButtonLevelLabelNode.position = CGPoint(x: 30, y: -10)
             prestigeButtonLevelLabelNode.fontName = "PixelSplitter"
             prestigeButtonLevelLabelNode.fontColor = .green
             prestigeButtonLevelLabelNode.fontSize = 10
@@ -248,7 +248,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
             prestigeButtonLabelNode.addChild(prestigeButtonLevelLabelNode)
             
             prestigeButtonDescriptionLabelNode = SKLabelNode(text: "YOU CAN PRESTIGE NOW.\nBALLS WILL COLLECT \(ballPointValue + prestigeValue)X POINTS.")
-            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 25, y: -35)
+            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 30, y: -40)
             prestigeButtonDescriptionLabelNode.fontName = "PixelSplitter"
             prestigeButtonDescriptionLabelNode.numberOfLines = 2
             prestigeButtonDescriptionLabelNode.preferredMaxLayoutWidth = Screen.width * 0.75
@@ -372,11 +372,11 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                 // BACK BUTTON
                 if backButtonNode.contains(touch.location(in: self)) {
                     print("<- ab zum Hauptmenü <-")
-                    if fxOn == true {
-                        self.run(pling)
-                    }
                     if vibrationOn == true {
                         runHaptic()
+                    }
+                    if fxOn == true {
+                        self.run(backButtonSound)
                     }
                     SceneManager.shared.transition(self, toScene: .MainScene, transition: SKTransition.fade(withDuration: 0.5))
                 }
@@ -460,26 +460,26 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                     }
                 }
                 
-                // STARTSCREEN BUTTON
-                if startScreenButtonLabelNode.contains(touch.location(in: self)) {
-                    if startScreenOn == true {
-                        startScreenButtonLabelNode.text = "- START-SCREEN: OFF"
-                        startScreenButtonLabelNode.fontColor = .red
-                        UserDefaults.standard.set(false, forKey: "startScreenOn")
-                        startScreenOn = false
-                    } else {
-                        startScreenButtonLabelNode.text = "- START-SCREEN: ON"
-                        startScreenButtonLabelNode.fontColor = .green
-                        UserDefaults.standard.set(true, forKey: "startScreenOn")
-                        startScreenOn = true
-                    }
-                    if fxOn == true {
-                        self.run(pling)
-                    }
-                    if vibrationOn == true {
-                        runHaptic()
-                    }
-                }
+                // STARTSCREEN BUTTON (currently not used)
+//                if startScreenButtonLabelNode.contains(touch.location(in: self)) {
+//                    if startScreenOn == true {
+//                        startScreenButtonLabelNode.text = "- START-SCREEN: OFF"
+//                        startScreenButtonLabelNode.fontColor = .red
+//                        UserDefaults.standard.set(false, forKey: "startScreenOn")
+//                        startScreenOn = false
+//                    } else {
+//                        startScreenButtonLabelNode.text = "- START-SCREEN: ON"
+//                        startScreenButtonLabelNode.fontColor = .green
+//                        UserDefaults.standard.set(true, forKey: "startScreenOn")
+//                        startScreenOn = true
+//                    }
+//                    if fxOn == true {
+//                        self.run(pling)
+//                    }
+//                    if vibrationOn == true {
+//                        runHaptic()
+//                    }
+//                }
                 
                 // GAME TUTORIAL BUTTON
                 if tutorialButtonLabelNode.contains(touch.location(in: self)) {

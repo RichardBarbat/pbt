@@ -11,7 +11,7 @@ import AVFoundation
 
 var backgroundMusicPlayer: AVAudioPlayer?
 var backgroundMusicPlayerStatus = Bool()
-let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+var launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
 
 
 class GameViewController: UIViewController {
@@ -32,7 +32,7 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         view.addSubview(skView)
         
         skView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -43,7 +43,8 @@ class GameViewController: UIViewController {
         var scene = SKScene()
         
         if startScreenOn == true || launchedBefore == false {
-            scene = StartScene(size: CGSize(width: Screen.width, height: Screen.height))
+//            scene = StartScene(size: CGSize(width: Screen.width, height: Screen.height))
+            scene = WelcomeScene(size: CGSize(width: Screen.width, height: Screen.height))
         } else {
             scene = MainMenu(size: CGSize(width: Screen.width, height: Screen.height))
         }

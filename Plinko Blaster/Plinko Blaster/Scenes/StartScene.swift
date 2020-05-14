@@ -265,29 +265,7 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
                 runHaptic(intensity: 1, sharpness: 0)
                 runHaptic(intensity: 1, sharpness: 0.5)
                 runHaptic(intensity: 1, sharpness: 1)
-                if launchedBefore == true {
-                    print("Not first launch.")
-                    
-                    self.nextScene = SceneManager.SceneType.MainScene
-                } else {
-                    print("First launch, setting UserDefaults.")
-                    
-                    UserDefaults.standard.set(true, forKey: "fxOn")
-                    UserDefaults.standard.set(true, forKey: "vibrationOn")
-                    UserDefaults.standard.set(true, forKey: "startScreenOn")
-                    UserDefaults.standard.set(true, forKey: "backgroundMusicPlayerStatus")
-                    UserDefaults.standard.set(false, forKey: "tutorialShown")
-                    UserDefaults.standard.set(1, forKey: "ballPointValue")
-                    UserDefaults.standard.set(1, forKey: "prestigeValue")
-                    UserDefaults.standard.set(0, forKey: "ballsDroppedSincePrestige")
-                    UserDefaults.standard.synchronize()
-                    
-                    self.nextScene = SceneManager.SceneType.WelcomeScene
-                    let playerName = UserDefaults.standard.string(forKey: "playerName")
-                    if playerName != "" && playerName != nil {
-                        UserDefaults.standard.set(true, forKey: "launchedBefore")
-                    }
-                }
+                
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
                     
                     self.backgroundAmbientPlayer?.setVolume(0, fadeDuration: 2)
