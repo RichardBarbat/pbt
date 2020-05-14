@@ -149,7 +149,7 @@
                 case .observingMessagesWithUnsupportedReturnType:
                     return .observingMessagesWithUnsupportedReturnType(target: target)
                 @unknown default:
-                    fatalError()
+                    fatalError("Unhandled Objective C Runtime Error")
                 }
             }
             

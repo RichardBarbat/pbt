@@ -1,8 +1,11 @@
 PODS:
   - EFCountingLabel (5.1.1)
-  - RxCocoa (4.5.0):
-    - RxSwift (>= 4.4.2, ~> 4.4)
-  - RxSwift (4.5.0)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.1)
 
 DEPENDENCIES:
   - EFCountingLabel
@@ -13,12 +16,14 @@ SPEC REPOS:
   trunk:
     - EFCountingLabel
     - RxCocoa
+    - RxRelay
     - RxSwift
 
 SPEC CHECKSUMS:
   EFCountingLabel: 605358591a67a3c92feb7ec32486bfab4a30e2c9
-  RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
-  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
 
 PODFILE CHECKSUM: 6f65ae248962e3b9028c9789f7e6d41ddced7ebb
 
