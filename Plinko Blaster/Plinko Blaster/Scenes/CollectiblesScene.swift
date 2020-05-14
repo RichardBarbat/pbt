@@ -176,7 +176,7 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         cell.textLabel?.font = UIFont(name: "PixelSplitter", size: 20)
         
         cell.detailTextLabel?.text = "Free at prestige level: \(allCollectibles[indexPath.section].collectibles[indexPath.row].freeAtPrestigeLevel)\nYour prestige level: \(prestigeCount + 1)".uppercased()
-        cell.detailTextLabel?.textColor = .green
+        cell.detailTextLabel?.textColor = .red
         cell.detailTextLabel?.numberOfLines = 3
         cell.detailTextLabel?.font = UIFont(name: "PixelSplitter", size: 10)
         
@@ -187,10 +187,10 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
             cell.textLabel?.textColor = allCollectibles[indexPath.section].collectibles[indexPath.row].color
             
             cell.detailTextLabel?.text = allCollectibles[indexPath.section].collectibles[indexPath.row].description.uppercased()
-//            cell.detailTextLabel?.textColor = allCollectibles[indexPath.section].collectibles[indexPath.row].color
+            cell.detailTextLabel?.textColor = .white
             
             if allCollectibles[indexPath.section].name.lowercased().contains("aliens") {
-//                cell.textLabel?.textColor = .random()
+                cell.textLabel?.textColor = .random()
                 cell.detailTextLabel?.textColor = .random()
             }
         }
