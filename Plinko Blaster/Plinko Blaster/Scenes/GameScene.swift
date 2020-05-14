@@ -708,7 +708,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         for collectibles in allCollectibles {
             let cacheCollectibles = collectibles.collectibles
             for posiblyFreeCollectible in cacheCollectibles {
-                if posiblyFreeCollectible.freeAtPrestigeLevel <= prestigeCount + 1 {
+                if posiblyFreeCollectible.freeAtPrestigeLevel <= prestigeCount + 1 || DEBUGMODE == 1 {
                     availableCollectibles.append(posiblyFreeCollectible)
                 }
             }

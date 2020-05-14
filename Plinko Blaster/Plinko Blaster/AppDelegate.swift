@@ -6,7 +6,7 @@
 //  Copyright © 2019 me. All rights reserved.
 //
 
-let DEBUGMODE = 0
+var DEBUGMODE = 0
 
 import UIKit
 

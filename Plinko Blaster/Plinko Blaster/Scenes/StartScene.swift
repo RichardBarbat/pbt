@@ -50,8 +50,6 @@ class StartScene: SKScene, GKGameCenterControllerDelegate {
         addCoinFlipNode()
         addCoinInsertNode()
         
-        self.view?.showsFPS = true
-        self.view?.showsNodeCount = true
     }
     
     func authenticatePlayer() {

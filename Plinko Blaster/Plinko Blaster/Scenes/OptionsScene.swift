@@ -22,6 +22,8 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
     var tutorialButtonLabelNode = SKLabelNode()
     var prestigeButtonLabelNode = SKLabelNode()
     
+    var secretDebugTapCounter = 0
+    
     let resetButton = SKShapeNode(circleOfRadius: Screen.width * 0.03)
 
     
@@ -68,32 +70,12 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         addChild(gameCenterButtonNode)
     }
     
-    func addResetButton() {
-        resetButton.strokeColor = UIColor.red
-        resetButton.lineWidth = 10
-        resetButton.name = "resetButton"
-        resetButton.position = CGPoint(x: Screen.width * 0.15, y: Screen.height * 0.2)
-        
-        let buttonLabel = SKLabelNode()
-        buttonLabel.text = "RESET ALL POINTS"
-        buttonLabel.color = UIColor.white
-        buttonLabel.fontSize = 20
-        buttonLabel.fontName = "HelveticaNeue-Light"
-        buttonLabel.verticalAlignmentMode = .center
-        buttonLabel.horizontalAlignmentMode = .left
-        buttonLabel.position = CGPoint(x: buttonLabel.position.x + (resetButton.frame.size.width) , y: buttonLabel.position.y)
-        
-        resetButton.addChild(buttonLabel)
-        
-        addChild(resetButton)
-    }
-    
     func addOptionsTitleLabelNode() {
         
         optionsTitleLabelNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.88)
         optionsTitleLabelNode.alpha = 1
         optionsTitleLabelNode.fontName = "PixelSplitter"
-        optionsTitleLabelNode.fontColor = .green
+        optionsTitleLabelNode.fontColor = (DEBUGMODE == 0) ? .green : .red
         optionsTitleLabelNode.fontSize = 28
         addChild(optionsTitleLabelNode)
         
@@ -502,6 +484,25 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                     }
                 }
                 
+                if optionsTitleLabelNode.contains(touch.location(in: self)) {
+                    
+                    secretDebugTapCounter += 1
+                    
+                    if secretDebugTapCounter == 20 && DEBUGMODE == 0 {
+                        secretDebugTapCounter = 0
+                        DEBUGMODE = 1
+                        optionsTitleLabelNode.fontColor = .red
+                    } else if secretDebugTapCounter == 20 && DEBUGMODE == 1 {
+                        secretDebugTapCounter = 0
+                        DEBUGMODE = 0
+                        optionsTitleLabelNode.fontColor = .green
+                    }
+                    
+                    print(secretDebugTapCounter)
+                }
+                
+                
+                
                 // PRESTIGE BUTTON
                 if prestigeButtonLabelNode.contains(touch.location(in: self)) {
                     
@@ -527,6 +528,9 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                     if vibrationOn == true {
                         runHaptic()
                     }
+                    
+                    
+                    
                 }
             }
         }

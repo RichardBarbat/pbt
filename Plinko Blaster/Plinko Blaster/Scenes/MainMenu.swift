@@ -86,9 +86,9 @@ class MainMenu: SKScene {
 //        self.backgroundColor = UIColor(hexFromString: "120d27")
         
         
-        view.showsFPS = true
-        view.showsNodeCount = true
-        view.showsDrawCount = true
+        view.showsFPS = (DEBUGMODE == 1) ? true : false
+        view.showsNodeCount = (DEBUGMODE == 1) ? true : false
+        view.showsDrawCount = (DEBUGMODE == 1) ? true : false
         
         addStarFieldNode()
         addLaserFieldNode()
