@@ -39,6 +39,7 @@ class CollectiblesData {
                 stars,
                 ghosts,
                 aliens,
+                mushrooms,
         ]
     }
     

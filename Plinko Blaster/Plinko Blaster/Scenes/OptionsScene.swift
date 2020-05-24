@@ -245,7 +245,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
 
     func addExtrasSection() {
         
-        extrasTitleLabelNode.position = CGPoint(x: Screen.width / 2, y: prestigeButtonLabelNode.position.y - 110)
+        extrasTitleLabelNode.position = CGPoint(x: Screen.width / 2, y: prestigeButtonLabelNode.position.y - 150)
         extrasTitleLabelNode.alpha = 1
         extrasTitleLabelNode.fontName = "PixelSplitter"
         extrasTitleLabelNode.fontColor = .green
@@ -261,6 +261,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         extraSectionFrame.fillColor = UIColor.black.withAlphaComponent(0.3)
         extraSectionFrame.lineWidth = 5
         extraSectionFrame.strokeColor = .green
+        extraSectionFrame.alpha = 0.3
         addChild(extraSectionFrame)
 
         let extraTitleDescriptionLabel = SKLabelNode(text: "BOOST YOUR HIGHSCORE WITH THESE AWESOME EXTRAS:")

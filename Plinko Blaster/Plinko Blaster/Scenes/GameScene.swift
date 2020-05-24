@@ -1,5 +1,5 @@
 //
-//  GameLevel.swift
+//  GameScene.swift
 //  Plinko Blaster
 //
 //  Created by Richard Barbat on 15.03.19.
@@ -26,7 +26,7 @@ struct ColliderType {
 
 
 //MARK:--- CLASS ---
-class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate, Alertable {
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -101,7 +101,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
         prepareBall()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 2...15)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 5...15)) {
             self.addRandomCollectible()
         }
 //        Bool.random() ? nil : DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 30...250)) {
@@ -109,6 +109,7 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
 //        }
         
         if tutorialShown == false {
+//            showAlert(withTitle: "Jo, was geht?", message: "Spiel ist mega easy ... blablabla") //TODO: give showAlert an action for a button and then assign showTutorial() ... BAM!!!
             showTutorial()
         }
         
@@ -956,7 +957,20 @@ class GameLevel: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 controlBallBool = false
                 
                 
-//                self.ball.addEmitter(emitterName: "someSparks", forSeconds: 5) //TODO: fix positioning problem
+//                self.ball.addEmitter(emitterName: "someSparks", forSeconds: 5)
+                
+//                if let emitter = SKEmitterNode(fileNamed: "fireflies") {
+//                    emitter.targetNode = self
+//                    emitter.position = Screen.center
+////                    emitter.particleZPosition = .random(in: 1...10000)
+//                    emitter.zPosition = .greatestFiniteMagnitude
+//                    self.addChild(emitter)
+//
+//                    self.run(SKAction.wait(forDuration: 5)) {
+//                        emitter.removeFromParent()
+//                    }
+//
+//                }
                 
                 
                 self.ball.activatePhysicsBody()

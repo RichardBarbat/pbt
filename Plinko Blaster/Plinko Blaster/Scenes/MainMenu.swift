@@ -55,7 +55,7 @@ var hapticEngine: CHHapticEngine?
 
 // MARK: - Beginn der Klasse
 
-class MainMenu: SKScene {
+class MainMenu: SKScene, Alertable {
     
     
     // MARK: - Variablen & Instanzen
@@ -461,19 +461,13 @@ class MainMenu: SKScene {
                     // VIBRATION/HAPTIC-LOOP
 //                    for i in stride(from: 0, to: 1, by: 0.1) {
 //                        DispatchQueue.main.asyncAfter(deadline: .now() + i) {
-                    runHaptic(intensity: 1, sharpness: 0)
+//                            runHaptic(intensity: 1, sharpness: 0)
 //                        }
 //                    }
                     
-                    if let sparks = SKEmitterNode(fileNamed: "colissionSparks") {
-                        sparks.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.7)
-                        addChild(sparks)
-                        self.run(SKAction.wait(forDuration: 0.2)) {
-                            sparks.removeFromParent()
-                        }
-                    }
+                    runHaptic(intensity: 1, sharpness: 0)
+                    showAlert(withTitle: "Huhu!", message: "Vielen Dank, dass du mein Spiel spielst! Ich hoffe es macht dir spass!")
                     
-//                    showMessage(title: "Hello", text: "Hi \(playerName) nice to meet you. My name is rob. Beacuse i am a rob-ot ... you know? Hahaha!", closeButton: "Hi Rob.")
 
                 } else if self.childNode(withName: "PLAY-Button")!.contains(touch.location(in: self)) {
                     

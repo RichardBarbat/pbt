@@ -47,7 +47,7 @@ class SceneManager {
                 return OptionsScene(size: CGSize(width: Screen.width, height: Screen.height))
                 
             case SceneType.GameScene:
-                return GameLevel(size: CGSize(width: Screen.width, height: Screen.height))
+                return GameScene(size: CGSize(width: Screen.width, height: Screen.height))
                 
             case SceneType.StatsScene:
                 return StatsScene(size: CGSize(width: Screen.width, height: Screen.height))

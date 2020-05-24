@@ -16,7 +16,7 @@ let ghosts =  Collectibles(name: "ghosts", collectibles: [
                 multi: 2,
                 seconds: 1,
                 miniLabelText: "BUUH",
-                freeAtPrestigeLevel: 0,
+                freeAtPrestigeLevel: 1,
                 color: .yellow,
                 action: SKAction()
     ),
@@ -28,7 +28,7 @@ let ghosts =  Collectibles(name: "ghosts", collectibles: [
                 multi: 2,
                 seconds: 2,
                 miniLabelText: "BUUUH",
-                freeAtPrestigeLevel: 1,
+                freeAtPrestigeLevel: 2,
                 color: UIColor(hexFromString: "0099ff"),
                 action: SKAction()
     ),
@@ -40,7 +40,7 @@ let ghosts =  Collectibles(name: "ghosts", collectibles: [
                 multi: 2,
                 seconds: 3,
                 miniLabelText: "BUUUUH",
-                freeAtPrestigeLevel: 2,
+                freeAtPrestigeLevel: 3,
                 color: .green,
                 action: SKAction()
     ),
@@ -52,7 +52,7 @@ let ghosts =  Collectibles(name: "ghosts", collectibles: [
                 multi: 2,
                 seconds: 4,
                 miniLabelText: "BUUUUUH",
-                freeAtPrestigeLevel: 3,
+                freeAtPrestigeLevel: 4,
                 color: UIColor(hexFromString: "d800ff"),
                 action: SKAction()
     ),
@@ -64,7 +64,7 @@ let ghosts =  Collectibles(name: "ghosts", collectibles: [
                 multi: 2,
                 seconds: 5,
                 miniLabelText: "BUUUUUUH",
-                freeAtPrestigeLevel: 4,
+                freeAtPrestigeLevel: 5,
                 color: .white,
                 action: SKAction()
     )

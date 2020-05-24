@@ -16,7 +16,7 @@ let aliens =  Collectibles(name: "aliens", collectibles: [
                 multi: 0,
                 seconds: 0,
                 miniLabelText: "%-#&",
-                freeAtPrestigeLevel: 0,
+                freeAtPrestigeLevel: 1,
                 color: .yellow,
                 action: SKAction()
     ),
@@ -28,7 +28,7 @@ let aliens =  Collectibles(name: "aliens", collectibles: [
                 multi: 0,
                 seconds: 0,
                 miniLabelText: "ß§Ö*&/#%",
-                freeAtPrestigeLevel: 1,
+                freeAtPrestigeLevel: 2,
                 color: UIColor(hexFromString: "0099ff"),
                 action: SKAction()
     ),
@@ -40,7 +40,7 @@ let aliens =  Collectibles(name: "aliens", collectibles: [
                 multi: 0,
                 seconds: 0,
                 miniLabelText: "§Ö*ß§&/#.*&%",
-                freeAtPrestigeLevel: 2,
+                freeAtPrestigeLevel: 3,
                 color: .green,
                 action: SKAction()
     ),
@@ -52,7 +52,7 @@ let aliens =  Collectibles(name: "aliens", collectibles: [
                 multi: 0,
                 seconds: 0,
                 miniLabelText: "*_*",
-                freeAtPrestigeLevel: 3,
+                freeAtPrestigeLevel: 4,
                 color: UIColor(hexFromString: "d800ff"),
                 action: SKAction()
     ),
@@ -64,7 +64,7 @@ let aliens =  Collectibles(name: "aliens", collectibles: [
                 multi: 0,
                 seconds: 0,
                 miniLabelText: "§/#<&§<%§/#<&&%/-(§",
-                freeAtPrestigeLevel: 4,
+                freeAtPrestigeLevel: 5,
                 color: .green,
                 action: SKAction()
     )

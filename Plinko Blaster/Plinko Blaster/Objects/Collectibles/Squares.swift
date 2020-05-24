@@ -16,7 +16,7 @@ let squares =  Collectibles(name: "squares", collectibles: [
                 multi: 1,
                 seconds: 1,
                 miniLabelText: "1 sec. square",
-                freeAtPrestigeLevel: 0,
+                freeAtPrestigeLevel: 1,
                 color: .yellow,
                 action: SKAction()
     ),
@@ -28,7 +28,7 @@ let squares =  Collectibles(name: "squares", collectibles: [
                 multi: 2,
                 seconds: 2,
                 miniLabelText: "2 sec. square",
-                freeAtPrestigeLevel: 1,
+                freeAtPrestigeLevel: 2,
                 color: UIColor(hexFromString: "0099ff"),
                 action: SKAction()
     ),
@@ -40,7 +40,7 @@ let squares =  Collectibles(name: "squares", collectibles: [
                 multi: 3,
                 seconds: 3,
                 miniLabelText: "3 sec. square",
-                freeAtPrestigeLevel: 2,
+                freeAtPrestigeLevel: 3,
                 color: .green,
                 action: SKAction()
     ),
@@ -52,7 +52,7 @@ let squares =  Collectibles(name: "squares", collectibles: [
                 multi: 4,
                 seconds: 4,
                 miniLabelText: "4 sec. square",
-                freeAtPrestigeLevel: 3,
+                freeAtPrestigeLevel: 4,
                 color: UIColor(hexFromString: "d800ff"),
                 action: SKAction()
     ),
@@ -64,7 +64,7 @@ let squares =  Collectibles(name: "squares", collectibles: [
                 multi: 5,
                 seconds: 5,
                 miniLabelText: "5 sec. square",
-                freeAtPrestigeLevel: 4,
+                freeAtPrestigeLevel: 5,
                 color: .green,
                 action: SKAction()
     )
