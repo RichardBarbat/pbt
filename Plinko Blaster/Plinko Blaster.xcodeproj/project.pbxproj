@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B19ADC023F3603500D9EB5F /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B19ADBF23F3603500D9EB5F /* StartScene.swift */; };
+		1B19ADC023F3603500D9EB5F /* StartScene_OOO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B19ADBF23F3603500D9EB5F /* StartScene_OOO.swift */; };
 		1B3610792414630A00DF8AB8 /* pickUpCoin2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B3610782414630A00DF8AB8 /* pickUpCoin2.mp3 */; };
 		1B500AFD225184EF0044B020 /* pling_old.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B500AFC225184EF0044B020 /* pling_old.mp3 */; };
 		1B567C082263AEB500CCADD1 /* StatsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B567C072263AEB500CCADD1 /* StatsScene.swift */; };
@@ -58,7 +58,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1B19ADBF23F3603500D9EB5F /* StartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
+		1B19ADBF23F3603500D9EB5F /* StartScene_OOO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScene_OOO.swift; sourceTree = "<group>"; };
 		1B3610782414630A00DF8AB8 /* pickUpCoin2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pickUpCoin2.mp3; sourceTree = "<group>"; };
 		1B500AFC225184EF0044B020 /* pling_old.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pling_old.mp3; sourceTree = "<group>"; };
 		1B567C072263AEB500CCADD1 /* StatsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsScene.swift; sourceTree = "<group>"; };
@@ -150,9 +150,9 @@
 				1B606EF4223C101300BD21C9 /* Info.plist */,
 				1B606EE8223C101100BD21C9 /* AppDelegate.swift */,
 				1B606EFC223C15AE00BD21C9 /* Extensions.swift */,
-				6FC17A3F247A223C0091A2AD /* DOAlertController.swift */,
 				1B606EFA223C117300BD21C9 /* GameViewController.swift */,
 				1B606F00223C24BD00BD21C9 /* SceneManager.swift */,
+				6FC17A3F247A223C0091A2AD /* DOAlertController.swift */,
 				6FC17A3B2479E9840091A2AD /* MessageManager.swift */,
 				1B8B636A231F090600A33285 /* Scenes */,
 				1BAE80F52427CBCC004D9D35 /* Objects */,
@@ -164,7 +164,7 @@
 		1B8B636A231F090600A33285 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				1B19ADBF23F3603500D9EB5F /* StartScene.swift */,
+				1B19ADBF23F3603500D9EB5F /* StartScene_OOO.swift */,
 				1B94A58F2269F6A9007F5DC1 /* WelcomeScene.swift */,
 				1B606EFE223C1AD200BD21C9 /* MainMenu.swift */,
 				1B606F02223C286100BD21C9 /* GameScene.swift */,
@@ -414,7 +414,7 @@
 				6FC17A3C2479E9840091A2AD /* MessageManager.swift in Sources */,
 				1B606EFB223C117300BD21C9 /* GameViewController.swift in Sources */,
 				1B567C082263AEB500CCADD1 /* StatsScene.swift in Sources */,
-				1B19ADC023F3603500D9EB5F /* StartScene.swift in Sources */,
+				1B19ADC023F3603500D9EB5F /* StartScene_OOO.swift in Sources */,
 				6FB58F25246F65F3002815E6 /* Mushrooms.swift in Sources */,
 				1B94A5902269F6A9007F5DC1 /* WelcomeScene.swift in Sources */,
 				1B606EE9223C101100BD21C9 /* AppDelegate.swift in Sources */,
@@ -563,7 +563,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = UMK9F357FL;
 				INFOPLIST_FILE = "Plinko Blaster/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -584,7 +584,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = UMK9F357FL;
 				INFOPLIST_FILE = "Plinko Blaster/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

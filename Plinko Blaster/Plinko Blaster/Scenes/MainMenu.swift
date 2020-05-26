@@ -55,7 +55,7 @@ var hapticEngine: CHHapticEngine?
 
 // MARK: - Beginn der Klasse
 
-class MainMenu: SKScene, Alertable {
+class MainMenu: SKScene, MessageManager {
     
     
     // MARK: - Variablen & Instanzen
@@ -466,7 +466,17 @@ class MainMenu: SKScene, Alertable {
 //                    }
                     
                     runHaptic(intensity: 1, sharpness: 0)
-                    showAlert(withTitle: "Huhu!", message: "Vielen Dank, dass du mein Spiel spielst! Ich hoffe es macht dir spass!")
+                    
+                    showAlert(withTitle: "Huhu!", message: "Vielen Dank, dass du mein Spiel spielst! Ich hoffe es macht dir spass!", okButtonAction: DOAlertAction(title: "mal gucken", style: .default, handler: { _ in
+                        
+                        print("KRASS!!!")
+                        for i in stride(from: 0, to: 1, by: 0.05) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + i) {
+                                runHaptic(intensity: 1, sharpness: 0.2)
+                            }
+                        }
+                        
+                    }))
                     
 
                 } else if self.childNode(withName: "PLAY-Button")!.contains(touch.location(in: self)) {

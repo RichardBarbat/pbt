@@ -9,11 +9,20 @@
 import Foundation
 import SpriteKit
 
-protocol Alertable { }
-extension Alertable where Self: SKScene {
+protocol MessageManager { }
+extension MessageManager where Self: SKScene {
 
-    func showAlert(withTitle title: String, message: String) {
+    func showAlert(withTitle title: String, message: String, okButtonAction:DOAlertAction = DOAlertAction(title: "", style: .default, handler: nil), showCancelButton: Bool = true, showOkButtonOnlyWithoutAction: Bool = false, alternativeTitleForOkButton: String = "", alternativeColorForOkButton: UIColor = UIColor.clear) {
 
+        var okButtonTitle: String = "OK".uppercased()
+        if alternativeTitleForOkButton != "" {
+            okButtonTitle = alternativeTitleForOkButton.uppercased()
+        }
+        var okButtonColor: UIColor = UIColor.green
+        if alternativeColorForOkButton != UIColor.clear {
+            okButtonColor = alternativeColorForOkButton
+        }
+        
         let alertController = DOAlertController(title: title.uppercased(), message: message.uppercased(), preferredStyle: .alert)
         
         alertController.alertViewBgColor = .init(hexFromString: "242d24")
@@ -22,12 +31,12 @@ extension Alertable where Self: SKScene {
         alertController.messageFont = UIFont(name: "PixelSplitter", size: 16)
         alertController.messageTextColor = .green
         
-        alertController.buttonFont[.default] = UIFont(name: "PixelSplitter", size: 20)
-        alertController.buttonTextColor[.default] = .green
+        alertController.buttonFont[.default] = UIFont(name: "PixelSplitter", size: 25)
+        alertController.buttonTextColor[.default] = okButtonColor
         alertController.buttonBgColor[.default] = .init(hexFromString: "242d24")
         alertController.buttonBgColorHighlighted[.default] = .init(hexFromString: "242d24")
         
-        alertController.buttonFont[.destructive] = UIFont(name: "PixelSplitter", size: 20)
+        alertController.buttonFont[.destructive] = UIFont(name: "PixelSplitter", size: 25)
         alertController.buttonTextColor[.destructive] = .red
         alertController.buttonBgColor[.destructive] = .init(hexFromString: "242d24")
         alertController.buttonBgColorHighlighted[.destructive] = .init(hexFromString: "242d24")
@@ -35,42 +44,25 @@ extension Alertable where Self: SKScene {
         alertController.view.layer.cornerRadius = 5
         
         
-        // Create the action.
-        let cancelAction = DOAlertAction(title: "Cancel".uppercased(), style: .destructive, handler: nil)
-        
-
-        // You can add plural action.
-        let okAction = DOAlertAction(title: "OK".uppercased(), style: .default) { action in
-            NSLog("OK action occured.")
+        if showOkButtonOnlyWithoutAction == true {
+            let cancelAction = DOAlertAction(title: okButtonTitle.uppercased(), style: .default, handler: nil)
+            alertController.addAction(cancelAction)
+        } else if okButtonAction.handler != nil && okButtonAction.title != "" {
+            alertController.addAction(okButtonAction)
+        } else if showCancelButton == true {
+            let cancelAction = DOAlertAction(title: "CANCEL".uppercased(), style: .destructive, handler: nil)
+            alertController.addAction(cancelAction)
         }
-
-        // Add the action.
-//        alertController.addAction(okAction)
-        alertController.addAction(cancelAction)
-
-        view?.window?.rootViewController?.present(alertController, animated: true)
+        
+        if alertController.actions.count > 0 {
+            
+            for button in alertController.buttons {
+                button.setTitleColor(.red, for: .selected)
+                button.setTitleColor(.red, for: .highlighted)
+            }
+            
+            view?.window?.rootViewController?.present(alertController, animated: true)
+        }
+        
     }
-
-//    func showAlertWithSettings(withTitle title: String, message: String) {
-//
-//        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-//
-//        let okAction = UIAlertAction(title: "OK", style: .cancel) { _ in }
-//        alertController.addAction(okAction)
-//
-//        let settingsAction = UIAlertAction(title: "Settings", style: .default) { _ in
-//
-//            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-//            if #available(iOS 10.0, *) {
-//                UIApplication.shared.open(url)
-//            } else {
-//                UIApplication.shared.openURL(url)
-//            }
-//        }
-//        alertController.addAction(settingsAction)
-//
-//        view?.window?.rootViewController?.present(alertController, animated: true)
-//    }
-    
-    
 }

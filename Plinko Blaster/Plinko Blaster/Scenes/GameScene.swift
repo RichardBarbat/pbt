@@ -26,7 +26,7 @@ struct ColliderType {
 
 
 //MARK:--- CLASS ---
-class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate, Alertable {
+class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate, MessageManager {
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -104,9 +104,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 5...15)) {
             self.addRandomCollectible()
         }
-//        Bool.random() ? nil : DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 30...250)) {
-//            self.addExtraBallCollectible()
-//        }
         
         if tutorialShown == false {
 //            showAlert(withTitle: "Jo, was geht?", message: "Spiel ist mega easy ... blablabla") //TODO: give showAlert an action for a button and then assign showTutorial() ... BAM!!!
