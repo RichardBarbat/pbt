@@ -11,7 +11,7 @@ import EFCountingLabel
 import RxSwift
 import RxCocoa
 
-//MARK:--- STRUCT FOR PHYSICSBODYS ---
+//--- STRUCT FOR PHYSICSBODYS ---
 struct ColliderType {
     static let Ball: UInt32             = 0x1 << 0 // 1
     static let Obstacle: UInt32         = 0x1 << 1 // 2
@@ -25,7 +25,7 @@ struct ColliderType {
 
 
 
-//MARK:--- CLASS ---
+//--- CLASS ---
 class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate, MessageManager {
     
     override init(size: CGSize) {
@@ -37,9 +37,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         fatalError("init(coder:) has not been implemented")
     }
     
-//MARK:--- VARS & INSTANCES ---
+//--- VARS & INSTANCES ---
     
-    //MARK: __ LEVEL __
+    // __ LEVEL __
     let playerName = UserDefaults.standard.string(forKey: "playerName")
     let effectNode = SKEffectNode()
     let starFieldNode = SKShapeNode()
@@ -50,12 +50,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     var boxesCollected = [false, false, false, false, false, false] // TODO: WTF? WHY 6 ?
     let bag = DisposeBag()
     
-    //MARK: __ COUNTER __
+    // __ COUNTER __
     var ballCounterLabelNode = SKLabelNode()
     var multiplyers = [Int()]
     var totalPointsCollected = 0
     
-    //MARK: __ BALLS __
+    // __ BALLS __
     var ballsAdded = [Ball]()
     var ball = Ball()
     var ballCount = 5
@@ -65,12 +65,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     var ballsAreGhosted = false
 //    var ballPrepared = false
     
-    //MARK: __ COLLECTIBLES __
+    // __ COLLECTIBLES __
     let allCollectibles = CollectiblesData().allCollectibles()
     var currentCollectible = Collectible(name: "", texture: SKTexture(), description: "", points: 0, multi: 0, seconds: 0, miniLabelText: "", freeAtPrestigeLevel: 0, color: .clear, action: SKAction())
     var collectibleNode = SKSpriteNode()
     
-    //MARK: __ ACTIONS __
+    // __ ACTIONS __
     let fadeoutAction05s = SKAction.fadeAlpha(to: 0, duration: 0.5)
     var endscreenIsCounting = false
     let restartLabelNode = SKLabelNode(text: "TAP ANYWHERE TO RESTART")
@@ -80,7 +80,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //MARK:--- INIT ---
+    //--- INIT ---
     override func didMove(to view: SKView) {
         
         physicsWorld.contactDelegate = self
@@ -106,8 +106,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         }
         
         if tutorialShown == false {
-//            showAlert(withTitle: "Jo, was geht?", message: "Spiel ist mega easy ... blablabla") //TODO: give showAlert an action for a button and then assign showTutorial() ... BAM!!!
-            showTutorial()
+            showAlert(withTitle: "Hey \(playerName!)", message: "Would you like to see the tutorial?", okButtonAction: DOAlertAction(title: "YES", style: .default, handler: { _ in
+                self.showTutorial()
+                runHaptic()
+            }), alternativeTitleForCancelButton:"NOPE")
+            tutorialShown = true
+            UserDefaults.standard.set(true, forKey: "tutorialShown")
         }
         
         if menuOpen.value == true {
@@ -145,7 +149,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //MARK:--- TUTORIAL ---
+    //--- TUTORIAL ---
     func showTutorial() {
         self.view?.isUserInteractionEnabled = false
         self.isUserInteractionEnabled = false
@@ -195,8 +199,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                                     backgroundNode.run(fadeOutAction)
                                     fingerNode.run(fadeOutAction)
                                     
-                                    UserDefaults.standard.set(true, forKey: "tutorialShown")
-                                    tutorialShown = true
                                     self.view?.isUserInteractionEnabled = true
                                     self.isUserInteractionEnabled = true
                                 })
@@ -211,7 +213,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //MARK:--- PREPARE LEVEL FUNCTIONS ---
+    //--- PREPARE LEVEL FUNCTIONS ---
     func prepareLevel() {
         
         addHighscoreLableNode()
@@ -672,7 +674,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //MARK:--- COLLECTIBLE FUNCTIONS ---
+    //--- COLLECTIBLE FUNCTIONS ---
     func addExtraBallCollectible() {
         let availableRows = [   Screen.height/2 - 195,
                                 Screen.height/2 - 136,
@@ -710,6 +712,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     availableCollectibles.append(posiblyFreeCollectible)
                 }
             }
+        }
+        
+        if availableCollectibles.count <= 0 {
+            return
         }
         
         currentCollectible = availableCollectibles.randomElement()!
@@ -782,17 +788,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         miniPointsLabelNode.horizontalAlignmentMode = .center
         miniPointsLabelNode.zPosition = 1000000
         
-        if ((collidedSpriteNode.name != nil) &&  (collidedSpriteNode.name!.contains("heart"))) {
-            miniPointsLabelNode.text = "EXTRA BALL"
-            miniPointsLabelNode.fontColor = .red
-        }
-        
         let miniPointsLabelSpriteNode = SKSpriteNode(texture: SKView().texture(from: miniPointsLabelNode))
         miniPointsLabelSpriteNode.position = CGPoint(x: collidedSpriteNode.position.x, y: collidedSpriteNode.position.y + 50)
         miniPointsLabelSpriteNode.setScale(0.1)
         effectNode.addChild(miniPointsLabelSpriteNode)
         
-        miniPointsLabelSpriteNode.run(SKAction.scale(to: 1.2, duration: 0.4))
+        miniPointsLabelSpriteNode.run(SKAction.scale(to: 1, duration: 0.4))
         miniPointsLabelSpriteNode.run(SKAction.move(to: CGPoint(x: Screen.width / 2, y: Screen.height * 0.71), duration: 0.2))
         
 
@@ -820,17 +821,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //MARK:--- DISPLAY TOUCHES ---
+    //--- DISPLAY TOUCHES ---
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             if touch == touches.first {
-                if backButtonNode.contains(touch.location(in: self)) && !gameOver {
+                if !miniMenuButtonNode.value.contains(touch.location(in: self)) && !miniMenu.contains(touch.location(in: self)) && menuOpen.value == true {
+                    closeMenu()
+                    runHaptic()
+                } else if backButtonNode.contains(touch.location(in: self)) && !gameOver {
                     if fxOn == true {
                         self.run(backButtonSound)
                     }
-                    if vibrationOn {
-                        runHaptic()
-                    }
+                    runHaptic()
                     if menuOpen.value {
                         closeMenu()
                     }
@@ -841,9 +843,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     self.removeAllChildren()
                     SceneManager.shared.transition(self, toScene: .MainScene, transition: SKTransition.fade(withDuration: 0.5))
                 } else if miniMenu.contains(touch.location(in: self)) && menuOpen.value {
-                    if vibrationOn {
-                        runHaptic()
-                    }
+                    runHaptic()
                     for button in miniMenu.children {
                         if button.name != nil && button.name != "" {
                             if button.name == "musicButton" && button.contains(touch.location(in: self)) {
@@ -913,17 +913,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                                     }
                                     vibrationOn = true
                                     UserDefaults.standard.set(true, forKey: "vibrationOn")
-                                    if vibrationOn {
-                                        runHaptic()
-                                    }
+                                    runHaptic()
                                 }
                             }
                         }
                     }
                 } else if miniMenuButtonNode.value.contains(touch.location(in: self)) && !gameOver {
-                    if vibrationOn {
-                        runHaptic()
-                    }
+                    runHaptic()
                     if menuOpen.value == false {
                         openMenu()
                     } else {
@@ -972,8 +968,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 
                 self.ball.activatePhysicsBody()
                 ballsAdded.last!.physicsBody!.isDynamic = true
-                ballsAdded.last!.physicsBody!.allowsRotation = true
-
+                
+//                let ballIndex = ballsAdded.count - 1
+//                self.ballsAdded[ballIndex].run(.wait(forDuration: 3)) {
+//                    self.ballsAdded[ballIndex].physicsBody!.isDynamic = false             // GOOD FOR A COLLETIBLE ACTION
+//                }
+                
                 if let label = ball.children.first as! SKLabelNode? {
                     label.text = "X\(ballPointValue)"
                 }
@@ -1035,7 +1035,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //MARK:--- MENU ---
+    //--- MENU ---
     func prepareMiniMenu() {
         miniMenu = SKShapeNode(rect: CGRect(x: Screen.width * 0.05, y: Screen.height * 0.825, width: Screen.width * 0.9, height: Screen.height * 0.09), cornerRadius: 8)
         miniMenu.strokeColor = UIColor(hexFromString: "0099ff")
@@ -1170,7 +1170,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //MARK:--- POINTS MANAGEMENT ---
+    //--- POINTS MANAGEMENT ---
     let addPoints = SKAction.run {
                 
         pointsCount = pointsCount + ballPointValue
@@ -1223,7 +1223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //MARK:--- NODE CONTACTS ---
+    //--- NODE CONTACTS ---
     func didBegin(_ contact: SKPhysicsContact) {
         
         let contactBetween: UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
@@ -1243,19 +1243,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             }
             
             if ball1Node.active && ball2Node.active {
-                if vibrationOn {
-                    runHaptic(intensity: Float(contact.collisionImpulse), sharpness: 0)
-                }
-                
+                runHaptic(intensity: Float(contact.collisionImpulse), sharpness: 0)
             } else {
-                
-                if vibrationOn {
-                    runHaptic(intensity: Float(contact.collisionImpulse), sharpness: 1)
-                }
+                runHaptic(intensity: Float(contact.collisionImpulse), sharpness: 1)
             }
             
             if fxOn == true && contact.collisionImpulse > 5 {
-                self.run(pling) //MARK: TODO: CHANGE SOUND!!!
+                self.run(pling) // TODO: CHANGE SOUND!!!
             }
             
             
@@ -1285,11 +1279,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             var obstacleNode: SKNode
 
             if fxOn == true && contact.collisionImpulse > 5 {
-                self.run(pling) //MARK: TODO: CHANGE SOUND!!!
+                self.run(pling) // TODO: CHANGE SOUND!!!
             }
-            if vibrationOn {
-                runHaptic(intensity: Float(contact.collisionImpulse), sharpness: 0)
-            }
+            runHaptic(intensity: Float(contact.collisionImpulse), sharpness: 0)
             
             if (contact.bodyA.node?.name!.lowercased().contains("ball"))! {
                 obstacleNode = contact.bodyB.node!
@@ -1328,22 +1320,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             
         } else if contactBetween == ColliderType.Ball | ColliderType.Collectible {
             
-            if vibrationOn {
-                runHaptic(intensity: 1, sharpness: 0)
-            }
+            runHaptic(intensity: 1, sharpness: 0)
             if fxOn == true {
-                self.run(pling) //MARK: TODO: CHANGE SOUND!!! MAYBE COLLECTIBLES OWN SOUND?
+                self.run(pling) // TODO: CHANGE SOUND!!! MAYBE COLLECTIBLES OWN SOUND?
             }
             
-            let collidedCollectible = contact.bodyA.categoryBitMask == ColliderType.Collectible ? contact.bodyA.node! : contact.bodyB.node!
-            //MARK: TODO: REPLACE THIS CODEPART vvvvvvvvv WITH SOMETHING LIKE: collectibleNode.run(currentCollectible.action(with: XY some: YX parameters:YX))
+//            let collidedCollectibleNode = contact.bodyA.categoryBitMask == ColliderType.Collectible ? contact.bodyA.node! : contact.bodyB.node!
+            // TODO: REPLACE THIS CODEPART vvvvvvvvv WITH SOMETHING LIKE: collectibleNode.run(currentCollectible.action())
             
-            if (collectibleNode.name?.lowercased().contains("triangle"))! {
-                
-                pointsCount = pointsCount + (ballPointValue * currentCollectible.points)
-                pointsLabelNode.text = "POINTS: \(pointsCount)"
-                
-            } else if (collectibleNode.name?.lowercased().contains("star"))! {
+            if (collectibleNode.name?.lowercased().contains("star"))! {
                 
                 pointsCount = pointsCount + (ballPointValue * currentCollectible.points)
                 pointsLabelNode.text = "POINTS: \(pointsCount)"
@@ -1356,13 +1341,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                         ball.turnGlowOn()
                     }
                 }
-                
-//                multiplyerCount = multiplyerCount + currentCollectible.multi
-//                multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
-                
-//                transformShapeOfBalls(toPath: SKShapeNode(rectOf: CGSize(width: 30, height: 30), cornerRadius: 5).path!, forSeconds: currentCollectible.seconds)
                
-           } else if (collectibleNode.name?.lowercased().contains("ghost"))! {
+           } else if (collectibleNode.name?.lowercased().contains("triangle"))! {
+                
+                let trianglePath = CGMutablePath() // TODO: check sizes on other devices
+                trianglePath.move(to: CGPoint(x: -17, y: 9))
+                trianglePath.addLine(to: CGPoint(x: 17, y: 9))
+                trianglePath.addLine(to: CGPoint(x: 0, y: -19))
+                trianglePath.addLine(to: CGPoint(x: -17, y: 9))
+                trianglePath.closeSubpath()
+                
+                for ball in ballsAdded {
+                    if ball.active == true {
+                        ball.changePath(toPath: trianglePath, forSeconds: currentCollectible.seconds, allowRotation: true)
+                    }
+                }
+                
+                multiplyerCount = multiplyerCount + currentCollectible.multi
+                multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
+                 
+            } else if (collectibleNode.name?.lowercased().contains("ghost"))! {
 
                 ghostAllBalls(seconds: currentCollectible.seconds)
             }
@@ -1389,65 +1387,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 pointsLabelNode.alpha = 1
             }
             
-            if ((collidedCollectible.name != nil) && (collidedCollectible.name!.contains("heart"))) {
+            
                 
-                ballCount = ballCount + 1
-                ballCounterLabelNode.text = "BALLS: \(ballCount)"
-                ballCounterLabelNode.fontColor = .yellow
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                    var containsNonDynamicBall = false
-                    for ball in self.ballsAdded {
-                        
-                        if ball.physicsBody!.isDynamic == false {
-                            containsNonDynamicBall = true
-                        }
-                        
-                        if ball == self.ballsAdded.last && containsNonDynamicBall == false {
-                            
-                            self.prepareBall()
-                            
-                        }
-                    }
-                }
-                
-                if (contact.bodyA.node?.name?.contains("heart"))! {
-                    animateCollectibleOnCollision(collidedSpriteNode: contact.bodyA.node!)
-                } else if (contact.bodyB.node?.name?.contains("heart"))! {
-                    animateCollectibleOnCollision(collidedSpriteNode: contact.bodyB.node!)
-                }
-                
-//                Bool.random() ? nil : DispatchQueue.main.async {
-//
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 60...250)) {
-//                        if Bool.random() {
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 45...250)) {
-//                                self.addExtraBallCollectible()
-//                            }
-//                        } else if Bool.random() {
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 30...250)) {
-//                                self.addExtraBallCollectible()
-//                            }
-//                        } else if Bool.random() {
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 30...250)) {
-//                                self.addExtraBallCollectible()
-//                            }
-//                        } else {
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 15...250)) {
-//                                self.addExtraBallCollectible()
-//                            }
-//                        }
-//                    }
-//                }
-                
-            } else {
-                
-                animateCollectibleOnCollision(collidedSpriteNode: collectibleNode)
-                DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 6...20)) {
+            animateCollectibleOnCollision(collidedSpriteNode: collectibleNode)
+            DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 6...20)) {
                     self.addRandomCollectible()
-                }
-                
             }
+                
+            
             
         } else if   contactBetween ==  ColliderType.Ball | ColliderType.Line ||
                     contactBetween ==  ColliderType.Ball | ColliderType.BottomLine ||
@@ -1463,7 +1410,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             }
             
             if fxOn == true && contact.collisionImpulse > 5 {
-                self.run(pling) //MARK: TODO: CHANGE SOUND!!!
+                self.run(pling) // TODO: CHANGE SOUND!!!
             }
             
             
@@ -1471,9 +1418,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 sharpness = 1
             }
             
-            if vibrationOn {
-               runHaptic(intensity: Float(contact.collisionImpulse), sharpness: sharpness)
-            }
+            runHaptic(intensity: Float(contact.collisionImpulse), sharpness: sharpness)
             
             
             
@@ -1504,12 +1449,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             }
             
             if fxOn == true && contact.collisionImpulse > 5 && ballNode.strokeColor != .red {
-                self.run(pling) //MARK: TODO: CHANGE SOUND!!!
+                self.run(pling) // TODO: CHANGE SOUND!!!
             }
             
-            if vibrationOn {
-                runHaptic(intensity: Float(contact.collisionImpulse), sharpness: 1)
-            }
+            runHaptic(intensity: Float(contact.collisionImpulse), sharpness: 1)
             
             for (index, box) in boxes.enumerated() {
                 if box.name == boxNode.name && boxesCollected.contains(false) {
@@ -1564,7 +1507,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //MARK:--- ENDSCREEN ---
+    //--- ENDSCREEN ---
     func showEndScreen() {
         
         
@@ -1743,7 +1686,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //MARK:--- DELEGATE FUNCTIONS ---
+    //--- DELEGATE FUNCTIONS ---
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }

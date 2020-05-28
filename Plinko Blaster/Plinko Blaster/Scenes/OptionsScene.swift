@@ -8,6 +8,9 @@
 
 import GameKit
 
+let multiplyedPrestigeCount = Int(Double(prestigeCount * 10).rounded())
+let ballsToCollectForNextPrestige: Int = 50 - ballsDroppedSincePrestige + multiplyedPrestigeCount
+
 class OptionsScene: SKScene, GKGameCenterControllerDelegate {
     
     let backButtonNode = SKSpriteNode(imageNamed: "back-button4")
@@ -176,14 +179,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
         prestigeButtonLabelNode = SKLabelNode(text: "- PRESTIGE")
         var prestigeButtonLevelLabelNode = SKLabelNode()
         var prestigeButtonDescriptionLabelNode = SKLabelNode()
-        
-        print("prestigeCount = \(prestigeCount)")
-        let multiplyedPrestigeCount = Int(Double(prestigeCount * 10).rounded())
-        print("multiplyedPrestigeCount = \(multiplyedPrestigeCount)")
-        print("ballsDroppedSincePrestige = \(ballsDroppedSincePrestige)")
-        let ballsToCollectForNextPrestige: Int = 50 - ballsDroppedSincePrestige + multiplyedPrestigeCount
-        print("ballsToCollectForNextPrestige = \(ballsToCollectForNextPrestige)")
-        
+                
         prestigeButtonLabelNode.position = CGPoint(x: 30, y: tutorialButtonLabelNode.position.y - 50)
         prestigeButtonLabelNode.fontName = "PixelSplitter"
         prestigeButtonLabelNode.fontSize = 18
@@ -197,19 +193,19 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
             prestigeButtonLabelNode.fontColor = .red
 
             prestigeButtonLevelLabelNode = SKLabelNode(text: "YOUR PRESTIGE LEVEL: \(prestigeCount + 1)")
-            prestigeButtonLevelLabelNode.position = CGPoint(x: 30, y: -10)
+            prestigeButtonLevelLabelNode.position = CGPoint(x: 15, y: -8)
             prestigeButtonLevelLabelNode.fontName = "PixelSplitter"
-            prestigeButtonLevelLabelNode.fontColor = .green
+            prestigeButtonLevelLabelNode.fontColor = .yellow
             prestigeButtonLevelLabelNode.fontSize = 10
             prestigeButtonLevelLabelNode.horizontalAlignmentMode = .left
             prestigeButtonLevelLabelNode.verticalAlignmentMode = .top
             prestigeButtonLabelNode.addChild(prestigeButtonLevelLabelNode)
             
             prestigeButtonDescriptionLabelNode = SKLabelNode(text: "DROP \(ballsToCollectForNextPrestige) MORE BALLS FOR NEXT PRESTIGE.")
-            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 30, y: -25)
+            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 15, y: -25)
             prestigeButtonDescriptionLabelNode.fontName = "PixelSplitter"
             prestigeButtonDescriptionLabelNode.fontSize = 10
-            prestigeButtonDescriptionLabelNode.fontColor = .green
+            prestigeButtonDescriptionLabelNode.fontColor = .yellow
             prestigeButtonDescriptionLabelNode.horizontalAlignmentMode = .left
             prestigeButtonDescriptionLabelNode.verticalAlignmentMode = .top
             prestigeButtonLabelNode.addChild(prestigeButtonDescriptionLabelNode)
@@ -221,7 +217,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
 
             prestigeButtonLevelLabelNode = SKLabelNode(text: "YOUR PRESTIGE LEVEL: \(prestigeCount + 1) -> NEXT LEVEL: \(prestigeCount + 2)")
             prestigeButtonLevelLabelNode.numberOfLines = 2
-            prestigeButtonLevelLabelNode.position = CGPoint(x: 30, y: -10)
+            prestigeButtonLevelLabelNode.position = CGPoint(x: 15, y: -8)
             prestigeButtonLevelLabelNode.fontName = "PixelSplitter"
             prestigeButtonLevelLabelNode.fontColor = .green
             prestigeButtonLevelLabelNode.fontSize = 10
@@ -230,7 +226,7 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
             prestigeButtonLabelNode.addChild(prestigeButtonLevelLabelNode)
             
             prestigeButtonDescriptionLabelNode = SKLabelNode(text: "YOU CAN PRESTIGE NOW.\nBALLS WILL COLLECT \(ballPointValue + prestigeValue)X POINTS.")
-            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 30, y: -40)
+            prestigeButtonDescriptionLabelNode.position = CGPoint(x: 15, y: -40)
             prestigeButtonDescriptionLabelNode.fontName = "PixelSplitter"
             prestigeButtonDescriptionLabelNode.numberOfLines = 2
             prestigeButtonDescriptionLabelNode.preferredMaxLayoutWidth = Screen.width * 0.75

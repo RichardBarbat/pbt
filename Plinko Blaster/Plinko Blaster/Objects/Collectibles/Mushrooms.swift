@@ -16,9 +16,9 @@ let mushrooms =  Collectibles(name: "mushrooms", collectibles: [
                 multi: .random(in: 1...3),
                 seconds: 0,
                 miniLabelText: "...",
-                freeAtPrestigeLevel: 1,
+                freeAtPrestigeLevel: 11,
                 color: .yellow,
-                action: SKAction()
+                action: SKAction() //add mini mushrooms to the scene the user has to collect by tapping on them otherwise they dissapear
     ),
 
     Collectible(name: "Blue Mushroom",
@@ -28,7 +28,7 @@ let mushrooms =  Collectibles(name: "mushrooms", collectibles: [
                 multi: .random(in: 3...4),
                 seconds: 0,
                 miniLabelText: "...",
-                freeAtPrestigeLevel: 2,
+                freeAtPrestigeLevel: 11,
                 color: UIColor(hexFromString: "0099ff"),
                 action: SKAction()
     ),
@@ -40,7 +40,7 @@ let mushrooms =  Collectibles(name: "mushrooms", collectibles: [
                 multi: .random(in: 4...5),
                 seconds: 0,
                 miniLabelText: "...",
-                freeAtPrestigeLevel: 3,
+                freeAtPrestigeLevel: 11,
                 color: .green,
                 action: SKAction()
     ),
@@ -52,7 +52,7 @@ let mushrooms =  Collectibles(name: "mushrooms", collectibles: [
                 multi: .random(in: 5...7),
                 seconds: 0,
                 miniLabelText: "...",
-                freeAtPrestigeLevel: 4,
+                freeAtPrestigeLevel: 11,
                 color: UIColor(hexFromString: "d800ff"),
                 action: SKAction()
     ),
@@ -64,7 +64,7 @@ let mushrooms =  Collectibles(name: "mushrooms", collectibles: [
                 multi: .random(in: 7...10),
                 seconds: 0,
                 miniLabelText: "...",
-                freeAtPrestigeLevel: 5,
+                freeAtPrestigeLevel: 11,
                 color: .red,
                 action: SKAction()
     )

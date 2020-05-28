@@ -467,7 +467,7 @@ class MainMenu: SKScene, MessageManager {
                     
                     runHaptic(intensity: 1, sharpness: 0)
                     
-                    showAlert(withTitle: "Huhu!", message: "Vielen Dank, dass du mein Spiel spielst! Ich hoffe es macht dir spass!", okButtonAction: DOAlertAction(title: "mal gucken", style: .default, handler: { _ in
+                    showAlert(withTitle: "Huhu!", message: "Vielen Dank, dass du mein Spiel spielst! Ich hoffe es macht dir spass!", okButtonAction: DOAlertAction(title: "JA VOLL TITTE", style: .default, handler: { _ in
                         
                         print("KRASS!!!")
                         for i in stride(from: 0, to: 1, by: 0.05) {
@@ -476,7 +476,7 @@ class MainMenu: SKScene, MessageManager {
                             }
                         }
                         
-                    }))
+                    }), showCancelButton: false, alternativeColorForOkButton: .yellow)
                     
 
                 } else if self.childNode(withName: "PLAY-Button")!.contains(touch.location(in: self)) {

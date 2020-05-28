@@ -245,10 +245,10 @@
 			isa = PBXGroup;
 			children = (
 				1BAE80F32426F552004D9D35 /* CollectiblesData.swift */,
-				6F577D85245F98A400C41561 /* Triangles.swift */,
 				6F577D87245F996D00C41561 /* Stars.swift */,
 				6F577D89245F99DC00C41561 /* Ghosts.swift */,
 				6FC6369A245F9EB100513B84 /* Squares.swift */,
+				6F577D85245F98A400C41561 /* Triangles.swift */,
 				6FF23B49246DE92A00EFF60A /* Aliens.swift */,
 				6FB58F24246F65F3002815E6 /* Mushrooms.swift */,
 			);

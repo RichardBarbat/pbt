@@ -14,6 +14,8 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
     var collectiblesTableView = UITableView()
     
     let backButtonNode = SKSpriteNode(imageNamed: "back-button4")
+    let prestigeButtonLabelNode = SKLabelNode(text: "")
+    let prestigeLabelNode = SKLabelNode(text: "PRESTIGE LEVEL: \(prestigeCount + 1)")
 
     override func didMove(to view: SKView) {
         
@@ -21,11 +23,14 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         
         self.backgroundColor = UIColor.init(hexFromString: "242d24")
         
+        
         addBackButtonNode()
         
         addTitleNode()
         
-        collectiblesTableView = UITableView(frame: CGRect(x: 0, y: Screen.height * 0.2, width: Screen.width, height: Screen.height * 0.8))
+        addPrestigeBar()
+        
+        collectiblesTableView = UITableView(frame: CGRect(x: 0, y: Screen.height * 0.21, width: Screen.width, height: Screen.height * 0.79))
         collectiblesTableView.alpha = 0
         
         addTableView()
@@ -63,6 +68,35 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
                     SceneManager.shared.transition(self, toScene: .MainScene, transition: SKTransition.fade(withDuration: 0.5))
                     
                 }
+                
+                if prestigeButtonLabelNode.contains(touch.location(in: self)) {
+                    if ballsToCollectForNextPrestige <= 0 {
+                        
+                        prestigeCount = prestigeCount + 1
+                        UserDefaults.standard.set(prestigeCount, forKey: "prestigeCount")
+                                            
+                        UserDefaults.standard.set(ballPointValue + prestigeValue, forKey: "ballPointValue")
+                        
+                        UserDefaults.standard.set(0, forKey: "ballsDroppedSincePrestige")
+                        
+                        ballPointValue = ballPointValue + prestigeValue
+                        ballsDroppedSincePrestige = 0
+                        
+                        prestigeButtonLabelNode.removeFromParent()
+                        prestigeLabelNode.removeFromParent()
+                        
+                        addPrestigeBar()
+                        
+                        UserDefaults.standard.synchronize()
+                        
+                        if fxOn == true {
+                            self.run(pling)
+                        }
+                        runHaptic()
+                        
+                        
+                    }
+                }
             }
         }
     }
@@ -95,6 +129,32 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         overviewLableNode.fontSize = 28
         overviewLableNode.horizontalAlignmentMode = .center
         addChild(overviewLableNode)
+    }
+    
+    func addPrestigeBar() {
+        
+        prestigeLabelNode.position = CGPoint(x: 10, y: Screen.height * 0.8)
+        prestigeLabelNode.fontName = "PixelSplitter"
+        prestigeLabelNode.fontColor = .red
+        prestigeLabelNode.fontSize = 16
+        prestigeLabelNode.horizontalAlignmentMode = .left
+        addChild(prestigeLabelNode)
+        
+        prestigeButtonLabelNode.position = CGPoint(x: Screen.width - 10, y: Screen.height * 0.8)
+        prestigeButtonLabelNode.fontName = "PixelSplitter"
+        prestigeButtonLabelNode.fontColor = .green
+        prestigeButtonLabelNode.fontSize = 18
+        prestigeButtonLabelNode.horizontalAlignmentMode = .right
+        if ballsToCollectForNextPrestige <= 0 {
+            prestigeButtonLabelNode.text = "PRESTIGE NOW!"
+        } else {
+            prestigeButtonLabelNode.text = "DROP \(ballsToCollectForNextPrestige) BALLS"
+            prestigeButtonLabelNode.fontColor = .yellow
+            prestigeButtonLabelNode.fontSize = 14
+        }
+
+        addChild(prestigeButtonLabelNode)
+        
     }
     
     func addTableView() {
@@ -169,13 +229,12 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
         
         let noImage = UIImage(named: "?")
         cell.imageView?.image = noImage
-        cell.imageView?.frame.size = CGSize(width: 10, height: 10)
         
         cell.textLabel?.text = "???"
         cell.textLabel?.textColor = .red
         cell.textLabel?.font = UIFont(name: "PixelSplitter", size: 20)
         
-        cell.detailTextLabel?.text = "Free at prestige level: \(allCollectibles[indexPath.section].collectibles[indexPath.row].freeAtPrestigeLevel)\nYour prestige level: \(prestigeCount + 1)".uppercased()
+        cell.detailTextLabel?.text = "Free at prestige level: \(allCollectibles[indexPath.section].collectibles[indexPath.row].freeAtPrestigeLevel)".uppercased()
         cell.detailTextLabel?.textColor = .red
         cell.detailTextLabel?.numberOfLines = 3
         cell.detailTextLabel?.font = UIFont(name: "PixelSplitter", size: 10)
@@ -203,7 +262,7 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 65
     }
     
 }

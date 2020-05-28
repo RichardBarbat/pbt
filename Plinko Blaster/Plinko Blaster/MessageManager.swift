@@ -12,11 +12,15 @@ import SpriteKit
 protocol MessageManager { }
 extension MessageManager where Self: SKScene {
 
-    func showAlert(withTitle title: String, message: String, okButtonAction:DOAlertAction = DOAlertAction(title: "", style: .default, handler: nil), showCancelButton: Bool = true, showOkButtonOnlyWithoutAction: Bool = false, alternativeTitleForOkButton: String = "", alternativeColorForOkButton: UIColor = UIColor.clear) {
-
+    func showAlert(withTitle title: String, message: String, okButtonAction:DOAlertAction = DOAlertAction(title: "", style: .default, handler: nil), showCancelButton: Bool = true, showOkButtonOnlyWithoutAction: Bool = false, alternativeTitleForOkButton: String = "", alternativeColorForOkButton: UIColor = UIColor.clear, alternativeTitleForCancelButton: String = "") {
+        
         var okButtonTitle: String = "OK".uppercased()
         if alternativeTitleForOkButton != "" {
             okButtonTitle = alternativeTitleForOkButton.uppercased()
+        }
+        var cancelButtonTitle: String = "CANCEL".uppercased()
+        if alternativeTitleForCancelButton != "" {
+            cancelButtonTitle = alternativeTitleForCancelButton.uppercased()
         }
         var okButtonColor: UIColor = UIColor.green
         if alternativeColorForOkButton != UIColor.clear {
@@ -41,16 +45,21 @@ extension MessageManager where Self: SKScene {
         alertController.buttonBgColor[.destructive] = .init(hexFromString: "242d24")
         alertController.buttonBgColorHighlighted[.destructive] = .init(hexFromString: "242d24")
         
-        alertController.view.layer.cornerRadius = 5
-        
+        alertController.alertView.layer.cornerRadius = 5
         
         if showOkButtonOnlyWithoutAction == true {
-            let cancelAction = DOAlertAction(title: okButtonTitle.uppercased(), style: .default, handler: nil)
+            let cancelAction = DOAlertAction(title: okButtonTitle.uppercased(), style: .default, handler: { _ in
+                runHaptic()
+            })
             alertController.addAction(cancelAction)
         } else if okButtonAction.handler != nil && okButtonAction.title != "" {
             alertController.addAction(okButtonAction)
-        } else if showCancelButton == true {
-            let cancelAction = DOAlertAction(title: "CANCEL".uppercased(), style: .destructive, handler: nil)
+        }
+        
+        if showCancelButton == true {
+            let cancelAction = DOAlertAction(title: cancelButtonTitle.uppercased(), style: .destructive, handler: { _ in
+                runHaptic()
+            })
             alertController.addAction(cancelAction)
         }
         

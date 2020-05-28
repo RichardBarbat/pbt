@@ -35,6 +35,7 @@ class Ball: SKShapeNode {
         active = true
         physicsBody = SKPhysicsBody(circleOfRadius: Screen.width * 0.038 )
         physicsBody?.isDynamic = false
+        physicsBody?.allowsRotation = true
         physicsBody?.friction = 0
         physicsBody?.restitution = 0.45
         physicsBody?.categoryBitMask = ColliderType.Ball
@@ -63,12 +64,13 @@ class Ball: SKShapeNode {
     }
     
     func changePath(toPath: CGPath, forSeconds: Double, allowRotation: Bool = false) {
-        let initialPath = path
-        self.run(.scale(to: 0.1, duration: 0))
-        path = toPath
-        self.run(.scale(to: 1, duration: 0))
+        self.turnGlowOff()
+        let initialPath = self.path
+        self.run(.scale(to: 0.1, duration: 0.01))
+        self.path = toPath
+        self.run(.scale(to: 1, duration: 0.01))
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.turnGlowOn()
+//            self.turnGlowOn()
         }
         
         
@@ -92,7 +94,6 @@ class Ball: SKShapeNode {
                     emitter.removeFromParent()
                 }
             }
-            
         }
     }
     

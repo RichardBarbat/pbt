@@ -34,11 +34,11 @@ class CollectiblesData {
     func allCollectibles() -> [Collectibles] {
         
         return [
-                squares,
-                triangles,
                 stars,
                 ghosts,
+                squares,
                 aliens,
+                triangles,
                 mushrooms,
         ]
     }

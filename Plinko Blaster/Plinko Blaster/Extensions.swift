@@ -50,6 +50,10 @@ func prepareHaptics() {
 
 func runHaptic(intensity: Float = 1, sharpness: Float = 1) {
     
+    if vibrationOn == false {
+        return
+    }
+    
     guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
     var events = [CHHapticEvent]()
 
@@ -68,6 +72,9 @@ func runHaptic(intensity: Float = 1, sharpness: Float = 1) {
 }
 
 func runCountHaptic() {
+    if vibrationOn == false {
+        return
+    }
     
     guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
     var events = [CHHapticEvent]()
