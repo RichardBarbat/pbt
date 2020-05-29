@@ -9,7 +9,7 @@
 import GameKit
 
 let multiplyedPrestigeCount = Int(Double(prestigeCount * 10).rounded())
-let ballsToCollectForNextPrestige: Int = 50 - ballsDroppedSincePrestige + multiplyedPrestigeCount
+var ballsToCollectForNextPrestige: Int = UserDefaults.standard.value(forKey: "ballsToCollectForNextPrestige") as! Int
 
 class OptionsScene: SKScene, GKGameCenterControllerDelegate {
     
@@ -513,6 +513,9 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                     ballPointValue = ballPointValue + prestigeValue
                     ballsDroppedSincePrestige = 0
                     
+                    UserDefaults.standard.set(50 - ballsDroppedSincePrestige + multiplyedPrestigeCount, forKey: "ballsToCollectForNextPrestige")
+                    ballsToCollectForNextPrestige = UserDefaults.standard.value(forKey: "ballsToCollectForNextPrestige") as! Int
+                    
                     prestigeButtonLabelNode.removeFromParent()
                     
                     addPrestigeButtonLabelNode()
@@ -525,9 +528,6 @@ class OptionsScene: SKScene, GKGameCenterControllerDelegate {
                     if vibrationOn == true {
                         runHaptic()
                     }
-                    
-                    
-                    
                 }
             }
         }

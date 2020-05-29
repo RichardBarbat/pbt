@@ -11,7 +11,7 @@ import EFCountingLabel
 import RxSwift
 import RxCocoa
 
-//--- STRUCT FOR PHYSICSBODYS ---
+//MARK:--- STRUCT FOR PHYSICSBODYS ---
 struct ColliderType {
     static let Ball: UInt32             = 0x1 << 0 // 1
     static let Obstacle: UInt32         = 0x1 << 1 // 2
@@ -25,7 +25,7 @@ struct ColliderType {
 
 
 
-//--- CLASS ---
+//MARK:--- CLASS ---
 class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate, MessageManager {
     
     override init(size: CGSize) {
@@ -37,9 +37,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         fatalError("init(coder:) has not been implemented")
     }
     
-//--- VARS & INSTANCES ---
+//MARK:--- VARS & INSTANCES ---
     
-    // __ LEVEL __
+    //MARK: __ LEVEL __
     let playerName = UserDefaults.standard.string(forKey: "playerName")
     let effectNode = SKEffectNode()
     let starFieldNode = SKShapeNode()
@@ -50,12 +50,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     var boxesCollected = [false, false, false, false, false, false] // TODO: WTF? WHY 6 ?
     let bag = DisposeBag()
     
-    // __ COUNTER __
+    //MARK: __ COUNTER __
     var ballCounterLabelNode = SKLabelNode()
     var multiplyers = [Int()]
     var totalPointsCollected = 0
     
-    // __ BALLS __
+    //MARK: __ BALLS __
     var ballsAdded = [Ball]()
     var ball = Ball()
     var ballCount = 5
@@ -65,12 +65,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     var ballsAreGhosted = false
 //    var ballPrepared = false
     
-    // __ COLLECTIBLES __
+    //MARK: __ COLLECTIBLES __
     let allCollectibles = CollectiblesData().allCollectibles()
     var currentCollectible = Collectible(name: "", texture: SKTexture(), description: "", points: 0, multi: 0, seconds: 0, miniLabelText: "", freeAtPrestigeLevel: 0, color: .clear, action: SKAction())
     var collectibleNode = SKSpriteNode()
     
-    // __ ACTIONS __
+    //MARK: __ ACTIONS __
     let fadeoutAction05s = SKAction.fadeAlpha(to: 0, duration: 0.5)
     var endscreenIsCounting = false
     let restartLabelNode = SKLabelNode(text: "TAP ANYWHERE TO RESTART")
@@ -80,7 +80,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //--- INIT ---
+    //MARK:--- INIT ---
     override func didMove(to view: SKView) {
         
         physicsWorld.contactDelegate = self
@@ -149,7 +149,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //--- TUTORIAL ---
+    //MARK:--- TUTORIAL ---
     func showTutorial() {
         self.view?.isUserInteractionEnabled = false
         self.isUserInteractionEnabled = false
@@ -213,7 +213,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //--- PREPARE LEVEL FUNCTIONS ---
+    //MARK:--- PREPARE LEVEL FUNCTIONS ---
     func prepareLevel() {
         
         addHighscoreLableNode()
@@ -674,7 +674,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //--- COLLECTIBLE FUNCTIONS ---
+    //MARK:--- COLLECTIBLE FUNCTIONS ---
     func addExtraBallCollectible() {
         let availableRows = [   Screen.height/2 - 195,
                                 Screen.height/2 - 136,
@@ -821,7 +821,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //--- DISPLAY TOUCHES ---
+    //MARK:--- DISPLAY TOUCHES ---
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             if touch == touches.first {
@@ -1018,8 +1018,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             
             self.endscreenPointsCountingLabel.counter.stopCountAtCurrentValue()
             self.endscreenPointsCountingLabel.counter.countFromCurrentValueTo(CGFloat(pointsCount * multiplyerCount), withDuration: 0.1)
+            
             self.endscreenMultiplyerLabelNode.counter.stopCountAtCurrentValue()
             self.endscreenMultiplyerLabelNode.counter.countFromCurrentValueTo(0, withDuration: 0.1)
+            
             self.restartLabelNode.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
@@ -1035,7 +1037,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //--- MENU ---
+    //MARK:--- MENU ---
     func prepareMiniMenu() {
         miniMenu = SKShapeNode(rect: CGRect(x: Screen.width * 0.05, y: Screen.height * 0.825, width: Screen.width * 0.9, height: Screen.height * 0.09), cornerRadius: 8)
         miniMenu.strokeColor = UIColor(hexFromString: "0099ff")
@@ -1170,7 +1172,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //--- POINTS MANAGEMENT ---
+    //MARK:--- POINTS MANAGEMENT ---
     let addPoints = SKAction.run {
                 
         pointsCount = pointsCount + ballPointValue
@@ -1214,6 +1216,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "totalBallsDropped") + ballsDown.count, forKey: "totalBallsDropped")
         UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "ballsDroppedSincePrestige") + ballsDown.count, forKey: "ballsDroppedSincePrestige")
         ballsDroppedSincePrestige = UserDefaults.standard.integer(forKey: "ballsDroppedSincePrestige")
+        UserDefaults.standard.set(50 - ballsDroppedSincePrestige + multiplyedPrestigeCount, forKey: "ballsToCollectForNextPrestige")
+        ballsToCollectForNextPrestige = UserDefaults.standard.integer(forKey: "ballsToCollectForNextPrestige")
+        
         
         UserDefaults.standard.set(lastHighscore, forKey: "highscore")
 
@@ -1223,7 +1228,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //--- NODE CONTACTS ---
+    //MARK:--- NODE CONTACTS ---
     func didBegin(_ contact: SKPhysicsContact) {
         
         let contactBetween: UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
@@ -1495,7 +1500,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                             }
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                                self.showEndScreen()
+                                if ballsToCollectForNextPrestige - self.ballsAdded.count == 0 {
+                                    self.showAlert(withTitle: "Congratulation!".uppercased(), message: "You have leveled up! BALLS WILL COLLECT \(ballPointValue + prestigeValue)X MORE POINTS FROM NOW.".uppercased(), okButtonAction: DOAlertAction(title: "COOL".uppercased(), style: .default, handler: { _ in
+                                        
+                                        prestigeCount = prestigeCount + 1
+                                        UserDefaults.standard.set(prestigeCount, forKey: "prestigeCount")
+                                                            
+                                        UserDefaults.standard.set(ballPointValue + prestigeValue, forKey: "ballPointValue")
+                                        
+                                        UserDefaults.standard.set(-5, forKey: "ballsDroppedSincePrestige")
+                                        
+                                        ballPointValue = ballPointValue + prestigeValue
+                                        ballsDroppedSincePrestige = -5
+                                        
+                                        UserDefaults.standard.set(50 - ballsDroppedSincePrestige + multiplyedPrestigeCount, forKey: "ballsToCollectForNextPrestige")
+                                        ballsToCollectForNextPrestige = UserDefaults.standard.value(forKey: "ballsToCollectForNextPrestige") as! Int
+                                                                                
+                                        UserDefaults.standard.synchronize()
+                                        
+                                        if fxOn == true {
+                                            self.run(pling)
+                                        }
+                                        runHaptic()
+                                        
+                                        self.showEndScreen()
+                                    }))
+                                } else {
+                                    self.showEndScreen()
+                                }
+                                
+                                
                             })
                         }
                     }
@@ -1507,7 +1541,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //--- ENDSCREEN ---
+    //MARK:--- ENDSCREEN ---
     func showEndScreen() {
         
         
@@ -1547,7 +1581,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         endscreenPointsCountingLabel.font = UIFont(name: "PixelSplitter", size: 50)
         endscreenPointsCountingLabel.textColor = UIColor(hexFromString: "0099ff")
         endscreenPointsCountingLabel.textAlignment = .center
-        endscreenPointsCountingLabel.text = "\(pointsCount)"
+        if multiplyerCount > 1 {
+            endscreenPointsCountingLabel.text = "\(pointsCount)"
+        } else {
+            endscreenPointsCountingLabel.text = "0"
+        }
         endscreenPointsCountingLabel.alpha = 1
         endscreenPointsCountingLabel.tag = 1
         
@@ -1556,6 +1594,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         endscreenMultiplyerLabelNode.textColor = UIColor.yellow
         endscreenMultiplyerLabelNode.textAlignment = .center
         endscreenMultiplyerLabelNode.alpha = 1
+        if multiplyerCount <= 1 {
+            endscreenMultiplyerLabelNode.isHidden = true
+        }
         endscreenMultiplyerLabelNode.text = "X\(multiplyerCount)"
         endscreenMultiplyerLabelNode.tag = 2
         
@@ -1601,8 +1642,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             self.view?.isUserInteractionEnabled = true
             self.isUserInteractionEnabled = true
             self.endscreenIsCounting = true
-            self.endscreenPointsCountingLabel.countFrom(CGFloat(pointsCount), to: CGFloat(pointsCount * multiplyerCount), withDuration: 3)
-            self.endscreenMultiplyerLabelNode.countFrom(CGFloat(multiplyerCount), to: 1, withDuration: 3)
+            if multiplyerCount > 1 {
+                self.endscreenPointsCountingLabel.countFrom(CGFloat(pointsCount), to: CGFloat(pointsCount * multiplyerCount), withDuration: 3)
+                self.endscreenMultiplyerLabelNode.countFrom(CGFloat(multiplyerCount), to: 1, withDuration: 2.5)
+            } else {
+                self.endscreenPointsCountingLabel.countFrom(0, to: CGFloat(pointsCount), withDuration: 3)
+            }
+            
             
             runCountHaptic()
             
@@ -1686,7 +1732,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     
     
-    //--- DELEGATE FUNCTIONS ---
+    //MARK:--- DELEGATE FUNCTIONS ---
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }

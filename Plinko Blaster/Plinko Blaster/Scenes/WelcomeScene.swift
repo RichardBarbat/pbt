@@ -515,6 +515,7 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
         UserDefaults.standard.set(1, forKey: "ballPointValue")
         UserDefaults.standard.set(1, forKey: "prestigeValue")
         UserDefaults.standard.set(0, forKey: "ballsDroppedSincePrestige")
+        UserDefaults.standard.set(50, forKey: "ballsToCollectForNextPrestige")
         UserDefaults.standard.set(true, forKey: "launchedBefore")
         UserDefaults.standard.synchronize()
         

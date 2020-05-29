@@ -82,6 +82,9 @@ class CollectiblesScene: SKScene, UITextFieldDelegate, UITableViewDelegate, UITa
                         ballPointValue = ballPointValue + prestigeValue
                         ballsDroppedSincePrestige = 0
                         
+                        UserDefaults.standard.set(50 - ballsDroppedSincePrestige + multiplyedPrestigeCount, forKey: "ballsToCollectForNextPrestige")
+                        ballsToCollectForNextPrestige = UserDefaults.standard.value(forKey: "ballsToCollectForNextPrestige") as! Int
+                        
                         prestigeButtonLabelNode.removeFromParent()
                         prestigeLabelNode.removeFromParent()
                         
