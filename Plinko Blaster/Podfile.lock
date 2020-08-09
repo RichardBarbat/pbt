@@ -1,4 +1,5 @@
 PODS:
+  - DeviceKit (2.3.0)
   - EFCountingLabel (5.1.1)
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
@@ -8,23 +9,26 @@ PODS:
   - RxSwift (5.1.1)
 
 DEPENDENCIES:
+  - DeviceKit (~> 2.0)
   - EFCountingLabel
   - RxCocoa
   - RxSwift
 
 SPEC REPOS:
   trunk:
+    - DeviceKit
     - EFCountingLabel
     - RxCocoa
     - RxRelay
     - RxSwift
 
 SPEC CHECKSUMS:
+  DeviceKit: da103891aa928d89f64ea8dd8aca738c5f3d8ac0
   EFCountingLabel: 605358591a67a3c92feb7ec32486bfab4a30e2c9
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
 
-PODFILE CHECKSUM: 6f65ae248962e3b9028c9789f7e6d41ddced7ebb
+PODFILE CHECKSUM: 27754da9be28a880fd5bce092314aa37c4a1ba76
 
 COCOAPODS: 1.8.3

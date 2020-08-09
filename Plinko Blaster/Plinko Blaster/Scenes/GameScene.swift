@@ -10,6 +10,7 @@ import GameKit
 import EFCountingLabel
 import RxSwift
 import RxCocoa
+import DeviceKit
 
 //MARK:--- STRUCT FOR PHYSICSBODYS ---
 struct ColliderType {
@@ -58,7 +59,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     //MARK: __ BALLS __
     var ballsAdded = [Ball]()
     var ball = Ball()
-    var ballCount = 5
+    var ballCount = 3 // USERDEFAULTS (5) IF PURCHASED
     var ballsDown:[Bool] = []
     var controlBallBool = false
     var totalBallsDropped = 0
@@ -295,6 +296,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         pointsCount = 0
         pointsLabelNode.text = "POINTS: \(pointsCount)"
         pointsLabelNode.fontSize = 28
+        if Device.current.isPad {
+            pointsLabelNode.fontSize = 38
+        }
         pointsLabelNode.alpha = 1
         pointsLabelNode.fontName = "PixelSplitter"
         pointsLabelNode.horizontalAlignmentMode = .center
@@ -317,6 +321,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         }
         ballCounterLabelNode.fontName = "PixelSplitter"
         ballCounterLabelNode.setScale(0.35)
+        if Device.current.isPad {
+            ballCounterLabelNode.setScale(0.5)
+        }
         ballCounterLabelNode.position = CGPoint(x: Screen.width * 0.02, y: Screen.height * 0.83)
         ballCounterLabelNode.horizontalAlignmentMode = .left
         ballCounterLabelNode.fontColor = Color.yellow
@@ -329,6 +336,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         multiplyerLabelNode.text = "MULTI: X\(multiplyerCount)"
         multiplyerLabelNode.fontName = "PixelSplitter"
         multiplyerLabelNode.setScale(0.35)
+        if Device.current.isPad {
+            multiplyerLabelNode.setScale(0.5)
+        }
         multiplyerLabelNode.horizontalAlignmentMode = .right
         multiplyerLabelNode.position = CGPoint(x: Screen.width * 0.979, y: Screen.height * 0.83)
         multiplyerLabelNode.fontColor = UIColor(hexFromString: "d800ff")
@@ -370,6 +380,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 let obstacleNode = SKShapeNode(circleOfRadius: Screen.width * 0.015)
                 obstacleNode.strokeColor = UIColor(hexFromString: "d800ff").withAlphaComponent(0.82)
                 obstacleNode.lineWidth = 3
+                if Device.current.isPad {
+                    obstacleNode.lineWidth = 5
+                }
                 obstacleNode.position = CGPoint(x: Screen.width / 8 * CGFloat(number), y: Screen.height * (0.65 - CGFloat(CGFloat(doubleRow) / 7)))
                 obstacleNode.physicsBody = SKPhysicsBody(edgeLoopFrom: obstacleNode.path!)
                 obstacleNode.physicsBody?.isDynamic = false
@@ -381,6 +394,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 obstacleNode.name = "obstacle\(doubleRow)-\(number)"
                 let glowNode = SKShapeNode(circleOfRadius: obstacleNode.frame.size.width / 2)
                 glowNode.glowWidth = 7
+                if Device.current.isPad {
+                    glowNode.glowWidth = 14
+                }
                 glowNode.alpha = 0.7
                 glowNode.strokeColor = UIColor(hexFromString: "0099ff")
                 let glowSpriteNode = SKSpriteNode(texture: SKView().texture(from: glowNode))
@@ -394,6 +410,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     let obstacleNode = SKShapeNode(circleOfRadius: Screen.width * 0.015)
                     obstacleNode.strokeColor = UIColor(hexFromString: "d800ff").withAlphaComponent(0.82)
                     obstacleNode.lineWidth = 3
+                    if Device.current.isPad {
+                        obstacleNode.lineWidth = 5
+                    }
                     obstacleNode.position = CGPoint(x: (Screen.width / 8) * (CGFloat(number) - 0.5), y: Screen.height * (0.58 - CGFloat(CGFloat(doubleRow) / 7)))
                     obstacleNode.physicsBody = SKPhysicsBody(edgeLoopFrom: obstacleNode.path!)
                     obstacleNode.physicsBody?.isDynamic = false
@@ -405,6 +424,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     obstacleNode.name = "obstacle\(doubleRow)-\(number + 8)"
                     let glowNode = SKShapeNode(circleOfRadius: obstacleNode.frame.size.width / 2)
                     glowNode.glowWidth = 7
+                    if Device.current.isPad {
+                        glowNode.glowWidth = 14
+                    }
                     glowNode.alpha = 0.7
                     glowNode.strokeColor = UIColor(hexFromString: "0099ff")
                     let glowSpriteNode = SKSpriteNode(texture: SKView().texture(from: glowNode))
@@ -440,6 +462,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             let multiplierLabelNode = SKLabelNode(text: "X\(multiplyers[boxNumber])")
             multiplierLabelNode.fontName = "PixelSplitter"
             multiplierLabelNode.fontSize = 24
+            if Device.current.isPad {
+                multiplierLabelNode.fontSize = 34
+            }
             multiplierLabelNode.fontColor = Color.yellow
             multiplierLabelNode.name = "multiplierLabelNode"
             box.addChild(multiplierLabelNode)
@@ -565,9 +590,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         highscoreLabelNode.fontColor = Color.yellow
         highscoreLabelNode.text = "HIGHSCORE: \(lastHighscore)"
         highscoreLabelNode.fontSize = 13
+        highscoreLabelNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.935)
+        if Device.current.isPad {
+            highscoreLabelNode.fontSize = 25
+            highscoreLabelNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.95)
+        }
         highscoreLabelNode.fontName = "PixelSplitter"
         highscoreLabelNode.alpha = 1
-        highscoreLabelNode.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.935)
         if delayed == true {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.75, execute: {
                 self.effectNode.addChild(highscoreLabelNode)
@@ -1009,7 +1038,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     subview.removeFromSuperview()
                 }
             }
-            self.run(endScreenOutSound)
+            if fxOn {
+                self.run(endScreenOutSound)
+            }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
                 SceneManager.shared.transition(self, toScene: .GameScene, transition: SKTransition.fade(withDuration: 0.01))
             }
@@ -1077,7 +1108,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             buttonBackgroundMusicLabelNode.text = "MUSIC: OFF"
             buttonBackgroundMusicLabelNode.fontColor = UIColor.red
         }
-        buttonBackgroundMusicLabelNode.position = CGPoint(x: buttonBackgroundMusic.position.x, y: buttonBackgroundMusic.position.y - 35)
+        buttonBackgroundMusicLabelNode.position = CGPoint(x: buttonBackgroundMusic.position.x, y: buttonBackgroundMusic.position.y - 38)
+        if Device.current.isPad {
+            buttonBackgroundMusicLabelNode.position = CGPoint(x: buttonBackgroundMusic.position.x, y: buttonBackgroundMusic.position.y - 50)
+            buttonBackgroundMusicLabelNode.fontSize = 15
+        }
         
         var buttonFX = SKSpriteNode()
         if fxOn == true {
@@ -1103,7 +1138,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             buttonFXLabelNode.text = "SOUND-FX: OFF"
             buttonFXLabelNode.fontColor = UIColor.red
         }
-        buttonFXLabelNode.position = CGPoint(x: buttonFX.position.x, y: buttonFX.position.y - 35)
+        buttonFXLabelNode.position = CGPoint(x: buttonFX.position.x, y: buttonFX.position.y - 38)
+        if Device.current.isPad {
+            buttonFXLabelNode.position = CGPoint(x: buttonFX.position.x, y: buttonFX.position.y - 50)
+            buttonFXLabelNode.fontSize = 15
+        }
         
         var buttonVibration = SKSpriteNode()
         if vibrationOn == true {
@@ -1128,7 +1167,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             buttonVibrationLabelNode.text = "VIBRATION: OFF"
             buttonVibrationLabelNode.fontColor = UIColor.red
         }
-        buttonVibrationLabelNode.position = CGPoint(x: buttonVibration.position.x, y: buttonVibration.position.y - 35)
+        buttonVibrationLabelNode.position = CGPoint(x: buttonVibration.position.x, y: buttonVibration.position.y - 38)
+        if Device.current.isPad {
+            buttonVibrationLabelNode.position = CGPoint(x: buttonVibration.position.x, y: buttonVibration.position.y - 50)
+            buttonVibrationLabelNode.fontSize = 15
+        }
         
         miniMenu.addChild(miniMenuGlow)
         miniMenu.addChild(miniMenuBackground)

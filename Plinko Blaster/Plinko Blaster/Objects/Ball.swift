@@ -7,6 +7,7 @@
 //
 
 import GameKit
+import DeviceKit
 
 class Ball: SKShapeNode {
     
@@ -24,6 +25,9 @@ class Ball: SKShapeNode {
         
         valueLable.text = "X\(value)"
         valueLable.fontSize = 10
+        if Device.current.isPad {
+            valueLable.fontSize = 24
+        }
         valueLable.fontColor = color
         valueLable.zPosition = self.zPosition + 1
         valueLable.position.y = valueLable.position.y - valueLable.frame.height / 2.2

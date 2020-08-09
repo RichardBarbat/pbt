@@ -8,12 +8,6 @@
 import GameKit
 import CoreHaptics
 
-enum UIUserInterfaceIdiom: Int {
-    case undefined
-    case phone
-    case pad
-}
-
 struct Screen {
     static let width = UIScreen.main.bounds.size.width
     static let height = UIScreen.main.bounds.size.height
@@ -24,17 +18,6 @@ struct Screen {
 
 struct Color {
     static let yellow = UIColor(hexFromString: "edff25")
-}
-
-struct DeviceType {
-    static let isiPhone4OrLess = UIDevice.current.userInterfaceIdiom == .phone && Screen.maxHeight < 568.0
-    static let isiPhone5 = UIDevice.current.userInterfaceIdiom == .phone && Screen.maxHeight == 568.0
-    static let isiPhone6 = UIDevice.current.userInterfaceIdiom == .phone && Screen.maxHeight == 667.0
-    static let isiPhone6Plus = UIDevice.current.userInterfaceIdiom == .phone && Screen.maxHeight == 736.0
-    static let isiPhoneX = UIDevice.current.userInterfaceIdiom == .phone && Screen.maxHeight == 812.0
-    
-    static let isiPad = UIDevice.current.userInterfaceIdiom == .pad && Screen.maxHeight == 1024.0
-    static let isiPadPro = UIDevice.current.userInterfaceIdiom == .pad && Screen.maxHeight == 1366.0
 }
 
 func prepareHaptics() {

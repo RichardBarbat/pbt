@@ -8,6 +8,7 @@
 
 import GameKit
 import CoreHaptics
+import DeviceKit
 
 
 // MARK: - globale Variablen
@@ -365,6 +366,10 @@ class MainMenu: SKScene, MessageManager {
         let logoNode = SKSpriteNode(imageNamed: "plinko-blaster-logo3")
         let logoAspectRatio = logoNode.size.width/logoNode.size.height
         logoNode.size = CGSize(width: Screen.width * 1.0, height: Screen.width * 1.0 / logoAspectRatio)
+        if Device.current.isPad {
+            logoNode.size = CGSize(width: Screen.width * 0.8, height: Screen.width * 0.8 / logoAspectRatio)
+
+        }
         
         logoNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         logoNode.position = CGPoint(x: Screen.width * 0.5, y: Screen.height * 0.83)
@@ -378,7 +383,10 @@ class MainMenu: SKScene, MessageManager {
         let welcome = SKLabelNode(text: "WELCOME \(playerName)")
         welcome.fontColor = UIColor.yellow
         welcome.fontName = "PixelSplitter"
-        welcome.fontSize = 28
+        welcome.fontSize = 30
+        if Device.current.isPad {
+            welcome.fontSize = 34
+        }
         welcome.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.65)
         welcome.alpha = 1
         welcome.removeAllChildren()
@@ -399,36 +407,54 @@ class MainMenu: SKScene, MessageManager {
             
             if item.text == "PLAY" {
                 
-                item.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.45 - (CGFloat(i) * (item.frame.size.height + 50)))
                 item.fontSize = 60
+                item.position = CGPoint(x: Screen.width / 2, y: Screen.height * 0.45 - (CGFloat(i) * (item.frame.size.height + 50)))
+                if Device.current.isPad {
+                    item.fontSize = 100
+                }
                 item.addGlow()
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
                 
             } else if item.text == "COLLECTIBLES" {
                 
-                item.position = CGPoint(x: Screen.width / 2, y: 220)
                 item.fontSize = 28
+                item.position = CGPoint(x: Screen.width / 2, y: 220)
+                if Device.current.isPad {
+                    item.fontSize = 36
+                    item.position = CGPoint(x: Screen.width / 2, y: 280)
+                }
                 item.fontColor = UIColor(hexFromString: "0099ff")
                 item.addGlow()
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
                
             } else if item.text == "OPTIONS" {
                 
-                item.position = CGPoint(x: Screen.width / 2, y: 150)
                 item.fontSize = 25
+                item.position = CGPoint(x: Screen.width / 2, y: 150)
+                if Device.current.isPad {
+                    item.fontSize = 35
+                    item.position = CGPoint(x: Screen.width / 2, y: 180)
+                }
                 item.addGlow()
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
 
             } else if item.text == "PLAYER-STATS" {
                 
-                item.position = CGPoint(x: Screen.width / 2, y: 100)
                 item.fontSize = 25
+                item.position = CGPoint(x: Screen.width / 2, y: 100)
+                if Device.current.isPad {
+                    item.fontSize = 35
+                    item.position = CGPoint(x: Screen.width / 2, y: 130)
+                }
                 item.addGlow()
                 item.children.first?.position = CGPoint(x: 0, y: item.frame.size.height / 2)
 
             } else if item.text == "MUSIC: ON " {
                 item.fontSize = 25
                 item.position = CGPoint(x: Screen.width / 2, y: 50)
+                if Device.current.isPad {
+                    item.fontSize = 35
+                }
                 item.alpha = 1
                 if backgroundMusicPlayerStatus == false {
                     item.text = "MUSIC: OFF "
@@ -467,16 +493,16 @@ class MainMenu: SKScene, MessageManager {
                     
                     runHaptic(intensity: 1, sharpness: 0)
                     
-                    showAlert(withTitle: "Huhu!", message: "Vielen Dank, dass du mein Spiel spielst! Ich hoffe es macht dir spass!", okButtonAction: DOAlertAction(title: "JA VOLL TITTE", style: .default, handler: { _ in
-                        
-                        print("KRASS!!!")
-                        for i in stride(from: 0, to: 1, by: 0.05) {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + i) {
-                                runHaptic(intensity: 1, sharpness: 0.2)
-                            }
-                        }
-                        
-                    }), showCancelButton: false, alternativeColorForOkButton: .yellow)
+//                    showAlert(withTitle: "Huhu!", message: "Vielen Dank, dass du mein Spiel spielst! Ich hoffe es macht dir spass!", okButtonAction: DOAlertAction(title: "JA VOLL TITTE", style: .default, handler: { _ in
+//                        
+//                        print("KRASS!!!")
+//                        for i in stride(from: 0, to: 1, by: 0.05) {
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + i) {
+//                                runHaptic(intensity: 1, sharpness: 0.2)
+//                            }
+//                        }
+//                        
+//                    }), showCancelButton: false, alternativeColorForOkButton: .yellow)
                     
 
                 } else if self.childNode(withName: "PLAY-Button")!.contains(touch.location(in: self)) {

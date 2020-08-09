@@ -7,6 +7,7 @@
 //
 
 import GameKit
+import DeviceKit
 
 
 // MARK: - Beginn der Klasse
@@ -339,10 +340,9 @@ class WelcomeScene: SKScene, UITextFieldDelegate {
     func addLogo() {
         let logoNode = SKSpriteNode(imageNamed: "plinko-blaster-logo3")
         let logoAspectRatio = logoNode.size.width/logoNode.size.height
-        if DeviceType.isiPad || DeviceType.isiPadPro {
+        if Device.current.isPad {
             logoNode.size = CGSize(width: Screen.width * 0.6, height: Screen.width * 0.6 / logoAspectRatio)
         } else {
-            //            print("is not iPad")
             logoNode.size = CGSize(width: Screen.width * 1.0, height: Screen.width * 1.0 / logoAspectRatio)
         }
         

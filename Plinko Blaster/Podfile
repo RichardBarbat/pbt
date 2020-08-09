@@ -10,5 +10,6 @@ target 'Plinko Blaster' do
   pod 'EFCountingLabel'
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'DeviceKit', '~> 2.0'
 
 end
